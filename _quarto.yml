@@ -1,0 +1,27 @@
+project:
+  type: book
+
+book:
+  title: "Vulnerabilidad de las tierras al cambio climatico"
+  author: "Oscar Silva | Victor Sevilla"
+  date: "2026-08-23"
+  chapters:
+    - index.qmd
+    - arroz.qmd
+    - cacao.qmd
+    - maiz.qmd
+    - intro.qmd
+    - summary.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+
