@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Vulnerabilidad de las tierras al cambio climatico",
+    "section": "",
+    "text": "Introduccion\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.\n\n1 + 1\n\n[1] 2",
+    "crumbs": [
+      "Introduccion"
+    ]
+  },
+  {
+    "objectID": "arroz.html",
+    "href": "arroz.html",
+    "title": "Arroz",
+    "section": "",
+    "text": "Regiones de exposicion\nsafdgasdfgsa\nc,amsb,smabnm",
+    "crumbs": [
+      "Arroz"
+    ]
+  },
+  {
+    "objectID": "arroz.html#aptitud-climatica",
+    "href": "arroz.html#aptitud-climatica",
+    "title": "Arroz",
+    "section": "Aptitud climatica",
+    "text": "Aptitud climatica\ncb,asbcmba",
+    "crumbs": [
+      "Arroz"
+    ]
+  },
+  {
+    "objectID": "arroz.html#amenaza",
+    "href": "arroz.html#amenaza",
+    "title": "Arroz",
+    "section": "Amenaza",
+    "text": "Amenaza\ndslakjd",
+    "crumbs": [
+      "Arroz"
+    ]
+  },
+  {
+    "objectID": "arroz.html#vulnerabilidad",
+    "href": "arroz.html#vulnerabilidad",
+    "title": "Arroz",
+    "section": "Vulnerabilidad",
+    "text": "Vulnerabilidad\nadkgFKJDH",
+    "crumbs": [
+      "Arroz"
+    ]
+  },
+  {
+    "objectID": "intro.html",
+    "href": "intro.html",
+    "title": "3  Introduction",
+    "section": "",
+    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "summary.html",
+    "href": "summary.html",
+    "title": "4  Summary",
+    "section": "",
+    "text": "In summary, this book has no content whatsoever.\n\n1 + 1\n\n[1] 2",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Summary</span>"
+    ]
+  }
+]
