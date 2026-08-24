@@ -6,12 +6,22 @@ date: "2026-08-23"
 
 # Vulnerabilidad de las tierras al cambio climatico {.unnumbered}
 
-This is a Quarto book.
+## Introduccion
 
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
+Este trabajo se centra en el desarrollo del **Subproducto 02** del proyecto **"xxxx"**, el cual especificaente se refiere o tiene un alcance de los sigiente (objetivos, numero de cultivos, tut de cada cutivo, como fecas de ciembras, tecnologia de riego, etc)
 
-```{r}
-1 + 1
-```
+-   Estableciemiento de las regiones de exposicion para los cultivos.
+-   Determinacion y evaluacion de los factores de exposicion, los cuales permitiran evaluar la aptitud climaticas de las tierras para los diferentes cultivos.
+-   Valoracion de la aptitud climatica final de las tierras para cada cultivo.
+-   Estableciemint de la amenaza climatica del cambio climatica sobre las aptitudes de las tierras de los cultivos.
+-   Impacto no se de que.
 
-loco1
+## Metodologia
+
+### Region de exposicion
+
+### Valoracion de los factores de exposicion
+
+### Aptitud climaticas de las tierras
+
+### Amenaza del cambio climatico sobre la aptitud y/o cultivos

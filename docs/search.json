@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "",
     "section": "",
-    "text": "Vulnerabilidad de las tierras al cambio climatico\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.\n\n1 + 1\n\n[1] 2\n\n\nloco1",
+    "text": "Vulnerabilidad de las tierras al cambio climatico",
     "crumbs": [
       "Introduccion"
     ]
@@ -107,6 +107,26 @@
     "text": "Region de exposicion:\nDistribuccion espacial de la yuca",
     "crumbs": [
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Yuca</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#introduccion",
+    "href": "index.html#introduccion",
+    "title": "",
+    "section": "Introduccion",
+    "text": "Introduccion\nEste trabajo se centra en el desarrollo del Subproducto 02 del proyecto “xxxx”, el cual especificaente se refiere o tiene un alcance de los sigiente (objetivos, numero de cultivos, tut de cada cutivo, como fecas de ciembras, tecnologia de riego, etc)\n\nEstableciemiento de las regiones de exposicion para los cultivos.\nDeterminacion y evaluacion de los factores de exposicion, los cuales permitiran evaluar la aptitud climaticas de las tierras para los diferentes cultivos.\nValoracion de la aptitud climatica final de las tierras para cada cultivo.\nEstableciemint de la amenaza climatica del cambio climatica sobre las aptitudes de las tierras de los cultivos.\nImpacto no se de que.",
+    "crumbs": [
+      "Introduccion"
+    ]
+  },
+  {
+    "objectID": "index.html#metodologia",
+    "href": "index.html#metodologia",
+    "title": "",
+    "section": "Metodologia",
+    "text": "Metodologia\n\nRegion de exposicion\n\n\nValoracion de los factores de exposicion\n\n\nAptitud climaticas de las tierras\n\n\nAmenaza del cambio climatico sobre la aptitud y/o cultivos",
+    "crumbs": [
+      "Introduccion"
     ]
   }
 ]
