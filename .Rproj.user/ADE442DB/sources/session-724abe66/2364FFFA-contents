@@ -1,30 +1,29 @@
 project:
   type: book
   output-dir: "docs"
+  resources:
+    - "images/"
+
+lang: es
 
 book:
-  title: "Vulnerabilidad de las tierras al cambio climatico"
-  author: "Oscar Silva | Victor Sevilla"
-  date: "2026-08-23"
+  title: "<img src='images/logo7.png' style='max-width: 150px;'>"
   chapters:
-    - index.qmd
-    - arroz.qmd
-    - cacao.qmd
-    - maiz.qmd
-    - intro.qmd
-    - summary.qmd
-  logo: "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/informe1/images/logo_clima.png"    
-      
-
-bibliography: references.bib
+    - file: index.qmd
+      text: "Introduccion"
+    - Arroz.qmd
+    - Cacao.qmd
+    - Cafe.qmd
+    - Cana_de_azucar.qmd
+    - Frijol.qmd
+    - Maiz.qmd
+    - Naranja.qmd
+    - Papa.qmd
+    - Platano.qmd
+    - Yuca.qmd
 
 format:
   html:
-    theme:
-      - cosmo
-      - brand
-  pdf:
-    documentclass: scrreprt
-
-editor: visual
-
+    theme: cosmo
+    number-sections: false
+    css: styles.css
