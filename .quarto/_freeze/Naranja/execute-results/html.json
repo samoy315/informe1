@@ -1,0 +1,17 @@
+{
+  "hash": "33ab058055cf31bd1b4f69dfd86ea560",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Naranja\n\n## Region de exposicion:\n\n\n\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![Distribuccion espacial del naranja](Naranja_files/figure-html/mapa-naranja-estandar-1.png){fig-align='center' width=672}\n:::\n:::\n",
+    "supporting": [
+      "Naranja_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

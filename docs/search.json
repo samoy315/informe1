@@ -48,5 +48,35 @@
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Caña de Azucar</span>"
     ]
+  },
+  {
+    "objectID": "Frijol.html",
+    "href": "Frijol.html",
+    "title": "Frijol",
+    "section": "",
+    "text": "Region de exposicion:\nDistribuccion espacial del frijol",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Frijol</span>"
+    ]
+  },
+  {
+    "objectID": "Maiz.html",
+    "href": "Maiz.html",
+    "title": "Maiz",
+    "section": "",
+    "text": "Region de exposicion:\nDistribuccion espacial del caña de azucar",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Maiz</span>"
+    ]
+  },
+  {
+    "objectID": "Naranja.html",
+    "href": "Naranja.html",
+    "title": "Naranja",
+    "section": "",
+    "text": "Region de exposicion:\nDistribuccion espacial del naranja",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Naranja</span>"
+    ]
   }
 ]
