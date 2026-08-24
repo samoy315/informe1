@@ -3,7 +3,7 @@
     "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/informe1/_quarto.yml",
     "project_path": "_quarto.yml",
     "type": "yaml",
-    "hash": "244554639",
+    "hash": "701422448",
     "contents": "",
     "dirty": false,
     "created": 1787543509437.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "6,32",
+        "cursorPosition": "12,15",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1787547311,
+    "lastKnownWriteTime": 1787548082,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1787547311995,
+    "last_content_update": 1787548082308,
     "read_only": false,
     "read_only_alternatives": []
 }

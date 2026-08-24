@@ -3,6 +3,8 @@ project:
   resources:
     - "images/"
 
+lang: es
+
 book:
   title: "<img src='images/logo7.png' style='max-width: 150px;'>"
   chapters:
