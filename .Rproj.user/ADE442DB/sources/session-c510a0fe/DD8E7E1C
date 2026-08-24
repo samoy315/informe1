@@ -3,7 +3,7 @@
     "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/informe1/Arroz.qmd",
     "project_path": "Arroz.qmd",
     "type": "quarto_markdown",
-    "hash": "2980895116",
+    "hash": "3712094487",
     "contents": "",
     "dirty": false,
     "created": 1787592375210.0,
@@ -17,16 +17,16 @@
         "docOutlineVisible": "0",
         "rmdVisualModeLocation": "70:0",
         "rmdVisualCollapsedChunks": "",
-        "cursorPosition": "15,14",
+        "cursorPosition": "9,124",
         "scrollLine": "0",
         "last_setup_crc32": "c510a0fe20ce861d"
     },
     "folds": "",
-    "lastKnownWriteTime": 1787596412,
+    "lastKnownWriteTime": 1787599309,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1787596412255,
+    "last_content_update": 1787599309600,
     "read_only": false,
     "read_only_alternatives": []
 }

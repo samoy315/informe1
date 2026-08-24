@@ -7,6 +7,7 @@
 knitr::opts_chunk$set(echo = TRUE)
 library("terra")
 library("sf")
+venezuela <- st_read("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Contorno_Venezuela/AOI_linea_referencia1.shp")
 ```
 
 ```{r}
@@ -19,4 +20,5 @@ library("sf")
 re_arroz_estandar<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/reg_arroz_estandar.tif")
 
 plot(re_arroz_estandar,main = "Region de exposicion para arroz segun criterios estandar",col = "darkgreen", legend=FALSE, cex.main=0.78)
+plot(st_geometry(venezuela),add=TRUE, border="black", lwd=1.5)
 ```
