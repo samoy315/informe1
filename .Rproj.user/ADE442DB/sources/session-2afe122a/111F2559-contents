@@ -1,0 +1,13 @@
+# Script de limpieza y compilación en R
+# 1. Eliminamos el caché y la carpeta por defecto antigua si existe
+carpetas_antiguas <- c(".quarto", "_book")
+
+for (carpeta in carpetas_antiguas) {
+  if (dir.exists(carpeta)) {
+    unlink(carpeta, recursive = TRUE)
+    message(sprintf("✅ Se eliminó la carpeta antigua: %s", carpeta))
+  }
+}
+
+# 2. Renderizamos el libro (esto creará automáticamente tu nueva carpeta 'docs')
+# quarto::quarto_render()

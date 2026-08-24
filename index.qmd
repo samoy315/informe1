@@ -1,11 +1,9 @@
 ---
-title: "Vulnerabilidad de las tierras al cambio climatico"
-nav-title: "Introduccion"
 author: "Oscar Silva | Victor Sevilla"
 date: "2026-08-23"
 ---
 
-# Introduccion {.unnumbered}
+# Vulnerabilidad de las tierras al cambio climatico {.unnumbered}
 
 This is a Quarto book.
 

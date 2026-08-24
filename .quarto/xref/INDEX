@@ -1,41 +1,35 @@
 {
   "index.qmd": {
-    "index.html": "8ca83c1b"
-  },
-  "introduccion.qmd": {
-    "introduccion.html": "80cc7d38"
-  },
-  "summary.qmd": {
-    "summary.html": "7c8fe4d5"
+    "index.html": "41f3e34f"
   },
   "Arroz.qmd": {
-    "Arroz.html": "5c74b2aa"
+    "Arroz.html": "94f14b9d"
   },
   "Cacao.qmd": {
-    "Cacao.html": "13278ff2"
+    "Cacao.html": "c6f4fbeb"
   },
   "Cafe.qmd": {
-    "Cafe.html": "ac7ef08d"
+    "Cafe.html": "39c681b1"
   },
   "Cana_de_azucar.qmd": {
-    "Cana_de_azucar.html": "77cdc17a"
+    "Cana_de_azucar.html": "afee6df2"
   },
   "Frijol.qmd": {
-    "Frijol.html": "ea170cf2"
+    "Frijol.html": "a17e0bdf"
   },
   "Maiz.qmd": {
-    "Maiz.html": "273cc9fd"
+    "Maiz.html": "d1c4a38a"
   },
   "Naranja.qmd": {
-    "Naranja.html": "b489a3e5"
+    "Naranja.html": "3b3bd093"
   },
   "Papa.qmd": {
-    "Papa.html": "0e5c9c17"
+    "Papa.html": "f8c5ed2f"
   },
   "Platano.qmd": {
-    "Platano.html": "f5024d86"
+    "Platano.html": "660577d9"
   },
   "Yuca.qmd": {
-    "Yuca.html": "0ebdad33"
+    "Yuca.html": "98d1c6bd"
   }
 }
