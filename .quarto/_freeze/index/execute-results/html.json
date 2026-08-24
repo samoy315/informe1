@@ -2,7 +2,7 @@
   "hash": "2114e33c4ec621f8b606357634e1a98c",
   "result": {
     "engine": "knitr",
-    "markdown": "---\nauthor: \"Oscar Silva | Victor Sevilla\"\ndate: \"2026-08-23\"\n---\n\n\n\n\n\n# Vulnerabilidad de las tierras al cambio climatico {.unnumbered}\n\nThis is a Quarto book.\n\nTo learn more about Quarto books visit <https://quarto.org/docs/books>.\n\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n1 + 1\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 2\n```\n\n\n:::\n:::\n",
+    "markdown": "---\nauthor: \"Oscar Silva | Victor Sevilla\"\ndate: \"2026-08-23\"\n---\n\n\n\n\n# Vulnerabilidad de las tierras al cambio climatico {.unnumbered}\n\nThis is a Quarto book.\n\nTo learn more about Quarto books visit <https://quarto.org/docs/books>.\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n1 + 1\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 2\n```\n\n\n:::\n:::\n",
     "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"
