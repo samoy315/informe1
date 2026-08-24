@@ -1,0 +1,16 @@
+project:
+  type: book
+  resources:
+    - "images/"
+
+book:
+  title: ""  # ¡Secreto! Título global vacío para limpiar la barra lateral
+  chapters:
+    - index.qmd
+    - introduccion.qmd
+    - summary.qmd
+
+format:
+  html:
+    theme: cosmo
+    logo: "images/logo_clima.png" # El logo en su lugar nativo y correcto

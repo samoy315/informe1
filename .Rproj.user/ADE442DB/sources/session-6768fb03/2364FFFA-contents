@@ -13,6 +13,8 @@ book:
     - maiz.qmd
     - intro.qmd
     - summary.qmd
+  logo: "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/informe1/images/logo_clima.png"    
+      
 
 bibliography: references.bib
 

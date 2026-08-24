@@ -1,0 +1,6 @@
+
+/* Ocultar la imagen del logo SOLO en el bloque del título de la página (derecha) */
+header#title-block-header img {
+  display: none !important;
+}
+

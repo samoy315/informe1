@@ -1,0 +1,20 @@
+# Instalar el paquete si no lo tienes: install.packages("magick")
+setwd("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/informe1")
+library(magick)
+
+# 1. Cargar tu imagen original de alta resolución
+# Reemplaza esto con la ruta real de tu archivo
+# logo_original <- image_read("images/logo_clima_original.png")
+
+# EJEMPLO REPRODUCIBLE: Creamos un logo de prueba en R (logo de R)
+logo_original <- image_read("https://www.r-project.org/logo/Rlogo.png")
+
+# 2. Redimensionar: Definimos una altura fija de 150 píxeles 
+# El ancho se ajustará automáticamente para mantener la proporción geométrica
+logo_optimizado <- image_scale(logo_original, "x150")
+
+# 3. Guardar el resultado en formato PNG para mantener la transparencia
+image_write(logo_optimizado, path = "images/logo_clima.png", format = "png")
+
+# Validamos la información de la nueva imagen
+image_info(logo_optimizado)
