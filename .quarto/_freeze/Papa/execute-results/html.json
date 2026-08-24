@@ -1,0 +1,17 @@
+{
+  "hash": "e6acb7ab3017df612ebf65cd02cdd877",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Papa\n\n## Region de exposicion:\n\n\n\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![Distribuccion espacial de la papa](Papa_files/figure-html/mapa-papa-estandar-1.png){fig-align='center' width=672}\n:::\n:::\n",
+    "supporting": [
+      "Papa_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

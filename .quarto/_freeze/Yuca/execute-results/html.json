@@ -1,0 +1,17 @@
+{
+  "hash": "e55670a802a1724a5726fcb4dff842a6",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Yuca\n\n## Region de exposicion:\n\n\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![Distribuccion espacial de la yuca](Yuca_files/figure-html/mapa-yuca-estandar-1.png){fig-align='center' width=672}\n:::\n:::\n",
+    "supporting": [
+      "Yuca_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

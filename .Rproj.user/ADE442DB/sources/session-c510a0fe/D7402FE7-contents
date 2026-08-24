@@ -1,7 +1,0 @@
-# 1. Preguntémosle a RStudio dónde cree que está parado actualmente:
-getwd() 
-# (Observa si esta ruta es exactamente la carpeta 'informe1' donde tienes tu proyecto)
-
-# 2. Pidámosle a R que nos liste los archivos de donde está parado:
-list.files(pattern = "\\.qmd$")
-# (Si esta lista sale vacía o no incluye "Arroz.qmd", hemos confirmado el problema)

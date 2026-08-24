@@ -78,5 +78,35 @@
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Naranja</span>"
     ]
+  },
+  {
+    "objectID": "Papa.html",
+    "href": "Papa.html",
+    "title": "Papa",
+    "section": "",
+    "text": "Region de exposicion:\nDistribuccion espacial de la papa",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Papa</span>"
+    ]
+  },
+  {
+    "objectID": "Platano.html",
+    "href": "Platano.html",
+    "title": "Platano",
+    "section": "",
+    "text": "Region de exposicion:\nDistribuccion espacial del platano",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Platano</span>"
+    ]
+  },
+  {
+    "objectID": "Yuca.html",
+    "href": "Yuca.html",
+    "title": "Yuca",
+    "section": "",
+    "text": "Region de exposicion:\nDistribuccion espacial de la yuca",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Yuca</span>"
+    ]
   }
 ]
