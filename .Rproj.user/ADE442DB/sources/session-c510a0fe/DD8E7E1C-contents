@@ -1,1 +1,22 @@
 # Arroz {.unnumbered}
+
+## Region de exposicion:
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(echo = TRUE)
+library("terra")
+library("sf")
+```
+
+```{r}
+#| label: mapa-arroz-estandar
+#| warning: false
+#| message: false
+#| echo: false
+#| fig-align: center
+#| fig-cap: "Distribuccion espacial del arroz"
+re_arroz_estandar<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/reg_arroz_estandar.tif")
+
+plot(re_arroz_estandar,main = "Region de exposicion para arroz segun criterios estandar",col = "darkgreen", legend=FALSE, cex.main=0.78)
+```

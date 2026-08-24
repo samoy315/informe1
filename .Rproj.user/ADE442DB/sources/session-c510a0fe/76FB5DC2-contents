@@ -1,0 +1,120 @@
+---
+title: "Vulnerabilidad climatica de las tierras para cultivos en Venezuela"
+subtitle: "Subproducto 2"
+author:
+  - "Oscar Silva y Victor Sevilla"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: lumen
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    collapsed: true
+    smooth_scroll: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library("terra")
+library("ggplot2")
+library("sf")
+library("dplyr")
+```
+
+# Region de Exposicion
+
+De que se trata esto de Regiones de exposicion y como se obtiene o estima.
+
+### Arroz
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+re_arroz_estandar<- readRDS("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/arroz_region_estandar.rds")
+venezuela <- st_read("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Contorno_Venezuela/AOI_linea_referencia1.shp")
+
+plot(re_arroz_estandar,main = "Region de exposicion para arroz segun criterios estandar",col = "darkgreen", legend=FALSE, cex.main=0.78)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+```
+
+### Cacao
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+re_arroz_estandar<- readRDS("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/arroz_region_estandar.rds")
+venezuela <- st_read("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Contorno_Venezuela/AOI_linea_referencia1.shp")
+
+plot(re_arroz_estandar,main = "Region de exposicion para arroz segun criterios estandar",col = "darkgreen", legend=FALSE, cex.main=0.78)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+```
+
+<!-- ### Cafe -->
+
+<!-- ```{r} -->
+
+<!-- ``` -->
+
+<!-- ### Caña de Azucar -->
+
+<!-- ```{r} -->
+
+<!-- ``` -->
+
+<!-- ### Frijol -->
+
+<!-- ```{r} -->
+
+<!-- ``` -->
+
+<!-- ### Maiz -->
+
+<!-- ```{r} -->
+
+<!-- ``` -->
+
+<!-- ### Naranja -->
+
+<!-- ```{r} -->
+
+<!-- ``` -->
+
+<!-- ### Papa -->
+
+<!-- ```{r} -->
+
+<!-- ``` -->
+
+<!-- ### Platano -->
+
+<!-- ```{r} -->
+
+<!-- ``` -->
+
+<!-- ### Yuca -->
+
+<!-- ```{r} -->
+
+<!-- ``` -->
+
+------------------------------------------------------------------------
+
+# Vulnerabilidad
+
+### Arroz
+
+Para la evaluacion de la vulnerabilidad de las tierras de Venezuela frente al cambioclimatico se consideraron tres escnearios climatcos: a) el actual (base o istorico); b) el SSP2-4.5 y elSSP5-8.5. Ademas se establecieron dos fechas de siembra en el año, las cuales fueron a) Mayo a Agoso y b) Diceimbre a Marzo.
+
+Para cumplir los objetivos previstos fue necesario estimar tres dieferentes aspectos como son la aptitud climatica de las tierras, la Amenaza sobre la misma que tiene el posible cambio climatico y el impacto final. A coninuaicon se muestran los resultados parcales obtenidos para el cultivo de arroz.
+
+#### Aptitud
+
+Se corresponde con el valor minimo o promedio geometrico de cada uno de los factores de exposicion considerados relevantes para la evaluacion de la apticud climatica de las tierras para el cultivo del Arroz.
+
+![Aptitud](C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/1_Arroz/170826_Arroz_0508a.png)
+
+#### Amenaza
+![Aptitud](C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/1_Arroz/170826_Arroz_1203a.png)
+
+
+#### Impacto
+
+### Cacao

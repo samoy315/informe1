@@ -1,0 +1,17 @@
+{
+  "hash": "2aa436fff9e31ce0d9ab748270987f77",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Arroz {.unnumbered}\n\n## Region de exposicion:\n\n\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![Distribuccion espacial del arroz](Arroz_files/figure-html/mapa-arroz-estandar-1.png){fig-align='center' width=672}\n:::\n:::",
+    "supporting": [
+      "Arroz_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
