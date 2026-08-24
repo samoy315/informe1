@@ -1,0 +1,17 @@
+{
+  "hash": "deb73fac3340ae55fe4d6212aaff81ed",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Caña de Azucar\n\n## Region de exposicion:\n\n\n\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![Distribuccion espacial del caña de azucar](Cana_de_azucar_files/figure-html/mapa-cana-estandar-1.png){fig-align='center' width=672}\n:::\n:::\n",
+    "supporting": [
+      "Cana_de_azucar_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

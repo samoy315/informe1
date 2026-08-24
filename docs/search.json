@@ -18,5 +18,35 @@
     "crumbs": [
       "Arroz"
     ]
+  },
+  {
+    "objectID": "Cacao.html",
+    "href": "Cacao.html",
+    "title": "Cacao",
+    "section": "",
+    "text": "Region de exposicion:\nDistribuccion espacial del cacao",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Cacao</span>"
+    ]
+  },
+  {
+    "objectID": "Cafe.html",
+    "href": "Cafe.html",
+    "title": "Cafe",
+    "section": "",
+    "text": "Region de exposicion:\nDistribuccion espacial del cafe",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Cafe</span>"
+    ]
+  },
+  {
+    "objectID": "Cana_de_azucar.html",
+    "href": "Cana_de_azucar.html",
+    "title": "Caña de Azucar",
+    "section": "",
+    "text": "Region de exposicion:\nDistribuccion espacial del caña de azucar",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Caña de Azucar</span>"
+    ]
   }
 ]

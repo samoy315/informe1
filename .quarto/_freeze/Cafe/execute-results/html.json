@@ -1,0 +1,17 @@
+{
+  "hash": "1cb765b981ef5eb8fdcbd589fdd23131",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Cafe\n\n## Region de exposicion:\n\n\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![Distribuccion espacial del cafe](Cafe_files/figure-html/mapa-cacao-estandar-1.png){fig-align='center' width=672}\n:::\n:::\n",
+    "supporting": [
+      "Cafe_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

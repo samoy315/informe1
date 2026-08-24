@@ -1,8 +1,8 @@
 {
-  "hash": "18dae25135e5b83ef6863f77fc6c93e1",
+  "hash": "c2203f3fdffd54e8300544ab8bbb22fe",
   "result": {
     "engine": "knitr",
-    "markdown": "# Arroz {.unnumbered}\n\n## Region de exposicion:\n\n\n\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![Distribuccion espacial del arroz](Arroz_files/figure-html/mapa-arroz-estandar-1.png){fig-align='center' width=672}\n:::\n:::",
+    "markdown": "# Arroz {.unnumbered}\n\n## Region de exposicion:\n\n\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![Distribuccion espacial del arroz](Arroz_files/figure-html/mapa-arroz-estandar-1.png){fig-align='center' width=672}\n:::\n:::\n",
     "supporting": [
       "Arroz_files"
     ],

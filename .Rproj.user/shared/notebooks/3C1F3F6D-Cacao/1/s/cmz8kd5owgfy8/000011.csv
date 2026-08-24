@@ -1,0 +1,28 @@
+"1","  to: html
+  output-file: Cacao.html
+  standalone: true
+  toc: true
+  number-sections: false
+  title-prefix: '<img src=''images/logo7.png'' style=''max-width: 150px;''>'
+  section-divs: true
+  html-math-method: mathjax
+  wrap: none
+  default-image-extension: png
+  css:
+    - styles.css
+  number-offset:
+    - 1
+  
+metadata
+  crossref:
+    chapters: true
+  document-css: false
+  link-citations: true
+  date-format: long
+  lang: es
+  theme: cosmo
+  hide-description: true
+  title: '[Cacao]{.chapter-title}'
+  
+"
+"0","plot(st_geometry(venezuela),add=TRUE, border=""black"", lwd=1.5)"

@@ -1,0 +1,17 @@
+{
+  "hash": "0578348ba206b46f1cf34f7941fa558c",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Cacao\n\n## Region de exposicion:\n\n\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![Distribuccion espacial del cacao](Cacao_files/figure-html/mapa-cacao-estandar-1.png){fig-align='center' width=672}\n:::\n:::\n",
+    "supporting": [
+      "Cacao_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
