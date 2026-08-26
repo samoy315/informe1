@@ -421,20 +421,16 @@ p_85_m7a <- ifel(p_85_m7 < p7lim_70,  (p7m70  * p_85_m7) + p7b70,
                                                ifel(p_85_m7 < p7lim_670, (p7m670 * p_85_m7) + p7b670, NA))))))))
 
 par(mfrow=c(2,2))
-plot(p_h_m7a,col = paleta_semaforo(4),main = "Aptitud por precipitacion julio historico")
+plot(p_h_m7a,col = paleta_semaforo(4),main = "Aptitud por precipitacion de julio | historico")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(p_45_m7a,col= paleta_semaforo(4),main= "Aptitud por precipitacion julio SSP2-4.5")
+plot(p_45_m7a,col= paleta_semaforo(4),main= "Aptitud por precipitacion de julio | SSP2-4.5")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)     
-plot(p_85_m7a,col= paleta_semaforo(4),main= "Aptitud por precipitacion julio SSP5-8.5")
+plot(p_85_m7a,col= paleta_semaforo(4),main= "Aptitud por precipitacion de julio | SSP5-8.5")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)     
-
-summary(p_h_m7a); summary(p_45_m7a); summary(p_85_m7a)
-
 
 # ----------------------------------------------------------------------------------------------------------------------
 # -------------------------------------------PRECIPITACION DE AGOSTO----------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------------
-
 #Precipitacion del ciclo (agosto)
 
 summary(p_h_m8); summary(p_45_m8); summary(p_85_m8)
