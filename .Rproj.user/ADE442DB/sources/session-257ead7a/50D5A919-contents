@@ -514,20 +514,16 @@ p_85_m8a <- ifel(p_85_m8 < p8lim_60,  (p8m60  * p_85_m8) + p8b60,
                                                ifel(p_85_m8 < p8lim_580, (p8m580 * p_85_m8) + p8b580, NA))))))))
 
 par(mfrow=c(2,2))
-plot(p_h_m8a,col = paleta_semaforo(4),main = "Aptitud por precipitacion agosto historico")
+plot(p_h_m8a,col = paleta_semaforo(4),main = "Aptitud por precipitacion de agosto | historico")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(p_45_m8a,col= paleta_semaforo(4),main= "Aptitud por precipitacion agosto SSP2-4.5")
+plot(p_45_m8a,col= paleta_semaforo(4),main= "Aptitud por precipitacion de agosto | SSP2-4.5")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)     
-plot(p_85_m8a,col= paleta_semaforo(4),main= "Aptitud por precipitacion agosto SSP5-8.5")
+plot(p_85_m8a,col= paleta_semaforo(4),main= "Aptitud por precipitacion de agosto | SSP5-8.5")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)     
-
-summary(p_h_m8a); summary(p_45_m8a); summary(p_85_m8a)
-
 
 # -------------------------------------------------------------------------------------------------------------------------------------
 # ----------------------------------------Temperatura media del ciclo de cultivo-------------------------------------------------------
 # -------------------------------------------------------------------------------------------------------------------------------------
-
 # Cargamos las capas raster :
 
 # Escenario Historico:--------------------------
@@ -640,11 +636,11 @@ tem_85_a <- ifel(tem_85 < temlim_14,  (temm14  * tem_85) + temb14,
 
 # Impresion de las capas:
 par(mfrow=c(2,2))
-plot(tem_h_a,col = paleta_semaforo(100),main = "Aptitud por Temperatura media del ciclo Historico")
+plot(tem_h_a,col = paleta_semaforo(100),main = "Aptitud por Temperatura media del ciclo | Historico")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(tem_45_a,col = paleta_semaforo(100),main = "Aptitud por Temperatura media del ciclo Historico")
+plot(tem_45_a,col = paleta_semaforo(100),main = "Aptitud por Temperatura media del ciclo | SSP2-4.5")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(tem_85_a,col = paleta_semaforo(100),main = "Aptitud por Temperatura media del ciclo SSP2 4.5")
+plot(tem_85_a,col = paleta_semaforo(100),main = "Aptitud por Temperatura media del ciclo | SSP5 8.5")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
 
@@ -670,11 +666,14 @@ tim_85_8<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/
 
 # promedio del ciclo (mayo a gosto):
 tim_h <- ((tim_h_5 + tim_h_6 + tim_h_7 + tim_h_8) / 4 )
+summary(tim_h)
 tim_h_a<- ifel(tim_h < 0, 0, tim_h)
+summary(tim_h_a)
 tim_45 <- ((tim_45_5 + tim_45_6 + tim_45_7 + tim_45_8) / 4)
 tim_85 <- ((tim_85_5 + tim_85_6 + tim_85_7 + tim_85_8) / 4)
+summary(tim_45); summary(tim_85)
 par(mfrow=c(2,2))
-plot(tim_h, main="Temperatura minima media del ciclo | Historico")
+plot(tim_h_a, main="Temperatura minima media del ciclo | Historico")
 plot(tim_45, main="Temperatura minima media del ciclo | SSP2-4.5")
 plot(tim_85, main="Temperatura minima media del ciclo | SSP5-8.5")
 summary(tim_h_a); summary(tim_45); summary(tim_85)
@@ -759,393 +758,393 @@ tim_85_a <- ifel(tim_85 < timlim_07,  (timm07  * tim_85) + timb07,
                                                  ifel(tim_85 <= timlim_32,(timm32 * tim_85) + timb32, NA))))))))
 
 par(mfrow=c(2,2))
-plot(tim_h_b,col = paleta_semaforo(4),main = "ptitud por Temperatura minima media del ciclo | Historico")
+plot(tim_h_b,col = paleta_semaforo(4),main = "Aptitud por Temperatura minima media ciclo | Historico", cex.main=0.8)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(tim_45_a,col = paleta_semaforo(4),main = "Aptitud por Temperatura minima media del ciclo | SSP2-4.5")
+plot(tim_45_a,col = paleta_semaforo(4),main = "Aptitud por Temperatura minima media ciclo | SSP2-4.5", cex.main=0.8)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(tim_85_a,col = paleta_semaforo(4),main = "Aptitud por Temperatura minima media del ciclo | SSP5-8.5")
+plot(tim_85_a,col = paleta_semaforo(4),main = "Aptitud por Temperatura minima media ciclo | SSP5-8.5", cex.main=0.8)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
 # ----------------------------------------------------------------------------------------------------
 # ----Humedad relativa (%) promedio de las etapas de Labranza y vegetativa (1er y 2do mes)------------
 # ----------------------------------------------------------------------------------------------------
-
-# Cargamos las capas raster:
-
-hr_h_5to_0508 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_05.tif")
-hr_h_6to_0508 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_06.tif")
-summary(hr_h_5to_0508); summary(hr_h_6to_0508)
-
-hr_h_12do_1203 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_12.tif")
-hr_h_1ro_1203 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_01.tif")
-summary(hr_h_12do_1203); summary(hr_h_1ro_1203)
-
-# Calculamos el promedio de los dos primeros meses del ciclo:
-# Ciclo 0508:
-hr_h_0508 <- (hr_h_5to_0508 + hr_h_6to_0508) / 2
-hr_h_1203 <- (hr_h_12do_1203 + hr_h_1ro_1203) / 2
-
-# Parametros de calculos recta para los tres escenarios:
-
-hrlv_arroz <- tibble(
-  hrlv = c(0, 30, 40, 50, 70, 75, 90, 100),
-  g_aptitud = c(0, 1, 2, 3, 4, 3, 2, 1)
-)
-
-hrlv_arroz1 <- hrlv_arroz %>%
-  mutate(
-    pendiente = (g_aptitud - lag(g_aptitud)) / (hrlv - lag(hrlv)),
-    intercepto = g_aptitud - (pendiente * hrlv)
-  )
-print(hrlv_arroz1)
-
-# Extraemos los límites de precipitación de su columna
-# Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
-# a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
-hrlvlim_30 <- hrlv_arroz1$hrlv[2]
-hrlvlim_40 <- hrlv_arroz1$hrlv[3]
-hrlvlim_50 <- hrlv_arroz1$hrlv[4]
-hrlvlim_70 <- hrlv_arroz1$hrlv[5]
-hrlvlim_75 <- hrlv_arroz1$hrlv[6]
-hrlvlim_90 <- hrlv_arroz1$hrlv[7]
-hrlvlim_100 <- hrlv_arroz1$hrlv[8]
-
-# Extraemos pendientes (m) e interceptos (b) de las mismas filas
-hrlvm30  <- hrlv_arroz1$pendiente[2]
-hrlvb30  <- hrlv_arroz1$intercepto[2]
-
-hrlvm40 <- hrlv_arroz1$pendiente[3]
-hrlvb40 <- hrlv_arroz1$intercepto[3]
-
-hrlvm50 <- hrlv_arroz1$pendiente[4]
-hrlvb50 <- hrlv_arroz1$intercepto[4]
-
-hrlvm70 <- hrlv_arroz1$pendiente[5]
-hrlvb70 <- hrlv_arroz1$intercepto[5]
-
-hrlvm75 <- hrlv_arroz1$pendiente[6]
-hrlvb75 <- hrlv_arroz1$intercepto[6]
-
-hrlvm90 <- hrlv_arroz1$pendiente[7]
-hrlvb90 <- hrlv_arroz1$intercepto[7]
-
-hrlvm100 <- hrlv_arroz1$pendiente[8]
-hrlvb100 <- hrlv_arroz1$intercepto[8]
-
-# Calculamos el nuevo raster con todo 100% parametrizado  ------ Ciclo 0508 ------------------------------------------
-hr_h_0508a <- ifel(hr_h_0508 < hrlvlim_30,  (hrlvm30  * hr_h_0508) + hrlvb30,
-                        ifel(hr_h_0508 < hrlvlim_40, (hrlvm40 * hr_h_0508) + hrlvb40,
-                             ifel(hr_h_0508 < hrlvlim_50, (hrlvm50 * hr_h_0508) + hrlvb50,
-                                  ifel(hr_h_0508 < hrlvlim_70, (hrlvm70 * hr_h_0508) + hrlvb70,
-                                       ifel(hr_h_0508 < hrlvlim_75, (hrlvm75 * hr_h_0508) + hrlvb75,
-                                            ifel(hr_h_0508 < hrlvlim_90,(hrlvm90 * hr_h_0508) + hrlvb90,
-                                                 ifel(hr_h_0508 < hrlvlim_100,(hrlvm100 * hr_h_0508) + hrlvb100, NA)))))))
-
-hr_45_0508a<- hr_h_0508a
-hr_85_0508a<- hr_h_0508a
-
-# Calculamos el nuevo raster con todo 100% parametrizado  ------ Ciclo 1203 ------------------------------------------
-hr_h_1203a <- ifel(hr_h_1203 < hrlvlim_30,  (hrlvm30  * hr_h_1203) + hrlvb30,
-                   ifel(hr_h_1203 < hrlvlim_40, (hrlvm40 * hr_h_1203) + hrlvb40,
-                        ifel(hr_h_1203 < hrlvlim_50, (hrlvm50 * hr_h_1203) + hrlvb50,
-                             ifel(hr_h_1203 < hrlvlim_70, (hrlvm70 * hr_h_1203) + hrlvb70,
-                                  ifel(hr_h_1203 < hrlvlim_75, (hrlvm75 * hr_h_1203) + hrlvb75,
-                                       ifel(hr_h_1203 < hrlvlim_90,(hrlvm90 * hr_h_1203) + hrlvb90,
-                                            ifel(hr_h_1203 < hrlvlim_100,(hrlvm100 * hr_h_1203) + hrlvb100, NA)))))))
-
-hr_45_1203a<- hr_h_1203a
-hr_85_1203a<- hr_h_1203a
-
-par(mfrow=c(3,2))
-plot(hr_h_0508a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media labranza vegetativo (1er + 2do) mes historico 0508")
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(hr_h_1203a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media labranza vegetativo (1er + 2do) mes historico 1203")
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(hr_45_0508a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media labranza vegetativo (1er + 2do) mes SSP2 4.5 0508")
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(hr_45_1203a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media labranza vegetativo (1er + 2do) mes SSP2 4.5 1203")
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(hr_85_0508a,col=paleta_semaforo(4),main="Grado de Aptitud por HR media labranza vegetativo (1er + 2do) mes SSP5 8.5 0508")
-plot(st_geometry(venezuela),add=TRUE,border="black",lwd=1.5)
-plot(hr_85_1203a,col=paleta_semaforo(4),main="Grado de Aptitud por HR media labranza vegetativo (1er + 2do) mes SSP5 8.5 1203")
-plot(st_geometry(venezuela),add=TRUE,border="black",lwd=1.5)
-
-
-# ----------------------------------------------------------------------------------------------------
-# ---------------Humedad relativa (%) promedio de la etapa de Cosecha (4to mes)-----------------------
-# ----------------------------------------------------------------------------------------------------
-
-# Cargamos las capas raster:
-
-hr_h_8vo_0508 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_08.tif")
-summary(hr_h_8vo_0508)
-
-hr_h_3er_1203 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_03.tif")
-summary(hr_h_3er_1203)
-
-# Parametros de calculos recta para los tres escenarios:
-
-hrc_arroz <- tibble(
-  hrc = c(0, 30, 33, 56, 80, 100),
-  g_aptitud = c(2, 2, 3, 4, 3, 3)
-)
-
-hrc_arroz1 <- hrc_arroz %>%
-  mutate(
-    pendiente = (g_aptitud - lag(g_aptitud)) / (hrc - lag(hrc)),
-    intercepto = g_aptitud - (pendiente * hrc)
-  )
-print(hrc_arroz1)
-
-# Extraemos los límites de precipitación de su columna
-# Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
-# a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
-hrclim_30 <- hrc_arroz1$hrc[2]
-hrclim_33 <- hrc_arroz1$hrc[3]
-hrclim_56 <- hrc_arroz1$hrc[4]
-hrclim_80 <- hrc_arroz1$hrc[5]
-hrclim_100 <- hrc_arroz1$hrc[6]
-
-# Extraemos pendientes (m) e interceptos (b) de las mismas filas
-hrcm30  <- hrc_arroz1$pendiente[2]
-hrcb30  <- hrc_arroz1$intercepto[2]
-
-hrcm33 <- hrc_arroz1$pendiente[3]
-hrcb33 <- hrc_arroz1$intercepto[3]
-
-hrcm56 <- hrc_arroz1$pendiente[4]
-hrcb56 <- hrc_arroz1$intercepto[4]
-
-hrcm80 <- hrc_arroz1$pendiente[5]
-hrcb80 <- hrc_arroz1$intercepto[5]
-
-hrcm100 <- hrc_arroz1$pendiente[6]
-hrcb100 <- hrc_arroz1$intercepto[6]
-
-# Calculamos el nuevo raster con todo 100% parametrizado  ------ Ciclo 0508 ------------------------------------------
-hr_h_8vo_0508a <- ifel(hr_h_8vo_0508 < hrclim_30,  (hrcm30  * hr_h_8vo_0508) + hrcb30,
-                    ifel(hr_h_8vo_0508 < hrclim_33, (hrcm33 * hr_h_8vo_0508) + hrcb33,
-                      ifel(hr_h_8vo_0508 < hrclim_56, (hrcm56 * hr_h_8vo_0508) + hrcb56,
-                        ifel(hr_h_8vo_0508 < hrclim_80, (hrcm80 * hr_h_8vo_0508) + hrcb80,
-                          ifel(hr_h_8vo_0508 < hrclim_100, (hrcm100 * hr_h_8vo_0508) + hrcb100, NA)))))
-
-hr_45_8vo_0508a<- hr_h_8vo_0508a
-hr_85_8vo_0508a<- hr_h_8vo_0508a
-
-# Calculamos el nuevo raster con todo 100% parametrizado  ------ Ciclo 1203 ------------------------------------------
-hr_h_3er_1203a <- ifel(hr_h_3er_1203 < hrclim_30,  (hrcm30  * hr_h_3er_1203) + hrcb30,
-                    ifel(hr_h_3er_1203 < hrclim_33, (hrcm33 * hr_h_3er_1203) + hrcb33,
-                      ifel(hr_h_3er_1203 < hrclim_56, (hrcm56 * hr_h_3er_1203) + hrcb56,
-                        ifel(hr_h_3er_1203 < hrclim_80, (hrcm80 * hr_h_3er_1203) + hrcb80,
-                          ifel(hr_h_3er_1203 < hrclim_100, (hrcm100 * hr_h_3er_1203) + hrcb100, NA)))))
-
-hr_45_3er_1203a<- hr_h_3er_1203a
-hr_85_3er_1203a<- hr_h_3er_1203a
-
-par(mfrow=c(3,2))
-plot(hr_h_8vo_0508a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media cosecha (4to) mes historico 0508")
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(hr_h_3er_1203a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media cosecha (4to) mes historico 1203")
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(hr_45_8vo_0508a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media cosecha (4to) mes SSP2 4.5 0508")
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(hr_45_3er_1203a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media coseca (4to) mes SSP2 4.5 1203")
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(hr_85_8vo_0508a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media cosecha (4to) mes SSP5 8.5 0508")
-plot(st_geometry(venezuela),add=TRUE,border="black",lwd=1.5)
-plot(hr_85_3er_1203a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media cosecha (4to) mes SSP5 8.5 1203")
-plot(st_geometry(venezuela),add=TRUE,border="black",lwd=1.5)
-
-
-# # ----------------------------------------------------------------------------------------------------
-# # ------------------------------Radiacion solar ciclo de cultivo n/N----------------------------------
-# # ----------------------------------------------------------------------------------------------------
 # 
 # # Cargamos las capas raster:
-# rm_h_1 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Relacion_nN/RelnN_01.tif")
-# rm_h_2 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Relacion_nN/RelnN_02.tif")
-# rm_h_3 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Relacion_nN/RelnN_03.tif")
-# rm_h_5 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Relacion_nN/RelnN_05.tif")
-# rm_h_6 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Relacion_nN/RelnN_06.tif")
-# rm_h_7 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Relacion_nN/RelnN_07.tif")
-# rm_h_8 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Relacion_nN/RelnN_08.tif")
-# rm_h_12 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Relacion_nN/RelnN_12.tif")
 # 
-# summary(rm_h_12);summary(rm_h_1); summary(rm_h_2); summary(rm_h_3)
-# summary(rm_h_5);summary(rm_h_6); summary(rm_h_7); summary(rm_h_8)
+# hr_h_5to_0508 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_05.tif")
+# hr_h_6to_0508 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_06.tif")
+# summary(hr_h_5to_0508); summary(hr_h_6to_0508)
 # 
-# # Impresion de las capas de nN para cada ciclo:
-# par(mfrow=c(2,1))
-# rm_h_0508<- c(rm_h_5, rm_h_6, rm_h_7, rm_h_8)
-# plot(rm_h_0508)
-# rm_h_1203<- c(rm_h_12, rm_h_1, rm_h_2, rm_h_3)
-# plot(rm_h_1203)
+# hr_h_12do_1203 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_12.tif")
+# hr_h_1ro_1203 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_01.tif")
+# summary(hr_h_12do_1203); summary(hr_h_1ro_1203)
 # 
-# # Calculo del promedio del nN de cada ciclo:
-# rm_h_0508a<- (rm_h_5 + rm_h_6 + rm_h_7 + rm_h_8) / 4
-# rm_h_1203a<- (rm_h_12 + rm_h_1 + rm_h_2 + rm_h_3) / 4
-# 
-# summary(rm_h_0508a); summary(rm_h_1203a)
-# 
-# par(mfrow=c(2,1))
-# plot(rm_h_0508a,col=paleta_semaforo(100), main="0508")
-# plot(rm_h_1203a,col=paleta_semaforo(100), main="1203")
+# # Calculamos el promedio de los dos primeros meses del ciclo:
+# # Ciclo 0508:
+# hr_h_0508 <- (hr_h_5to_0508 + hr_h_6to_0508) / 2
+# hr_h_1203 <- (hr_h_12do_1203 + hr_h_1ro_1203) / 2
 # 
 # # Parametros de calculos recta para los tres escenarios:
 # 
-# rm_arroz <- tibble(
-#   rm = c(0, 0.45, 0.65, 0.7, 1),
-#   g_aptitud = c(2, 2, 3, 4, 4)
+# hrlv_arroz <- tibble(
+#   hrlv = c(0, 30, 40, 50, 70, 75, 90, 100),
+#   g_aptitud = c(0, 1, 2, 3, 4, 3, 2, 1)
 # )
 # 
-# rm_arroz1 <- rm_arroz %>%
+# hrlv_arroz1 <- hrlv_arroz %>%
 #   mutate(
-#     pendiente = (g_aptitud - lag(g_aptitud)) / (rm - lag(rm)),
-#     intercepto = g_aptitud - (pendiente * rm)
+#     pendiente = (g_aptitud - lag(g_aptitud)) / (hrlv - lag(hrlv)),
+#     intercepto = g_aptitud - (pendiente * hrlv)
 #   )
-# print(rm_arroz1)
+# print(hrlv_arroz1)
 # 
 # # Extraemos los límites de precipitación de su columna
 # # Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
 # # a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
-# rmlim_045 <- rm_arroz1$rm[2]
-# rmlim_065 <- rm_arroz1$rm[3]
-# rmlim_070 <- rm_arroz1$rm[4]
-# rmlim_100 <- rm_arroz1$rm[5]
+# hrlvlim_30 <- hrlv_arroz1$hrlv[2]
+# hrlvlim_40 <- hrlv_arroz1$hrlv[3]
+# hrlvlim_50 <- hrlv_arroz1$hrlv[4]
+# hrlvlim_70 <- hrlv_arroz1$hrlv[5]
+# hrlvlim_75 <- hrlv_arroz1$hrlv[6]
+# hrlvlim_90 <- hrlv_arroz1$hrlv[7]
+# hrlvlim_100 <- hrlv_arroz1$hrlv[8]
 # 
 # # Extraemos pendientes (m) e interceptos (b) de las mismas filas
-# rmm045  <- rm_arroz1$pendiente[2]
-# rmb045  <- rm_arroz1$intercepto[2]
+# hrlvm30  <- hrlv_arroz1$pendiente[2]
+# hrlvb30  <- hrlv_arroz1$intercepto[2]
 # 
-# rmm065 <- rm_arroz1$pendiente[3]
-# rmb065 <- rm_arroz1$intercepto[3]
+# hrlvm40 <- hrlv_arroz1$pendiente[3]
+# hrlvb40 <- hrlv_arroz1$intercepto[3]
 # 
-# rmm070 <- rm_arroz1$pendiente[4]
-# rmb070 <- rm_arroz1$intercepto[4]
+# hrlvm50 <- hrlv_arroz1$pendiente[4]
+# hrlvb50 <- hrlv_arroz1$intercepto[4]
 # 
-# rmm100 <- rm_arroz1$pendiente[5]
-# rmb100 <- rm_arroz1$intercepto[5]
+# hrlvm70 <- hrlv_arroz1$pendiente[5]
+# hrlvb70 <- hrlv_arroz1$intercepto[5]
+# 
+# hrlvm75 <- hrlv_arroz1$pendiente[6]
+# hrlvb75 <- hrlv_arroz1$intercepto[6]
+# 
+# hrlvm90 <- hrlv_arroz1$pendiente[7]
+# hrlvb90 <- hrlv_arroz1$intercepto[7]
+# 
+# hrlvm100 <- hrlv_arroz1$pendiente[8]
+# hrlvb100 <- hrlv_arroz1$intercepto[8]
 # 
 # # Calculamos el nuevo raster con todo 100% parametrizado  ------ Ciclo 0508 ------------------------------------------
-# rm_h_0508b <- ifel(rm_h_0508a < rmlim_045,  (rmm045  * rm_h_0508a) + rmb045,
-#                        ifel(rm_h_0508a < rmlim_065, (rmm065 * rm_h_0508a) + rmb065,
-#                             ifel(rm_h_0508a < rmlim_070, (rmm070 * rm_h_0508a) + rmb070,
-#                                  ifel(rm_h_0508a < rmlim_100, (rmm100 * rm_h_0508a) + rmb100, NA))))
+# hr_h_0508a <- ifel(hr_h_0508 < hrlvlim_30,  (hrlvm30  * hr_h_0508) + hrlvb30,
+#                         ifel(hr_h_0508 < hrlvlim_40, (hrlvm40 * hr_h_0508) + hrlvb40,
+#                              ifel(hr_h_0508 < hrlvlim_50, (hrlvm50 * hr_h_0508) + hrlvb50,
+#                                   ifel(hr_h_0508 < hrlvlim_70, (hrlvm70 * hr_h_0508) + hrlvb70,
+#                                        ifel(hr_h_0508 < hrlvlim_75, (hrlvm75 * hr_h_0508) + hrlvb75,
+#                                             ifel(hr_h_0508 < hrlvlim_90,(hrlvm90 * hr_h_0508) + hrlvb90,
+#                                                  ifel(hr_h_0508 < hrlvlim_100,(hrlvm100 * hr_h_0508) + hrlvb100, NA)))))))
 # 
-# rm_45_0508b<- rm_h_0508b
-# rm_85_0508b<- rm_h_0508b
+# hr_45_0508a<- hr_h_0508a
+# hr_85_0508a<- hr_h_0508a
 # 
 # # Calculamos el nuevo raster con todo 100% parametrizado  ------ Ciclo 1203 ------------------------------------------
-# rm_h_1203b <- ifel(rm_h_1203a < rmlim_045,  (rmm045  * rm_h_1203a) + rmb045,
-#                    ifel(rm_h_1203a < rmlim_065, (rmm065 * rm_h_1203a) + rmb065,
-#                         ifel(rm_h_1203a < rmlim_070, (rmm070 * rm_h_1203a) + rmb070,
-#                              ifel(rm_h_1203a < rmlim_100, (rmm100 * rm_h_1203a) + rmb100, NA))))
+# hr_h_1203a <- ifel(hr_h_1203 < hrlvlim_30,  (hrlvm30  * hr_h_1203) + hrlvb30,
+#                    ifel(hr_h_1203 < hrlvlim_40, (hrlvm40 * hr_h_1203) + hrlvb40,
+#                         ifel(hr_h_1203 < hrlvlim_50, (hrlvm50 * hr_h_1203) + hrlvb50,
+#                              ifel(hr_h_1203 < hrlvlim_70, (hrlvm70 * hr_h_1203) + hrlvb70,
+#                                   ifel(hr_h_1203 < hrlvlim_75, (hrlvm75 * hr_h_1203) + hrlvb75,
+#                                        ifel(hr_h_1203 < hrlvlim_90,(hrlvm90 * hr_h_1203) + hrlvb90,
+#                                             ifel(hr_h_1203 < hrlvlim_100,(hrlvm100 * hr_h_1203) + hrlvb100, NA)))))))
 # 
-# rm_45_1203b<- rm_h_1203b
-# rm_85_1203b<- rm_h_1203b
+# hr_45_1203a<- hr_h_1203a
+# hr_85_1203a<- hr_h_1203a
 # 
-# # Impresion de las capas finales del factor de exposicion ------------------------
 # par(mfrow=c(3,2))
-# plot(rm_h_0508b,col = paleta_semaforo(4),main = "Grado de Aptitud por Radiacion nN media del ciclo historico 0508")
+# plot(hr_h_0508a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media labranza vegetativo (1er + 2do) mes historico 0508")
 # plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-# plot(rm_h_1203b,col = paleta_semaforo(4),main = "Grado de Aptitud por Radiacion nN media del ciclo historico 1203")
+# plot(hr_h_1203a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media labranza vegetativo (1er + 2do) mes historico 1203")
 # plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-
-
-# ----------------------------------------------------------------------------------------------------
-# ------------------------------Radiacion solar ciclo de cultivo Porcentaje----------------------------
-# ----------------------------------------------------------------------------------------------------
-
-# Cargamos las capas raster:
-rp_h_1 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_01.tif")
-rp_h_2 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_02.tif")
-rp_h_3 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_03.tif")
-rp_h_5 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_05.tif")
-rp_h_6 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_06.tif")
-rp_h_7 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_07.tif")
-rp_h_8 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_08.tif")
-rp_h_12 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_12.tif")
- 
-summary(rp_h_12);summary(rp_h_1); summary(rp_h_2); summary(rp_h_3)
-summary(rp_h_5);summary(rp_h_6); summary(rp_h_7); summary(rp_h_8)
-
-# Impresion de las capas de nN para cada ciclo:
-par(mfrow=c(2,1))
-rp_h_0508<- c(rp_h_5, rp_h_6, rp_h_7, rp_h_8)
-plot(rp_h_0508)
-rp_h_1a<- resample(rp_h_1, rp_h_12, method="bilinear")
-rp_h_1203<- c(rp_h_12, rp_h_1a, rp_h_2, rp_h_3)
-plot(rp_h_1203)
- 
-# Calculo del promedio del nN de cada ciclo:
-rp_h_0508a<- (rp_h_5 + rp_h_6 + rp_h_7 + rp_h_8) / 4
-rp_h_1203a<- (rp_h_12 + rp_h_1a + rp_h_2 + rp_h_3) / 4
- 
-summary(rp_h_0508a); summary(rp_h_1203a)
- 
-par(mfrow=c(2,1))
-plot(rp_h_0508a,col=paleta_semaforo(100), main="0508")
-plot(rp_h_1203a,col=paleta_semaforo(100), main="1203")
- 
-# Parametros de calculos recta para los tres escenarios:
- 
-rp_arroz <- tibble(
-   rp = c(0, 45, 65, 70, 100),
-   g_aptitud = c(2, 2, 3, 4, 4)
-)
- 
-rp_arroz1 <- rp_arroz %>%
-   mutate(
-   pendiente = (g_aptitud - lag(g_aptitud)) / (rp - lag(rp)),
-     intercepto = g_aptitud - (pendiente * rp)
-)
-print(rp_arroz1)
-
-# Extraemos los límites de precipitación de su columna
-# Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
-# a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
-rplim_45 <- rp_arroz1$rp[2]
-rplim_65 <- rp_arroz1$rp[3]
-rplim_70 <- rp_arroz1$rp[4]
-rplim_100 <- rp_arroz1$rp[5]
- 
-# Extraemos pendientes (m) e interceptos (b) de las mismas filas
-rpm45  <- rp_arroz1$pendiente[2]
-rpb45  <- rp_arroz1$intercepto[2]
- 
-rpm65 <- rp_arroz1$pendiente[3]
-rpb65 <- rp_arroz1$intercepto[3]
- 
-rpm70 <- rp_arroz1$pendiente[4]
-rpb70 <- rp_arroz1$intercepto[4]
- 
-rpm100 <- rp_arroz1$pendiente[5]
-rpb100 <- rp_arroz1$intercepto[5]
- 
-# Calculamos el nuevo raster con todo 100% parametrizado  ------ Ciclo 0508 ------------------------------------------
-rp_h_0508b <- ifel(rp_h_0508a < rplim_45,  (rpm45  * rp_h_0508a) + rpb45,
-                        ifel(rp_h_0508a < rplim_65, (rpm65 * rp_h_0508a) + rpb65,
-                             ifel(rp_h_0508a < rplim_70, (rpm70 * rp_h_0508a) + rpb70,
-                                  ifel(rp_h_0508a < rplim_100, (rpm100 * rp_h_0508a) + rpb100, NA))))
- 
-rp_45_0508b<- rp_h_0508b
-rp_85_0508b<- rp_h_0508b
- 
-# Calculamos el nuevo raster con todo 100% parametrizado  ------ Ciclo 1203 ------------------------------------------
-rp_h_1203b <- ifel(rp_h_1203a < rplim_45,  (rpm45  * rp_h_1203a) + rpb45,
-                    ifel(rp_h_1203a < rplim_65, (rpm65 * rp_h_1203a) + rpb65,
-                         ifel(rp_h_1203a < rplim_70, (rpm70 * rp_h_1203a) + rpb70,
-                              ifel(rp_h_1203a < rplim_100, (rpm100 * rp_h_1203a) + rpb100, NA))))
- 
-rp_45_1203b<- rp_h_1203b
-rp_85_1203b<- rp_h_1203b
- 
-# Impresion de las capas finales del factor de exposicion ------------------------
-par(mfrow=c(2,1))
-plot(rp_h_0508b,col = paleta_semaforo(4),main = "Grado de Aptitud por Radiacion nN media del ciclo historico 0508")
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(rp_h_1203b,col = paleta_semaforo(4),main = "Grado de Aptitud por Radiacion nN media del ciclo historico 1203")
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# plot(hr_45_0508a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media labranza vegetativo (1er + 2do) mes SSP2 4.5 0508")
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# plot(hr_45_1203a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media labranza vegetativo (1er + 2do) mes SSP2 4.5 1203")
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# plot(hr_85_0508a,col=paleta_semaforo(4),main="Grado de Aptitud por HR media labranza vegetativo (1er + 2do) mes SSP5 8.5 0508")
+# plot(st_geometry(venezuela),add=TRUE,border="black",lwd=1.5)
+# plot(hr_85_1203a,col=paleta_semaforo(4),main="Grado de Aptitud por HR media labranza vegetativo (1er + 2do) mes SSP5 8.5 1203")
+# plot(st_geometry(venezuela),add=TRUE,border="black",lwd=1.5)
+# 
+# 
+# # ----------------------------------------------------------------------------------------------------
+# # ---------------Humedad relativa (%) promedio de la etapa de Cosecha (4to mes)-----------------------
+# # ----------------------------------------------------------------------------------------------------
+# 
+# # Cargamos las capas raster:
+# 
+# hr_h_8vo_0508 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_08.tif")
+# summary(hr_h_8vo_0508)
+# 
+# hr_h_3er_1203 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_03.tif")
+# summary(hr_h_3er_1203)
+# 
+# # Parametros de calculos recta para los tres escenarios:
+# 
+# hrc_arroz <- tibble(
+#   hrc = c(0, 30, 33, 56, 80, 100),
+#   g_aptitud = c(2, 2, 3, 4, 3, 3)
+# )
+# 
+# hrc_arroz1 <- hrc_arroz %>%
+#   mutate(
+#     pendiente = (g_aptitud - lag(g_aptitud)) / (hrc - lag(hrc)),
+#     intercepto = g_aptitud - (pendiente * hrc)
+#   )
+# print(hrc_arroz1)
+# 
+# # Extraemos los límites de precipitación de su columna
+# # Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
+# # a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
+# hrclim_30 <- hrc_arroz1$hrc[2]
+# hrclim_33 <- hrc_arroz1$hrc[3]
+# hrclim_56 <- hrc_arroz1$hrc[4]
+# hrclim_80 <- hrc_arroz1$hrc[5]
+# hrclim_100 <- hrc_arroz1$hrc[6]
+# 
+# # Extraemos pendientes (m) e interceptos (b) de las mismas filas
+# hrcm30  <- hrc_arroz1$pendiente[2]
+# hrcb30  <- hrc_arroz1$intercepto[2]
+# 
+# hrcm33 <- hrc_arroz1$pendiente[3]
+# hrcb33 <- hrc_arroz1$intercepto[3]
+# 
+# hrcm56 <- hrc_arroz1$pendiente[4]
+# hrcb56 <- hrc_arroz1$intercepto[4]
+# 
+# hrcm80 <- hrc_arroz1$pendiente[5]
+# hrcb80 <- hrc_arroz1$intercepto[5]
+# 
+# hrcm100 <- hrc_arroz1$pendiente[6]
+# hrcb100 <- hrc_arroz1$intercepto[6]
+# 
+# # Calculamos el nuevo raster con todo 100% parametrizado  ------ Ciclo 0508 ------------------------------------------
+# hr_h_8vo_0508a <- ifel(hr_h_8vo_0508 < hrclim_30,  (hrcm30  * hr_h_8vo_0508) + hrcb30,
+#                     ifel(hr_h_8vo_0508 < hrclim_33, (hrcm33 * hr_h_8vo_0508) + hrcb33,
+#                       ifel(hr_h_8vo_0508 < hrclim_56, (hrcm56 * hr_h_8vo_0508) + hrcb56,
+#                         ifel(hr_h_8vo_0508 < hrclim_80, (hrcm80 * hr_h_8vo_0508) + hrcb80,
+#                           ifel(hr_h_8vo_0508 < hrclim_100, (hrcm100 * hr_h_8vo_0508) + hrcb100, NA)))))
+# 
+# hr_45_8vo_0508a<- hr_h_8vo_0508a
+# hr_85_8vo_0508a<- hr_h_8vo_0508a
+# 
+# # Calculamos el nuevo raster con todo 100% parametrizado  ------ Ciclo 1203 ------------------------------------------
+# hr_h_3er_1203a <- ifel(hr_h_3er_1203 < hrclim_30,  (hrcm30  * hr_h_3er_1203) + hrcb30,
+#                     ifel(hr_h_3er_1203 < hrclim_33, (hrcm33 * hr_h_3er_1203) + hrcb33,
+#                       ifel(hr_h_3er_1203 < hrclim_56, (hrcm56 * hr_h_3er_1203) + hrcb56,
+#                         ifel(hr_h_3er_1203 < hrclim_80, (hrcm80 * hr_h_3er_1203) + hrcb80,
+#                           ifel(hr_h_3er_1203 < hrclim_100, (hrcm100 * hr_h_3er_1203) + hrcb100, NA)))))
+# 
+# hr_45_3er_1203a<- hr_h_3er_1203a
+# hr_85_3er_1203a<- hr_h_3er_1203a
+# 
+# par(mfrow=c(3,2))
+# plot(hr_h_8vo_0508a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media cosecha (4to) mes historico 0508")
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# plot(hr_h_3er_1203a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media cosecha (4to) mes historico 1203")
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# plot(hr_45_8vo_0508a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media cosecha (4to) mes SSP2 4.5 0508")
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# plot(hr_45_3er_1203a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media coseca (4to) mes SSP2 4.5 1203")
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# plot(hr_85_8vo_0508a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media cosecha (4to) mes SSP5 8.5 0508")
+# plot(st_geometry(venezuela),add=TRUE,border="black",lwd=1.5)
+# plot(hr_85_3er_1203a,col = paleta_semaforo(4),main = "Grado de Aptitud por HR media cosecha (4to) mes SSP5 8.5 1203")
+# plot(st_geometry(venezuela),add=TRUE,border="black",lwd=1.5)
+# 
+# 
+# # # ----------------------------------------------------------------------------------------------------
+# # # ------------------------------Radiacion solar ciclo de cultivo n/N----------------------------------
+# # # ----------------------------------------------------------------------------------------------------
+# # 
+# # # Cargamos las capas raster:
+# # rm_h_1 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Relacion_nN/RelnN_01.tif")
+# # rm_h_2 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Relacion_nN/RelnN_02.tif")
+# # rm_h_3 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Relacion_nN/RelnN_03.tif")
+# # rm_h_5 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Relacion_nN/RelnN_05.tif")
+# # rm_h_6 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Relacion_nN/RelnN_06.tif")
+# # rm_h_7 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Relacion_nN/RelnN_07.tif")
+# # rm_h_8 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Relacion_nN/RelnN_08.tif")
+# # rm_h_12 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Relacion_nN/RelnN_12.tif")
+# # 
+# # summary(rm_h_12);summary(rm_h_1); summary(rm_h_2); summary(rm_h_3)
+# # summary(rm_h_5);summary(rm_h_6); summary(rm_h_7); summary(rm_h_8)
+# # 
+# # # Impresion de las capas de nN para cada ciclo:
+# # par(mfrow=c(2,1))
+# # rm_h_0508<- c(rm_h_5, rm_h_6, rm_h_7, rm_h_8)
+# # plot(rm_h_0508)
+# # rm_h_1203<- c(rm_h_12, rm_h_1, rm_h_2, rm_h_3)
+# # plot(rm_h_1203)
+# # 
+# # # Calculo del promedio del nN de cada ciclo:
+# # rm_h_0508a<- (rm_h_5 + rm_h_6 + rm_h_7 + rm_h_8) / 4
+# # rm_h_1203a<- (rm_h_12 + rm_h_1 + rm_h_2 + rm_h_3) / 4
+# # 
+# # summary(rm_h_0508a); summary(rm_h_1203a)
+# # 
+# # par(mfrow=c(2,1))
+# # plot(rm_h_0508a,col=paleta_semaforo(100), main="0508")
+# # plot(rm_h_1203a,col=paleta_semaforo(100), main="1203")
+# # 
+# # # Parametros de calculos recta para los tres escenarios:
+# # 
+# # rm_arroz <- tibble(
+# #   rm = c(0, 0.45, 0.65, 0.7, 1),
+# #   g_aptitud = c(2, 2, 3, 4, 4)
+# # )
+# # 
+# # rm_arroz1 <- rm_arroz %>%
+# #   mutate(
+# #     pendiente = (g_aptitud - lag(g_aptitud)) / (rm - lag(rm)),
+# #     intercepto = g_aptitud - (pendiente * rm)
+# #   )
+# # print(rm_arroz1)
+# # 
+# # # Extraemos los límites de precipitación de su columna
+# # # Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
+# # # a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
+# # rmlim_045 <- rm_arroz1$rm[2]
+# # rmlim_065 <- rm_arroz1$rm[3]
+# # rmlim_070 <- rm_arroz1$rm[4]
+# # rmlim_100 <- rm_arroz1$rm[5]
+# # 
+# # # Extraemos pendientes (m) e interceptos (b) de las mismas filas
+# # rmm045  <- rm_arroz1$pendiente[2]
+# # rmb045  <- rm_arroz1$intercepto[2]
+# # 
+# # rmm065 <- rm_arroz1$pendiente[3]
+# # rmb065 <- rm_arroz1$intercepto[3]
+# # 
+# # rmm070 <- rm_arroz1$pendiente[4]
+# # rmb070 <- rm_arroz1$intercepto[4]
+# # 
+# # rmm100 <- rm_arroz1$pendiente[5]
+# # rmb100 <- rm_arroz1$intercepto[5]
+# # 
+# # # Calculamos el nuevo raster con todo 100% parametrizado  ------ Ciclo 0508 ------------------------------------------
+# # rm_h_0508b <- ifel(rm_h_0508a < rmlim_045,  (rmm045  * rm_h_0508a) + rmb045,
+# #                        ifel(rm_h_0508a < rmlim_065, (rmm065 * rm_h_0508a) + rmb065,
+# #                             ifel(rm_h_0508a < rmlim_070, (rmm070 * rm_h_0508a) + rmb070,
+# #                                  ifel(rm_h_0508a < rmlim_100, (rmm100 * rm_h_0508a) + rmb100, NA))))
+# # 
+# # rm_45_0508b<- rm_h_0508b
+# # rm_85_0508b<- rm_h_0508b
+# # 
+# # # Calculamos el nuevo raster con todo 100% parametrizado  ------ Ciclo 1203 ------------------------------------------
+# # rm_h_1203b <- ifel(rm_h_1203a < rmlim_045,  (rmm045  * rm_h_1203a) + rmb045,
+# #                    ifel(rm_h_1203a < rmlim_065, (rmm065 * rm_h_1203a) + rmb065,
+# #                         ifel(rm_h_1203a < rmlim_070, (rmm070 * rm_h_1203a) + rmb070,
+# #                              ifel(rm_h_1203a < rmlim_100, (rmm100 * rm_h_1203a) + rmb100, NA))))
+# # 
+# # rm_45_1203b<- rm_h_1203b
+# # rm_85_1203b<- rm_h_1203b
+# # 
+# # # Impresion de las capas finales del factor de exposicion ------------------------
+# # par(mfrow=c(3,2))
+# # plot(rm_h_0508b,col = paleta_semaforo(4),main = "Grado de Aptitud por Radiacion nN media del ciclo historico 0508")
+# # plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# # plot(rm_h_1203b,col = paleta_semaforo(4),main = "Grado de Aptitud por Radiacion nN media del ciclo historico 1203")
+# # plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# 
+# 
+# # ----------------------------------------------------------------------------------------------------
+# # ------------------------------Radiacion solar ciclo de cultivo Porcentaje----------------------------
+# # ----------------------------------------------------------------------------------------------------
+# 
+# # Cargamos las capas raster:
+# rp_h_1 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_01.tif")
+# rp_h_2 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_02.tif")
+# rp_h_3 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_03.tif")
+# rp_h_5 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_05.tif")
+# rp_h_6 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_06.tif")
+# rp_h_7 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_07.tif")
+# rp_h_8 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_08.tif")
+# rp_h_12 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_12.tif")
+#  
+# summary(rp_h_12);summary(rp_h_1); summary(rp_h_2); summary(rp_h_3)
+# summary(rp_h_5);summary(rp_h_6); summary(rp_h_7); summary(rp_h_8)
+# 
+# # Impresion de las capas de nN para cada ciclo:
+# par(mfrow=c(2,1))
+# rp_h_0508<- c(rp_h_5, rp_h_6, rp_h_7, rp_h_8)
+# plot(rp_h_0508)
+# rp_h_1a<- resample(rp_h_1, rp_h_12, method="bilinear")
+# rp_h_1203<- c(rp_h_12, rp_h_1a, rp_h_2, rp_h_3)
+# plot(rp_h_1203)
+#  
+# # Calculo del promedio del nN de cada ciclo:
+# rp_h_0508a<- (rp_h_5 + rp_h_6 + rp_h_7 + rp_h_8) / 4
+# rp_h_1203a<- (rp_h_12 + rp_h_1a + rp_h_2 + rp_h_3) / 4
+#  
+# summary(rp_h_0508a); summary(rp_h_1203a)
+#  
+# par(mfrow=c(2,1))
+# plot(rp_h_0508a,col=paleta_semaforo(100), main="0508")
+# plot(rp_h_1203a,col=paleta_semaforo(100), main="1203")
+#  
+# # Parametros de calculos recta para los tres escenarios:
+#  
+# rp_arroz <- tibble(
+#    rp = c(0, 45, 65, 70, 100),
+#    g_aptitud = c(2, 2, 3, 4, 4)
+# )
+#  
+# rp_arroz1 <- rp_arroz %>%
+#    mutate(
+#    pendiente = (g_aptitud - lag(g_aptitud)) / (rp - lag(rp)),
+#      intercepto = g_aptitud - (pendiente * rp)
+# )
+# print(rp_arroz1)
+# 
+# # Extraemos los límites de precipitación de su columna
+# # Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
+# # a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
+# rplim_45 <- rp_arroz1$rp[2]
+# rplim_65 <- rp_arroz1$rp[3]
+# rplim_70 <- rp_arroz1$rp[4]
+# rplim_100 <- rp_arroz1$rp[5]
+#  
+# # Extraemos pendientes (m) e interceptos (b) de las mismas filas
+# rpm45  <- rp_arroz1$pendiente[2]
+# rpb45  <- rp_arroz1$intercepto[2]
+#  
+# rpm65 <- rp_arroz1$pendiente[3]
+# rpb65 <- rp_arroz1$intercepto[3]
+#  
+# rpm70 <- rp_arroz1$pendiente[4]
+# rpb70 <- rp_arroz1$intercepto[4]
+#  
+# rpm100 <- rp_arroz1$pendiente[5]
+# rpb100 <- rp_arroz1$intercepto[5]
+#  
+# # Calculamos el nuevo raster con todo 100% parametrizado  ------ Ciclo 0508 ------------------------------------------
+# rp_h_0508b <- ifel(rp_h_0508a < rplim_45,  (rpm45  * rp_h_0508a) + rpb45,
+#                         ifel(rp_h_0508a < rplim_65, (rpm65 * rp_h_0508a) + rpb65,
+#                              ifel(rp_h_0508a < rplim_70, (rpm70 * rp_h_0508a) + rpb70,
+#                                   ifel(rp_h_0508a < rplim_100, (rpm100 * rp_h_0508a) + rpb100, NA))))
+#  
+# rp_45_0508b<- rp_h_0508b
+# rp_85_0508b<- rp_h_0508b
+#  
+# # Calculamos el nuevo raster con todo 100% parametrizado  ------ Ciclo 1203 ------------------------------------------
+# rp_h_1203b <- ifel(rp_h_1203a < rplim_45,  (rpm45  * rp_h_1203a) + rpb45,
+#                     ifel(rp_h_1203a < rplim_65, (rpm65 * rp_h_1203a) + rpb65,
+#                          ifel(rp_h_1203a < rplim_70, (rpm70 * rp_h_1203a) + rpb70,
+#                               ifel(rp_h_1203a < rplim_100, (rpm100 * rp_h_1203a) + rpb100, NA))))
+#  
+# rp_45_1203b<- rp_h_1203b
+# rp_85_1203b<- rp_h_1203b
+#  
+# # Impresion de las capas finales del factor de exposicion ------------------------
+# par(mfrow=c(2,1))
+# plot(rp_h_0508b,col = paleta_semaforo(4),main = "Grado de Aptitud por Radiacion nN media del ciclo historico 0508")
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# plot(rp_h_1203b,col = paleta_semaforo(4),main = "Grado de Aptitud por Radiacion nN media del ciclo historico 1203")
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
 
 
@@ -1182,9 +1181,10 @@ maiz_h_apt <- ifel(E1_h_min2a <= 1,  1,
                              ifel(E1_h_min2a <= 3,3,4)))
 
 clases_presentes_h <- na.omit(unique(maiz_h_apt)[, 1])
-plot(maiz_h_apt,type = "classes",col=colores_semaforo2[clases_presentes_h],main="Aptitud climatica de las tierras para maiz ciclo Secano | Historico")
+plot(maiz_h_apt,type = "classes",col=colores_semaforo2[clases_presentes_h],main="Aptitud climatica de las tierras para maiz | Historico")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
+# repto el anterior procedmiento que la figura sea de todo el pais:
 E1_h_min_fig<- round(E1_h_min, digits = 3)
 
 E1_h_min_fig1<- ifel(E1_h_min_fig <= 1,  1,
@@ -1192,7 +1192,7 @@ E1_h_min_fig1<- ifel(E1_h_min_fig <= 1,  1,
                                 ifel(E1_h_min_fig <= 3,3,4)))
 
 clases_presentes_h_fig <- na.omit(unique(E1_h_min_fig1)[, 1])
-plot(E1_h_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_h_fig],main="Aptitud climatica de las tierras para maiz ciclo Secano | Historico")
+plot(E1_h_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_h_fig],main="Aptitud climatica de las tierras para maiz | Historico")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
 
