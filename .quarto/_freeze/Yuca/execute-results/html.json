@@ -1,8 +1,8 @@
 {
-  "hash": "1d2cde155498b95825571e925cd2750d",
+  "hash": "ac6e01680539281a01b4c3254fe5b720",
   "result": {
     "engine": "knitr",
-    "markdown": "# Yuca\n\n## Region de exposicion:\n\n\n\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![Distribuccion espacial de la yuca](Yuca_files/figure-html/mapa-yuca-estandar-1.png){fig-align='center' width=672}\n:::\n:::\n\n\n\n\n\nEn Venezuela la superficie total de Region de Exposicion para la **Yuca** es de\" **621.814,5** Km^2^.\n",
+    "markdown": "# Yuca\n\n## Region de exposicion:\n\n\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![](Yuca_files/figure-html/mapa-yuca-estandar-1.png){fig-align='center' width=672}\n:::\n:::\n\n\n\n\nEn Venezuela la superficie total de Region de Exposicion para la **Yuca** es de\" **621.814,5** Km^2^.\n",
     "supporting": [
       "Yuca_files"
     ],

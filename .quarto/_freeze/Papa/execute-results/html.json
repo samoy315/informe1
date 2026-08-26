@@ -1,8 +1,8 @@
 {
-  "hash": "3cecd4a306c5c6c8614e52d321a1c7c1",
+  "hash": "57e3dd30cb10dffc8d3887ddb8d1e016",
   "result": {
     "engine": "knitr",
-    "markdown": "# Papa\n\n## Region de exposicion:\n\n\n\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![Distribuccion espacial de la papa](Papa_files/figure-html/mapa-papa-estandar-1.png){fig-align='center' width=672}\n:::\n:::\n\n\n\n\n\nEn Venezuela la superficie total de Region de Exposicion para la **Papa** es de\" **13.599** Km^2^.\n",
+    "markdown": "# Papa\n\n## Region de exposicion:\n\n\n\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![](Papa_files/figure-html/mapa-papa-estandar-1.png){fig-align='center' width=672}\n:::\n:::\n\n\n\n\n\nEn Venezuela la superficie total de Region de Exposicion para la **Papa** es de\" **13.599** Km^2^.\n",
     "supporting": [
       "Papa_files"
     ],
