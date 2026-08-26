@@ -1,1 +1,0 @@
-"0","plot(st_geometry(venezuela),add=TRUE, border=""black"", lwd=1.5)"

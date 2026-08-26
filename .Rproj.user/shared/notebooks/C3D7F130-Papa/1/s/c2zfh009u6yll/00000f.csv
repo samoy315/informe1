@@ -1,5 +1,7 @@
+"1",""
 "0","#| include: false"
 "0","knitr::opts_chunk$set(echo = TRUE)"
+"0","#options(scipen = 999)"
 "0","library(""terra"")"
 "0","library(""sf"")"
 "0","venezuela <- st_read(""C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Contorno_Venezuela/AOI_linea_referencia1.shp"")"

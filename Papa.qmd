@@ -5,6 +5,7 @@
 ```{r}
 #| include: false
 knitr::opts_chunk$set(echo = TRUE)
+#options(scipen = 999)
 library("terra")
 library("sf")
 venezuela <- st_read("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Contorno_Venezuela/AOI_linea_referencia1.shp")
@@ -21,5 +22,9 @@ re_papa_estandar<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas
 
 plot(re_papa_estandar,main = "Region de exposicion para papa segun criterios estandar",col = "darkgreen", legend=FALSE, cex.main=0.78)
 plot(st_geometry(venezuela),add=TRUE, border="black", lwd=1.5)
+
+area_total_papa<- expanse(re_papa_estandar, unit = "ha")
+a_papa<- format(round(area_total_papa / 100, digits = 1), scientific = FALSE, big.mark = ".", decimal.mark = ",")
 ```
 
+En Venezuela la superficie total de Region de Exposicion para la **Papa** es de" **`r a_papa$area`** Km^2^.

@@ -21,4 +21,9 @@ re_yuca_estandar<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas
 
 plot(re_yuca_estandar,main = "Region de exposicion para yuca segun criterios estandar",col = "darkgreen", legend=FALSE, cex.main=0.78)
 plot(st_geometry(venezuela),add=TRUE, border="black", lwd=1.5)
+
+area_total_yuca<- expanse(re_yuca_estandar, unit = "ha")
+a_yuca<- format(round(area_total_yuca / 100, digits = 1), scientific = FALSE, big.mark = ".", decimal.mark = ",")
 ```
+
+En Venezuela la superficie total de Region de Exposicion para la **Yuca** es de" **`r a_yuca$area`** Km^2^.
