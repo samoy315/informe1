@@ -1,14 +1,14 @@
 {
-    "id": "26E71902",
-    "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/informe1/index.qmd",
-    "project_path": "index.qmd",
+    "id": "EFFCA957",
+    "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/informe1/Maiz.qmd",
+    "project_path": "Maiz.qmd",
     "type": "quarto_markdown",
-    "hash": "1796509664",
+    "hash": "2084862232",
     "contents": "",
     "dirty": false,
-    "created": 1787346495839.0,
+    "created": 1787708736128.0,
     "source_on_save": false,
-    "relative_order": 1,
+    "relative_order": 4,
     "properties": {
         "rmdVisualMode": "false",
         "rmdVisualWrapConfigured": "true",
@@ -16,16 +16,16 @@
         "Source": "Source",
         "docOutlineVisible": "0",
         "rmdVisualCollapsedChunks": "",
-        "rmdVisualModeLocation": "126:0",
-        "cursorPosition": "0,0",
-        "scrollLine": "0"
+        "rmdVisualModeLocation": "1113:586.6666870117188",
+        "cursorPosition": "41,0",
+        "scrollLine": "25"
     },
     "folds": "",
-    "lastKnownWriteTime": 1787764583,
+    "lastKnownWriteTime": 1787766943,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1787764583826,
+    "last_content_update": 1787766943642,
     "read_only": false,
     "read_only_alternatives": []
 }

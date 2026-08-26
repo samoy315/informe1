@@ -1,0 +1,28 @@
+# Cacao
+
+## Region de exposicion:
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(echo = TRUE)
+library("terra")
+library("sf")
+venezuela <- st_read("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Contorno_Venezuela/AOI_linea_referencia1.shp")
+```
+
+```{r}
+#| label: mapa-cacao-estandar
+#| warning: false
+#| message: false
+#| echo: false
+#| fig-align: center
+re_cacao_estandar<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/reg_cacao_estandar.tif")
+
+plot(re_cacao_estandar,main = "Region de exposicion para cafe segun criterios estandar",col = "darkgreen", legend=FALSE, cex.main=0.78)
+plot(st_geometry(venezuela),add=TRUE, border="black", lwd=1.5)
+
+area_total_cacao<- expanse(re_cacao_estandar, unit = "ha")
+a_cacao<- format(round(area_total_cacao / 100, digits = 1), scientific = FALSE, big.mark = ".", decimal.mark = ",")
+```
+
+En Venezuela la superficie total de Region de Exposicion para la **Cacao** es de" **`r a_cacao$area`** Km^2^.

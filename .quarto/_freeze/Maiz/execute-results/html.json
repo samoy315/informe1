@@ -1,8 +1,8 @@
 {
-  "hash": "e2d845bd88bc729b1c3d245a30cad948",
+  "hash": "8c8e7eea97e01079fad6c397785940a5",
   "result": {
     "engine": "knitr",
-    "markdown": "# Maiz\n\n## Region de exposicion:\n\n\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![](Maiz_files/figure-html/mapa-maiz-estandar-1.png){fig-align='center' width=672}\n:::\n:::\n\n\n\n\nEn Venezuela la superficie total de Region de Exposicion para la **Maiz** es de\" **315.856,6** Km^2^.\n",
+    "markdown": "# Maiz\n\nDescripcion brebe de lo que se trate este tipo de utilizacion de la tierra del maiz, como: fecha de siembra, duracin del ciclo, si usa riego o no, etc\n\n## Region de exposicion:\n\n\n\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![](Maiz_files/figure-html/mapa-maiz-estandar-1.png){fig-align='center' width=672}\n:::\n:::\n\n\n\n\n\nEn Venezuela la superficie total de Region de Exposicion para el **Maiz** es de\" **315.856,6** Km^2^.\n\n## Factores de Exposicion\n\n#### Precipitacion del ciclo de cultivo:\n\n![](./images/maiz/fe_ppciclo.png)\n\n#### Precipitacion del mes de mayo:\n\n![](./images/maiz/maiz_fe_pp_mayo.png)\n\n#### Precipitacion del mes de junio:\n![](./images/maiz/maiz_fe_pp_junio.png)\n<!-- #### Precipitacion del mes de julio:\n![](./images/maiz/fe_ppciclo.png)\n#### Precipitacion del mes de agosto:\n![](./images/maiz/fe_ppciclo.png)\n#### Temperatura media del ciclo de cultivo:\n![](./images/maiz/fe_ppciclo.png)\n#### Temperatura minima del ciclo de cultivo:\n![](./images/maiz/fe_ppciclo.png)\n-->\n\n## Aptitud climatica de las tierras\n\n#### Preciptacion\n\n#### Tempertura\n\n## Amenaza\n",
     "supporting": [
       "Maiz_files"
     ],
