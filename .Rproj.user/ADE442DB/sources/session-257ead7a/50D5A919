@@ -3,7 +3,7 @@
     "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/6_Maiz/apt_maiz.R",
     "project_path": null,
     "type": "r_source",
-    "hash": "2616071729",
+    "hash": "0",
     "contents": "",
     "dirty": false,
     "created": 1787760893752.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "1195,23",
-        "scrollLine": "1158"
+        "cursorPosition": "1349,0",
+        "scrollLine": "1313"
     },
     "folds": "",
-    "lastKnownWriteTime": 1787782973,
+    "lastKnownWriteTime": 1787794520,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1787782973282,
+    "last_content_update": 1787794520331,
     "read_only": false,
     "read_only_alternatives": []
 }

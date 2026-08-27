@@ -1184,7 +1184,7 @@ clases_presentes_h <- na.omit(unique(maiz_h_apt)[, 1])
 plot(maiz_h_apt,type = "classes",col=colores_semaforo2[clases_presentes_h],main="Aptitud climatica de las tierras para maiz | Historico")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
-# repto el anterior procedmiento que la figura sea de todo el pais:
+# repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
 E1_h_min_fig<- round(E1_h_min, digits = 3)
 
 E1_h_min_fig1<- ifel(E1_h_min_fig <= 1,  1,
@@ -1215,6 +1215,7 @@ clases_presentes_45 <- na.omit(unique(maiz_45_apt)[, 1])
 plot(maiz_45_apt,type = "classes",col=colores_semaforo2[clases_presentes_45],main="Aptitud climatica de las tierras para maiz ciclo Secano | SSP2-4.5")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
+# repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
 E3_45_min_fig<- round(E3_45_min, digits = 3)
 
 E3_45_min_fig1<- ifel(E3_45_min_fig <= 1,  1,
@@ -1222,7 +1223,7 @@ E3_45_min_fig1<- ifel(E3_45_min_fig <= 1,  1,
                           ifel(E3_45_min_fig <= 3,3,4)))
 
 clases_presentes_45_fig <- na.omit(unique(E3_45_min_fig1)[, 1])
-plot(E3_45_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_45_fig],main="Aptitud climatica de las tierras para maiz ciclo Secano | SSP2-4.5")
+plot(E3_45_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_45_fig],main="Aptitud climatica de las tierras para maiz | SSP2-4.5")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
 
@@ -1245,6 +1246,7 @@ clases_presentes_85 <- na.omit(unique(maiz_85_apt)[, 1])
 plot(maiz_85_apt,type = "classes",col=colores_semaforo2[clases_presentes_85],main="Aptitud climatica de las tierras para maiz ciclo Secano | SSP5-8.5")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
+# repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
 E5_85_min_fig<- round(E5_85_min, digits = 3)
 
 E5_85_min_fig1<- ifel(E5_85_min_fig <= 1,  1,
@@ -1252,7 +1254,7 @@ E5_85_min_fig1<- ifel(E5_85_min_fig <= 1,  1,
                                 ifel(E5_85_min_fig <= 3,3,4)))
 
 clases_presentes_85_fig <- na.omit(unique(E5_85_min_fig1)[, 1])
-plot(E5_85_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_85_fig],main="Aptitud climatica de las tierras para maiz ciclo Secano | SSP5-8.5")
+plot(E5_85_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_85_fig],main="Aptitud climatica de las tierras para maiz | SSP5-8.5")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
 
@@ -1283,7 +1285,7 @@ maiz_45_sen1 <- ifel(maiz_45_sena < -1,  1,
 clases_presentes_sen1_45 <- na.omit(unique(maiz_45_sen1)[, 1])
 
 par(mfrow=c(1,1))
-plot(maiz_45_sen1, type="classes",col=colores_semaforo1[clases_presentes_sen1_45], main="Amenaza del cambio climatico sobre el maiz ciclo Secano | SSP2-4.5")
+plot(maiz_45_sen1, type="classes",col=colores_semaforo1[clases_presentes_sen1_45], main="Amenaza del cambio climatico sobre el maiz | SSP2-4.5")
 plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
 
 # ------------------Diferencia entre el escenario SSP5-8.5 menos Historico:
@@ -1301,7 +1303,7 @@ maiz_85_sen1 <- ifel(maiz_85_sena < -1,  1,
 clases_presentes_sen1_85 <- na.omit(unique(maiz_85_sen1)[, 1])
 
 par(mfrow=c(1,1))
-plot(maiz_85_sen1, type="classes",col=colores_semaforo1[clases_presentes_sen1_85], main="Amenaza del cambio climatico sobre el maiz ciclo Secano | SSP5-8.5")
+plot(maiz_85_sen1, type="classes",col=colores_semaforo1[clases_presentes_sen1_85], main="Amenaza del cambio climatico sobre el maiz | SSP5-8.5")
 plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
 
 
@@ -1321,7 +1323,7 @@ maiz_45_A_Apt1 <- ifel(maiz_45_A_Apta <= 2,  4,
 clases_presentes_A_Apt_45 <- na.omit(unique(maiz_45_A_Apt1)[, 1])
 
 par(mfrow=c(1,1))
-plot(maiz_45_A_Apt1, type="classes",col=colores_semaforo1[clases_presentes_A_Apt_45], main="Impacto del cambio climatico sobre el maiz ciclo Secano | SSP2-4.5")
+plot(maiz_45_A_Apt1, type="classes",col=colores_semaforo1[clases_presentes_A_Apt_45], main="Impacto del cambio climatico sobre el maiz | SSP2-4.5")
 plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
 
 
@@ -1339,7 +1341,7 @@ maiz_85_A_Apt1 <- ifel(maiz_85_A_Apta <= 2,  4,
 clases_presentes_A_Apt_85 <- na.omit(unique(maiz_85_A_Apt1)[, 1])
 
 par(mfrow=c(1,1))
-plot(maiz_85_A_Apt1, type="classes",col=colores_semaforo1[clases_presentes_A_Apt_85], main="Impacto del cambio climatico sobre el arroz ciclo Secano | SSP5-8.5")
+plot(maiz_85_A_Apt1, type="classes",col=colores_semaforo1[clases_presentes_A_Apt_85], main="Impacto del cambio climatico sobre el maiz | SSP5-8.5")
 plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
 
 

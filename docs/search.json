@@ -144,7 +144,7 @@
     "href": "Maiz.html#aptitud-climatica-de-las-tierras",
     "title": "Maiz",
     "section": "Aptitud climatica de las tierras",
-    "text": "Aptitud climatica de las tierras\n\n\nPreciptacion\n\n\nTempertura",
+    "text": "Aptitud climatica de las tierras\n\nEscenario Historico o base:\n\n\n\nEscenario SSP2-4.5:\n\n\n\nEscenario SSP5-8.5:",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Maiz</span>"
     ]
@@ -154,7 +154,17 @@
     "href": "Maiz.html#amenaza",
     "title": "Maiz",
     "section": "Amenaza",
-    "text": "Amenaza",
+    "text": "Amenaza\n\nEscenario SSP2-4.5:\n\n\n\nEscenario SSP5-8.5:",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Maiz</span>"
+    ]
+  },
+  {
+    "objectID": "Maiz.html#impacto",
+    "href": "Maiz.html#impacto",
+    "title": "Maiz",
+    "section": "Impacto",
+    "text": "Impacto\n\nEscenario SSP2-4.5:\n\n\n\nEscenario SSP5-8.5:",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Maiz</span>"
     ]
