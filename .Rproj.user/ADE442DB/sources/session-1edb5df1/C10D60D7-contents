@@ -1,0 +1,93 @@
+# Maiz
+
+Descripcion brebe de lo que se trate este tipo de utilizacion de la tierra del maiz, como: fecha de siembra, duracin del ciclo, si usa riego o no, etc
+
+## Region de exposicion:
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(echo = TRUE)
+library("terra")
+library("sf")
+venezuela <- st_read("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Contorno_Venezuela/AOI_linea_referencia1.shp")
+```
+
+```{r}
+#| label: mapa-maiz-estandar
+#| warning: false
+#| message: false
+#| echo: false
+#| fig-align: center
+re_maiz_estandar<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/reg_maiz_estandar.tif")
+
+plot(re_maiz_estandar,main = "Region de exposicion para maiz segun criterios estandar",col = "darkgreen", legend=FALSE, cex.main=0.78)
+plot(st_geometry(venezuela),add=TRUE, border="black", lwd=1.5)
+
+area_total_maiz<- expanse(re_maiz_estandar, unit = "ha")
+a_maiz<- format(round(area_total_maiz / 100, digits = 1), scientific = FALSE, big.mark = ".", decimal.mark = ",")
+```
+
+En Venezuela la superficie total de Region de Exposicion para el **Maiz** es de" **`r a_maiz$area`** Km^2^.
+
+## Factores de Exposicion
+
+#### 1. Precipitacion del ciclo de cultivo:
+
+![](./images/maiz/fe_ppciclo.png)
+
+#### 2. Precipitacion del mes de mayo:
+
+![](./images/maiz/maiz_fe_pp_mayo.png)
+
+#### 3. Precipitacion del mes de junio:
+![](./images/maiz/maiz_fe_pp_junio.png)
+
+#### 4. Precipitacion del mes de julio:
+![](./images/maiz/maiz_fe_pp_julio.png)
+
+#### 5. Precipitacion del mes de agosto:
+![](./images/maiz/maiz_fe_pp_agosto.png)
+
+#### 6. Temperatura media del ciclo de cultivo:
+![](./images/maiz/maiz_fe_tem_ciclo.png)
+
+#### 7. Temperatura minima del ciclo de cultivo:
+![](./images/maiz/maiz_fe_tim_ciclo7.png)
+
+## Aptitud climatica de las tierras
+
+#### Escenario Historico o Base:
+
+![](./images/maiz/maiz_aptitud_min_historico1.png)
+
+#### Escenario SSP2-4.5:
+
+![](./images/maiz/maiz_aptitud_min_ssp45.png)
+
+#### Escenario SSP5-8.5:
+
+![](./images/maiz/maiz_aptitud_min_ssp85.png)
+
+## Amenaza
+
+#### Cambio con respecto al Escenario SSP2-4.5:
+
+![](./images/maiz/maiz_amenaza_min_ssp45.png)
+
+#### Cambio con respecto al Escenario SSP5-8.5:
+
+![](./images/maiz/maiz_amenaza_min_ssp85.png)
+
+<!--## Impacto
+
+#### Escenario SSP2-4.5:
+
+![](./images/maiz/maiz_impacto_min_ssp45.png)
+
+#### Escenario SSP5-8.5:
+
+![](./images/maiz/maiz_impacto_min_ssp85.png)
+
+
+-->
+

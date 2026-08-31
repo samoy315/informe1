@@ -34,7 +34,7 @@
     "href": "Cafe.html",
     "title": "Cafe",
     "section": "",
-    "text": "Region de exposicion:\nEn Venezuela la superficie total de Region de Exposicion para la Cafe es de” 29.097,4 Km2.",
+    "text": "Region de exposicion:\nDescripcion brebe de lo que se trate este tipo de utilizacion de la tierra del maiz, como: fecha de siembra, duracin del ciclo, si usa riego o no, etc\nEn Venezuela la superficie total de Region de Exposicion para el Cafe es de” 29.097,4 Km2.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Cafe</span>"
     ]
@@ -247,6 +247,16 @@
     "text": "Amenaza Nortes (Diciembre a Marzo)\n\nCambios con respecto al Escenarios SSP2-4.5:\n\n\n\nCambios con respecto al Escenario SSP5-8.5:",
     "crumbs": [
       "Arroz"
+    ]
+  },
+  {
+    "objectID": "Cafe.html#factores-de-exposicion",
+    "href": "Cafe.html#factores-de-exposicion",
+    "title": "Cafe",
+    "section": "Factores de Exposicion",
+    "text": "Factores de Exposicion\n\n1. Precipitacion media anual:\n\n\n\n2. Periodo de humedad (Dias secos) al año:\n\n\n\n3. Temperatura maxima anual:\n\n\n\n4. Temperatura minima del mes mas frio:\n\n\n\n5. Tempertura media anual:\n\n\n\n6. Temperatura media del ciclo de cultivo:\n\n\n\n7. Temperatura minima del ciclo de cultivo:",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Cafe</span>"
     ]
   }
 ]
