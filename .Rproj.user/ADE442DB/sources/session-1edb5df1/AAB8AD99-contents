@@ -1224,6 +1224,7 @@ plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
 tam_mes_1203c<- resample(tam_mes_1203b, tem_h_1203a, method="bilinear")
 tim_h_4to_1203c<- resample(tim_h_4to_1203b, tem_h_1203a, method="bilinear")
 rp_h_1203c<- resample(rp_h_1203b, tem_h_1203a, method="bilinear" )
+
 E2_h_1203_min<- min(tem_h_1203a, temd_h_1203, tam_mes_1203c, tim_h_4to_1203c, hr_h_1203a, hr_h_3er_1203a, rp_h_1203c)
 E2_h_1203_min1<- mask(c(tem_h_1203a, temd_h_1203, tam_mes_1203c, tim_h_4to_1203c, hr_h_1203a, hr_h_3er_1203a, rp_h_1203c), re_arroz1)
 names(E2_h_1203_min1)<- c("Temp media", "Temp desarrollo", "Temp maxima mes calido", "Temp minima", "HR media labranza y Vegetativo", "HR en cosecha", "Radiacion solar")
@@ -1259,6 +1260,7 @@ hr_45_1203b<- resample(hr_45_1203a, tem_45_1203a, method="bilinear")
 hr_45_3er_1203b<- resample(hr_45_3er_1203a, tem_45_1203a, method="bilinear")
 rp_45_1203c<- resample(rp_45_1203b, tem_45_1203a, method="bilinear")
 re_arroz2<- resample(re_arroz1, tem_45_1203a)
+
 E4_45_1203_min<- min(tem_45_1203a,  temd_45_1203, tam_45mes_1203c, tim_45_4to_1203b, hr_45_1203b, hr_45_3er_1203b, rp_45_1203c)
 E4_45_1203_min1<- mask(c(tem_45_1203a,  temd_45_1203, tam_45mes_1203c, tim_45_4to_1203b, hr_45_1203b, hr_45_3er_1203b, rp_45_1203c), re_arroz2)
 names(E4_45_1203_min1)<- c("Temp media", "Temp desarrollo", "Temp maxima mes calido", "Temp minima", "HR media labranza y Vegetativo", "HR en cosecha", "Radiacion solar")
@@ -1294,6 +1296,7 @@ hr_85_1203b<- resample(hr_85_1203a, tem_85_1203a, method="bilinear")
 hr_85_3er_1203b<- resample(hr_85_3er_1203a, tem_85_1203a, method="bilinear")
 rp_85_1203c<- resample(rp_85_1203b, tem_85_1203a, method="bilinear")
 re_arroz2<- resample(re_arroz1, tem_85_1203a)
+
 E6_85_1203_min<- min(tem_85_1203a,  temd_85_1203, tam_85mes_1203c, tim_85_4to_1203b, hr_85_1203b, hr_85_3er_1203b, rp_85_1203c)
 E6_85_1203_min1<- mask(c(tem_85_1203a,  temd_85_1203, tam_85mes_1203c, tim_85_4to_1203b, hr_85_1203b, hr_85_3er_1203b, rp_85_1203c), re_arroz2)
 names(E6_85_1203_min1)<- c("Temp media", "Temp desarrollo", "Temp maxima mes calido", "Temp minima", "HR media labranza y Vegetativo", "HR en cosecha", "Radiacion solar")
@@ -1318,15 +1321,7 @@ E6_85_1203_min_fig1<- ifel(E6_85_1203_min_fig <= 1,  1,
                                 ifel(E6_85_1203_min_fig <= 3,3,4)))
 
 clases_presentes_85_1203_fig <- na.omit(unique(E6_85_1203_min_fig1)[, 1])
-plot(E6_85_1203_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_85_1203_fig],main="Aptitud climatica de las tierras para Arroz ciclo Secano | SSP5-8.5")
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-
-par(mfrow=c(2,2))
-plot(E2_h_1203_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_h_1203_fig],main="Aptitud climatica de las tierras para Arroz ciclo Norte | Historico", cex.main=0.78)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(E4_45_1203_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_45_1203_fig],main="Aptitud climatica de las tierras para Arroz ciclo Norte | SSP2-4.5", cex.main=0.78)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(E6_85_1203_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_85_1203_fig],main="Aptitud climatica de las tierras para Arroz ciclo Secano | SSP5-8.5", cex.main=0.78)
+plot(E6_85_1203_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_85_1203_fig],main="Aptitud climatica de las tierras para Arroz ciclo Norte | SSP5-8.5")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
 
@@ -1341,12 +1336,11 @@ par(mfrow=c(1,1))
 plot(arroz_45_sen_1203)
 arroz_45_sen_1203a<- round(arroz_45_sen_1203, digits = 3)
 
-arroz_45_sen1_1203 <- ifel(arroz_45_sen_1203a < -1,  1,
-                           ifel(arroz_45_sen_1203a > -1 & arroz_45_sen_1203a < -0.5, 2,
+arroz_45_sen1_1203 <- ifel(arroz_45_sen_1203a <= -1,  1,
+                           ifel(arroz_45_sen_1203a > -1 & arroz_45_sen_1203a <= -0.5, 2,
                                 ifel(arroz_45_sen_1203a > -0.5 & arroz_45_sen_1203a < 0, 3, 4)))
 
 clases_presentes_sen1_45_1203 <- na.omit(unique(arroz_45_sen1_1203)[, 1])
-
 par(mfrow=c(1,1))
 plot(arroz_45_sen1_1203, type="classes",col=colores_semaforo1[clases_presentes_sen1_45_1203], main="Amenaza del cambio climatico sobre el arroz ciclo Norte | SSP2-4.5")
 plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
@@ -1359,12 +1353,11 @@ par(mfrow=c(1,1))
 plot(arroz_85_sen_1203)
 arroz_85_sen_1203a<- round(arroz_85_sen_1203, digits = 3)
 
-arroz_85_sen1_1203 <- ifel(arroz_85_sen_1203a < -1,  1,
-                           ifel(arroz_85_sen_1203a > -1 & arroz_85_sen_1203a < -0.5, 2,
+arroz_85_sen1_1203 <- ifel(arroz_85_sen_1203a <= -1,  1, # PREGUNTA: Se dea <-1 o <= -1
+                           ifel(arroz_85_sen_1203a > -1 & arroz_85_sen_1203a <= -0.5, 2,
                                 ifel(arroz_85_sen_1203a > -0.5 & arroz_85_sen_1203a < 0, 3, 4)))
 
 clases_presentes_sen1_85_1203 <- na.omit(unique(arroz_85_sen1_1203)[, 1])
-
 par(mfrow=c(1,1))
 plot(arroz_85_sen1_1203, type="classes",col=colores_semaforo1[clases_presentes_sen1_85_1203], main="Amenaza del cambio climatico sobre el arroz ciclo Norte | SSP5-8.5")
 plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)

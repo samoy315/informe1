@@ -101,49 +101,49 @@ En Venezuela la superficie total de Region de Exposicion para la **Arroz** es de
 
 ## Aptitud climatica de las tierras Secano (Mayo-Agosto)
 
-#### 1. Escenario Historico o Base:
+### Escenario Historico o Base:
 
 ![](./images/arroz/arroz_aptitud_min_historico_0508.png)
 
-#### 2. Escenario SSP2-4.5:
+#### Escenario SSP2-4.5:
 
 ![](./images/arroz/arroz_aptitud_min_ssp45_0508.png)
 
-#### 3. Escenario SSP5-8.5:
+### Escenario SSP5-8.5:
 
 ![](./images/arroz/arroz_aptitud_min_ssp85_0508.png)
 
 ## Amenaza Secano (Mayo a Agosto)
 
-#### 1. Escenarios SSP2-4.5
+### Escenarios SSP2-4.5
 
-#### 2. Escenario SSP5-8.5
+![](./images/arroz/arroz_amenaza_min_ssp45_0508.png)
+
+### Escenario SSP5-8.5
+
+![](./images/arroz/arroz_amenaza_min_ssp85_0508.png)
 
 ## Aptitud climatica de las tierras Norets (Diciembre-Marzo)
 
-#### 1. Escenario SSP2-4.5
+### Escenario Historico
 
-#### 2. Escenario SSP5-8.5
+![](./images/arroz/arroz_aptitud_min_historico_1203.png)
 
-![](./images/maiz/maiz_aptitud_min_historico1.png)
+### Escenario SSP2-4.5
 
-#### 2. Escenario SSP2-4.5:
-
-![](./images/maiz/maiz_aptitud_min_ssp45.png)
-
-#### 3. Escenario SSP5-8.5:
-
-![](./images/maiz/maiz_aptitud_min_ssp85.png)
+![](./images/arroz/arroz_aptitud_min_ssp45_1203.png)
 
 
-## Amenaza
+### Escenario SSP5-8.5
 
-#### Escenario SSP2-4.5:
+![](./images/arroz/arroz_aptitud_min_ssp85_1203.png)
 
-![](./images/maiz/maiz_amenaza_min_ssp45.png)
+## Amenaza Nortes (Diciembre a Marzo)
 
-#### Escenario SSP5-8.5:
+### Cambios con respecto al Escenarios SSP2-4.5:
 
-![](./images/maiz/maiz_amenaza_min_ssp85.png)
+![](./images/arroz/arroz_amenaza_min_ssp45_1203.png)
 
--->
+### Cambios con respecto al Escenario SSP5-8.5:
+
+![](./images/arroz/arroz_amenaza_min_ssp85_1203.png)

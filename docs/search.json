@@ -214,7 +214,7 @@
     "href": "Arroz.html#aptitud-climatica-de-las-tierras-secano-mayo-agosto",
     "title": "Arroz",
     "section": "Aptitud climatica de las tierras Secano (Mayo-Agosto)",
-    "text": "Aptitud climatica de las tierras Secano (Mayo-Agosto)\n\n1. Escenario Historico o Base:\n\n\n\n2. Escenario SSP2-4.5:\n\n\n\n3. Escenario SSP5-8.5:",
+    "text": "Aptitud climatica de las tierras Secano (Mayo-Agosto)\n\nEscenario Historico o Base:\n\n\nEscenario SSP2-4.5:\n\n\n\n\nEscenario SSP5-8.5:",
     "crumbs": [
       "Arroz"
     ]
@@ -224,7 +224,7 @@
     "href": "Arroz.html#amenaza-secano-mayo-a-agosto",
     "title": "Arroz",
     "section": "Amenaza Secano (Mayo a Agosto)",
-    "text": "Amenaza Secano (Mayo a Agosto)\n\n1. Escenarios SSP2-4.5\n\n\n2. Escenario SSP5-8.5",
+    "text": "Amenaza Secano (Mayo a Agosto)\n\nEscenarios SSP2-4.5\n\n\n\nEscenario SSP5-8.5",
     "crumbs": [
       "Arroz"
     ]
@@ -234,7 +234,17 @@
     "href": "Arroz.html#aptitud-climatica-de-las-tierras-norets-diciembre-marzo",
     "title": "Arroz",
     "section": "Aptitud climatica de las tierras Norets (Diciembre-Marzo)",
-    "text": "Aptitud climatica de las tierras Norets (Diciembre-Marzo)\n\n1. Escenario SSP2-4.5\n\n\n2. Escenario SSP5-8.5\n\n\n\n2. Escenario SSP2-4.5:\n\n\n\n3. Escenario SSP5-8.5:",
+    "text": "Aptitud climatica de las tierras Norets (Diciembre-Marzo)\n\nEscenario Historico\n\n\n\nEscenario SSP2-4.5\n\n\n\nEscenario SSP5-8.5",
+    "crumbs": [
+      "Arroz"
+    ]
+  },
+  {
+    "objectID": "Arroz.html#amenaza-nortes-diciembre-a-marzo",
+    "href": "Arroz.html#amenaza-nortes-diciembre-a-marzo",
+    "title": "Arroz",
+    "section": "Amenaza Nortes (Diciembre a Marzo)",
+    "text": "Amenaza Nortes (Diciembre a Marzo)\n\nCambios con respecto al Escenarios SSP2-4.5:\n\n\n\nCambios con respecto al Escenario SSP5-8.5:",
     "crumbs": [
       "Arroz"
     ]
