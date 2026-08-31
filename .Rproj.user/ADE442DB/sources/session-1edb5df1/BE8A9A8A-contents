@@ -337,8 +337,7 @@ names(tim_m11) <- "noviembre"; names(tim_m12) <- "diciembre"
 tim_mes<- c(tim_m1, tim_m2, tim_m3, tim_m4, tim_m5, tim_m6, tim_m7, tim_m8, tim_m9, tim_m10, tim_m11, tim_m12)
 names(tim_mes)
 
-plot(tim_mes,
-     col = paleta_temperatura(100))
+plot(tim_mes,col = paleta_temperatura(100))
 
 tim_mes1<- app(tim_mes, fun = min, na.rm = TRUE)
 summary(tim_mes1)
@@ -347,13 +346,9 @@ summary(tim_mes1a)
 
 mes_mas_frio_min <- app(tim_mes, fun = which.min)
 
-plot(mes_mas_frio_min,
-     col = paleta_semaforo(100),
-     main= "Mes mas frio escenario historico")
-
-plot(tim_mes1,
-     col=paleta_temperatura(100),
-     main="Temperatura minima del mes mas frio escenario historico")
+par(mfrow=c(2,1))
+plot(mes_mas_frio_min,col = paleta_semaforo(100),main= "Mes mas frio escenario historico")
+plot(tim_mes1,col=paleta_temperatura(100),main="Temperatura minima del mes mas frio escenario historico")
 
 #--------------------------------------------------------
 #buscamos el mes mas frio del año para el escenario SP45:
@@ -379,8 +374,7 @@ tim_45mes<- c(tim_45m1, tim_45m2, tim_45m3, tim_45m4, tim_45m5, tim_45m6, tim_45
 names(tim_45mes)
 
 par(mfrow=c(1,1))
-plot(tim_45mes,
-     col = paleta_temperatura(100))
+plot(tim_45mes,col = paleta_temperatura(100))
 
 tim_45mes1<- app(tim_45mes, fun = min, na.rm = TRUE)
 summary(tim_45mes1)
@@ -389,14 +383,9 @@ summary(tim_45mes1a)
 
 mes_mas_frio_min45 <- app(tim_45mes, fun = which.min)
 
-par(mfrow=c(1,2))
-plot(mes_mas_frio_min45,
-     col = paleta_semaforo(100),
-     main="Mes mas frio escenario SP45")
-
-plot(tim_45mes1,
-     col= paleta_temperatura(100),
-     main="Temperatura minima del mes mas frio escenario SP45")
+par(mfrow=c(2,1))
+plot(mes_mas_frio_min45,col = paleta_semaforo(100),main="Mes mas frio escenario SP45")
+plot(tim_45mes1,col= paleta_temperatura(100),main="Temperatura minima del mes mas frio escenario SSP2-4.5")
 
 #--------------------------------------------------------
 #buscamos el mes mas frio del año para el escenario SP85:
@@ -422,22 +411,16 @@ tim_85mes<- c(tim_85m1, tim_85m2, tim_85m3, tim_85m4, tim_85m5, tim_85m6, tim_85
 names(tim_85mes)
 
 par(mfrow=c(1,1))
-plot(tim_85mes,
-     col = paleta_temperatura(100))
+plot(tim_85mes,col = paleta_temperatura(100))
 
 tim_85mes1<- app(tim_85mes, fun = min, na.rm = TRUE)
 summary(tim_85mes1)
 
 mes_mas_frio_min85 <- app(tim_85mes, fun = which.min)
 
-par(mfrow=c(1,1))
-plot(mes_mas_frio_min85,
-     col = paleta_semaforo(100),
-     main="Mes mas frio escenario SP85")
-
-plot(tim_85mes1,
-     col= paleta_temperatura(100),
-     main="Temperatura minima del mes mas frio escenario SP85")
+par(mfrow=c(2,1))
+plot(mes_mas_frio_min85,col = paleta_semaforo(100),main="Mes mas frio escenario SP85")
+plot(tim_85mes1,col= paleta_temperatura(100),main="Temperatura minima del mes mas frio escenario SP85")
 
 # Imprimir el mes mas frio para cada escenario climatico:
 
@@ -446,19 +429,11 @@ meses_presentes_h <- na.omit(unique(mes_mas_frio_min)[, 1])
 meses_presentes_45 <- na.omit(unique(mes_mas_frio_min45)[, 1])
 meses_presentes_85 <- na.omit(unique(mes_mas_frio_min85)[, 1])
 par(mfrow=c(2,2))
-plot(mes_mas_frio_min,
-     type = "classes",
-     col=colores_meses[meses_presentes_h],
-     main="Mes mas frio historico")
-plot(mes_mas_frio_min45,
-     type = "classes",
-     col=colores_meses[meses_presentes_45],
-     main="Mes mas frio SSP2 4.5")
-plot(mes_mas_frio_min85,
-     type = "classes",
-     col=colores_meses[meses_presentes_85],
-     main="Mes mas frio SSP5 8.5")
+plot(mes_mas_frio_min,type = "classes",col=colores_meses[meses_presentes_h],main="Mes mas frio | historico")
+plot(mes_mas_frio_min45,type = "classes",col=colores_meses[meses_presentes_45],main="Mes mas frio | SSP2-4.5")
+plot(mes_mas_frio_min85,type = "classes",col=colores_meses[meses_presentes_85],main="Mes mas frio | SSP5-8.5")
 
+#Valoracion de parametros:
 tim_mf <- tibble(
   tim_mf = c(0, 4, 7, 10, 14.5, 19, 21, 23, 27),
   g_aptitud = c(0, 1, 2, 3, 4, 3, 2, 1, 0)
@@ -536,29 +511,12 @@ ti_mf_85 <- ifel(tim_85mes1 < tilim_4,  (tim4  * tim_85mes1) + tib4,
                                           ifel(tim_85mes1 < tilim_23,(tim23 * tim_85mes1) + tib23,
                                                ifel(tim_85mes1 < tilim_27,(tim27 * tim_85mes1) + tib27, NA))))))))
 par(mfrow=c(2,2))
-plot(ti_mf_h, 
-     col = paleta_semaforo(4), 
-     main = "Grado de Aptitud por Temperatura minima del mas frio historico")
-plot(st_geometry(venezuela), 
-     add = TRUE, 
-     border = "black",
-     lwd = 1.5)
-plot(ti_mf_45, 
-     col = paleta_semaforo(4), 
-     main = "Grado de Aptitud por Temperatura minim del mas frio SSP2 4.5")
-plot(st_geometry(venezuela), 
-     add = TRUE, 
-     border = "black",
-     lwd = 1.5)
-plot(ti_mf_85,
-     col=paleta_semaforo(4),
-     main="Grado de Aptitud por Temperatura minima del mas frio SSP5 8.5")
-plot(st_geometry(venezuela),
-     add=TRUE,
-     border="black",
-     lwd=1.5)
-
-summary(ti_mf_h); summary(ti_mf_45); summary(ti_mf_85)
+plot(ti_mf_h,col = paleta_semaforo(4),main = "Aptitud climatica por Temperatura minima del mas frio | historico", cex.main=0.9)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+plot(ti_mf_45,col = paleta_semaforo(4),main = "Aptitud climatica por Temperatura minim del mas frio | SSP2-4.5", cex.main=0.9)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+plot(ti_mf_85,col=paleta_semaforo(4),main="Aptitud climatica por Temperatura minima del mas frio | SSP5-8.5", cex.main=0.9)
+plot(st_geometry(venezuela),add=TRUE,border="black",lwd=1.5)
 
 # -----------------------------------------------------------------------------------------------------------------
 # ----------------------Temperatura media anual -------------------------------------------------------------------
@@ -570,15 +528,9 @@ tea_45_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Ra
 tea_85_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_Anual_85.tif")
 
 par(mfrow=c(2,2))
-plot(tea_h_anual,
-     col = paleta_dias_secos (100),
-     main ="Temperatura media media anual historico")
-plot(tea_45_anual,
-     col= paleta_dias_secos(100),
-     main= "Temperatura media media anual SSP2 4.5")
-plot(tea_85_anual,
-     col= paleta_dias_secos(100),
-     main= "Temperatura media media anual SSP5 8.5")
+plot(tea_h_anual,col = paleta_dias_secos (100),main ="Temperatura media media anual historico")
+plot(tea_45_anual,col= paleta_dias_secos(100),main= "Temperatura media media anual SSP2 4.5")
+plot(tea_85_anual,col= paleta_dias_secos(100),main= "Temperatura media media anual SSP5 8.5")
 
 summary(tea_h_anual); summary(tea_45_anual); summary(tea_85_anual)
 
