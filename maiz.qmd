@@ -31,32 +31,32 @@ En Venezuela la superficie total de Region de Exposicion para el **Maiz** es de"
 
 ## Factores de Exposicion
 
-#### Precipitacion del ciclo de cultivo:
+#### 1. Precipitacion del ciclo de cultivo:
 
 ![](./images/maiz/fe_ppciclo.png)
 
-#### Precipitacion del mes de mayo:
+#### 2. Precipitacion del mes de mayo:
 
 ![](./images/maiz/maiz_fe_pp_mayo.png)
 
-#### Precipitacion del mes de junio:
+#### 3. Precipitacion del mes de junio:
 ![](./images/maiz/maiz_fe_pp_junio.png)
 
-#### Precipitacion del mes de julio:
+#### 4. Precipitacion del mes de julio:
 ![](./images/maiz/maiz_fe_pp_julio.png)
 
-#### Precipitacion del mes de agosto:
+#### 5. Precipitacion del mes de agosto:
 ![](./images/maiz/maiz_fe_pp_agosto.png)
 
-#### Temperatura media del ciclo de cultivo:
+#### 6. Temperatura media del ciclo de cultivo:
 ![](./images/maiz/maiz_fe_tem_ciclo.png)
 
-#### Temperatura minima del ciclo de cultivo:
+#### 7. Temperatura minima del ciclo de cultivo:
 ![](./images/maiz/maiz_fe_tim_ciclo7.png)
 
 ## Aptitud climatica de las tierras
 
-#### Escenario Historico o base:
+#### Escenario Historico o Base:
 
 ![](./images/maiz/maiz_aptitud_min_historico1.png)
 
@@ -70,11 +70,11 @@ En Venezuela la superficie total de Region de Exposicion para el **Maiz** es de"
 
 ## Amenaza
 
-#### Escenario SSP2-4.5:
+#### Cambio con respecto al Escenario SSP2-4.5:
 
 ![](./images/maiz/maiz_amenaza_min_ssp45.png)
 
-#### Escenario SSP5-8.5:
+#### Cambio con respecto al Escenario SSP5-8.5:
 
 ![](./images/maiz/maiz_amenaza_min_ssp85.png)
 

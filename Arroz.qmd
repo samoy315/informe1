@@ -29,7 +29,7 @@ En Venezuela la superficie total de Region de Exposicion para la **Arroz** es de
 
 ## Factores de Exposicion
 
-### 1.- Temperatura media del ciclo de cultivo
+### 1. Temperatura media del ciclo de cultivo
 
 #### Ciclo Secano (Mayo a Agosto)
 
@@ -39,7 +39,7 @@ En Venezuela la superficie total de Region de Exposicion para la **Arroz** es de
 
 ![](./images/arroz/arroz_fe_tem_ciclo_1203.png)
 
-### 2.- Temperatura media en la etapa de desarrollo:
+### 2. Temperatura media en la etapa de desarrollo:
 
 #### Ciclo Secano (Mayo a Agosto)
 
@@ -49,7 +49,7 @@ En Venezuela la superficie total de Region de Exposicion para la **Arroz** es de
 
 ![](./images/arroz/arroz_fe_tem_desarrollo_1203.png)
 
-### 3. Temaperatura maxima del mas calido del ciclo:
+### 3. Temperatura maxima del mas calido del ciclo:
 
 #### Ciclo Secano (Mayo a Agosto)
 
@@ -59,27 +59,82 @@ En Venezuela la superficie total de Region de Exposicion para la **Arroz** es de
 
 ![](./images/arroz/arroz_fe_tam_mescalido_1203.png)
 
-<!--#### Temperatura media del ciclo de cultivo:
+### 4. Temperatura minima durante la maduracion:
 
-![](./images/maiz/maiz_fe_tem_ciclo.png)
+#### Ciclo Secano (Mayo a Agosto)
 
-#### Temperatura minima del ciclo de cultivo:
+![](./images/arroz/arroz_fe_tim_maduracion_0508.png)
 
-![](./images/maiz/maiz_fe_tim_ciclo7.png)
+#### Ciclo Nortes (Diciembre a Marzo)
 
-## Aptitud climatica de las tierras
+![](./images/arroz/arroz_fe_tim_maduracion_1203.png)
 
-#### Escenario Historico o base:
+### 5.  Humedad relativa (%) etapas Labranza y vegetativa:
+
+#### Ciclo Secano (Mayo a Agosto)
+
+![](./images/arroz/arroz_fe_hrlv_historico_0508.png)
+
+#### Ciclo Nortes (Diciembre a Marzo)
+
+![](./images/arroz/arroz_fe_hrlv_historico_1203.png)
+
+### 6. Humedad relativa (%) etapa Cosecha:
+
+#### Ciclo Secano (Mayo a Agosto)
+
+![](./images/arroz/arroz_fe_hrc_historico_0508.png)
+
+#### Ciclo Nortes (Diciembre a Marzo)
+
+![](./images/arroz/arroz_fe_hrc_historico_1203.png)
+
+### 7. Radiacion solar promedio durante ciclo de cultivo:
+
+#### Ciclo Secano (Mayo a Agosto)
+
+![](./images/arroz/arroz_fe_rp_istorico_0508.png)
+
+#### Ciclo Nortes (Diciembre a Marzo)
+
+![](./images/arroz/arroz_fe_rp_istorico_1203.png)
+
+## Aptitud climatica de las tierras Secano (Mayo-Agosto)
+
+#### 1. Escenario Historico o Base:
+
+![](./images/arroz/arroz_aptitud_min_historico_0508.png)
+
+#### 2. Escenario SSP2-4.5:
+
+![](./images/arroz/arroz_aptitud_min_ssp45_0508.png)
+
+#### 3. Escenario SSP5-8.5:
+
+![](./images/arroz/arroz_aptitud_min_ssp85_0508.png)
+
+## Amenaza Secano (Mayo a Agosto)
+
+#### 1. Escenarios SSP2-4.5
+
+#### 2. Escenario SSP5-8.5
+
+## Aptitud climatica de las tierras Norets (Diciembre-Marzo)
+
+#### 1. Escenario SSP2-4.5
+
+#### 2. Escenario SSP5-8.5
 
 ![](./images/maiz/maiz_aptitud_min_historico1.png)
 
-#### Escenario SSP2-4.5:
+#### 2. Escenario SSP2-4.5:
 
 ![](./images/maiz/maiz_aptitud_min_ssp45.png)
 
-#### Escenario SSP5-8.5:
+#### 3. Escenario SSP5-8.5:
 
 ![](./images/maiz/maiz_aptitud_min_ssp85.png)
+
 
 ## Amenaza
 

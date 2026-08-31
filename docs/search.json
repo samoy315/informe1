@@ -134,7 +134,7 @@
     "href": "Maiz.html#factores-de-exposicion",
     "title": "Maiz",
     "section": "Factores de Exposicion",
-    "text": "Factores de Exposicion\n\nPrecipitacion del ciclo de cultivo:\n\n\n\nPrecipitacion del mes de mayo:\n\n\n\nPrecipitacion del mes de junio:\n\n\n\nPrecipitacion del mes de julio:\n\n\n\nPrecipitacion del mes de agosto:\n\n\n\nTemperatura media del ciclo de cultivo:\n\n\n\nTemperatura minima del ciclo de cultivo:",
+    "text": "Factores de Exposicion\n\n1. Precipitacion del ciclo de cultivo:\n\n\n\n2. Precipitacion del mes de mayo:\n\n\n\n3. Precipitacion del mes de junio:\n\n\n\n4. Precipitacion del mes de julio:\n\n\n\n5. Precipitacion del mes de agosto:\n\n\n\n6. Temperatura media del ciclo de cultivo:\n\n\n\n7. Temperatura minima del ciclo de cultivo:",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Maiz</span>"
     ]
@@ -144,7 +144,7 @@
     "href": "Maiz.html#aptitud-climatica-de-las-tierras",
     "title": "Maiz",
     "section": "Aptitud climatica de las tierras",
-    "text": "Aptitud climatica de las tierras\n\nEscenario Historico o base:\n\n\n\nEscenario SSP2-4.5:\n\n\n\nEscenario SSP5-8.5:",
+    "text": "Aptitud climatica de las tierras\n\nEscenario Historico o Base:\n\n\n\nEscenario SSP2-4.5:\n\n\n\nEscenario SSP5-8.5:",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Maiz</span>"
     ]
@@ -154,7 +154,7 @@
     "href": "Maiz.html#amenaza",
     "title": "Maiz",
     "section": "Amenaza",
-    "text": "Amenaza\n\nEscenario SSP2-4.5:\n\n\n\nEscenario SSP5-8.5:",
+    "text": "Amenaza\n\nCambio con respecto al Escenario SSP2-4.5:\n\n\n\nCambio con respecto al Escenario SSP5-8.5:",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Maiz</span>"
     ]
@@ -174,7 +174,7 @@
     "href": "Arroz.html#factores-de-exposicion",
     "title": "Arroz",
     "section": "Factores de Exposicion",
-    "text": "Factores de Exposicion\n\n1.- Temperatura media del ciclo de cultivo\n\nCiclo Secano (Mayo a Agosto)\n\n\n\nCiclo Nortes (Diciembre a Marzo)\n\n\n\n\n2.- Temperatura media en la etapa de desarrollo:\n\nCiclo Secano (Mayo a Agosto)\n\n\n\nCiclo Nortes (Diciembre a Marzo)\n\n\n\n\n3. Temaperatura maxima del mas calido del ciclo:\n\nCiclo Secano (Mayo a Agosto)\n\n\n\nCiclo Nortes (Diciembre a Marzo)",
+    "text": "Factores de Exposicion\n\n1. Temperatura media del ciclo de cultivo\n\nCiclo Secano (Mayo a Agosto)\n\n\n\nCiclo Nortes (Diciembre a Marzo)\n\n\n\n\n2. Temperatura media en la etapa de desarrollo:\n\nCiclo Secano (Mayo a Agosto)\n\n\n\nCiclo Nortes (Diciembre a Marzo)\n\n\n\n\n3. Temperatura maxima del mas calido del ciclo:\n\nCiclo Secano (Mayo a Agosto)\n\n\n\nCiclo Nortes (Diciembre a Marzo)\n\n\n\n\n4. Temperatura minima durante la maduracion:\n\nCiclo Secano (Mayo a Agosto)\n\n\n\nCiclo Nortes (Diciembre a Marzo)\n\n\n\n\n5. Humedad relativa (%) etapas Labranza y vegetativa:\n\nCiclo Secano (Mayo a Agosto)\n\n\n\nCiclo Nortes (Diciembre a Marzo)\n\n\n\n\n6. Humedad relativa (%) etapa Cosecha:\n\nCiclo Secano (Mayo a Agosto)\n\n\n\nCiclo Nortes (Diciembre a Marzo)\n\n\n\n\n7. Radiacion solar promedio durante ciclo de cultivo:\n\nCiclo Secano (Mayo a Agosto)\n\n\n\nCiclo Nortes (Diciembre a Marzo)",
     "crumbs": [
       "Arroz"
     ]
@@ -184,7 +184,7 @@
     "href": "Arroz.html#aptitud-climatica-de-las-tierras",
     "title": "Arroz",
     "section": "Aptitud climatica de las tierras",
-    "text": "Aptitud climatica de las tierras\n\nEscenario Historico o base:\n\n\n\nEscenario SSP2-4.5:\n\n\n\nEscenario SSP5-8.5:",
+    "text": "Aptitud climatica de las tierras\n\nCiclo Secano (Mayo a Agosto)\n\n1. Escenario Historico o Base:\n\n\n\n2. Escenario SSP2-4.5:\n\n\n\n3. Escenario SSP5-8.5:\n\n\n\n\nCiclo Nortes (Diciembre a Marzo)\n\n1. Escenario Historico o Base:\n\n\n\n2. Escenario SSP2-4.5:\n\n\n\n3. Escenario SSP5-8.5:",
     "crumbs": [
       "Arroz"
     ]
@@ -194,7 +194,7 @@
     "href": "Arroz.html#amenaza",
     "title": "Arroz",
     "section": "Amenaza",
-    "text": "Amenaza\n\nEscenario SSP2-4.5:\n\n\n\nEscenario SSP5-8.5:",
+    "text": "Amenaza\n\nEscenario SSP2-4.5:\n\n\n\nEscenario SSP5-8.5:\n\n–&gt;",
     "crumbs": [
       "Arroz"
     ]
@@ -205,6 +205,36 @@
     "title": "Arroz",
     "section": "Impacto",
     "text": "Impacto\n\nEscenario SSP2-4.5:\n\n\n\nEscenario SSP5-8.5:",
+    "crumbs": [
+      "Arroz"
+    ]
+  },
+  {
+    "objectID": "Arroz.html#aptitud-climatica-de-las-tierras-secano-mayo-agosto",
+    "href": "Arroz.html#aptitud-climatica-de-las-tierras-secano-mayo-agosto",
+    "title": "Arroz",
+    "section": "Aptitud climatica de las tierras Secano (Mayo-Agosto)",
+    "text": "Aptitud climatica de las tierras Secano (Mayo-Agosto)\n\n1. Escenario Historico o Base:\n\n\n\n2. Escenario SSP2-4.5:\n\n\n\n3. Escenario SSP5-8.5:",
+    "crumbs": [
+      "Arroz"
+    ]
+  },
+  {
+    "objectID": "Arroz.html#amenaza-secano-mayo-a-agosto",
+    "href": "Arroz.html#amenaza-secano-mayo-a-agosto",
+    "title": "Arroz",
+    "section": "Amenaza Secano (Mayo a Agosto)",
+    "text": "Amenaza Secano (Mayo a Agosto)\n\n1. Escenarios SSP2-4.5\n\n\n2. Escenario SSP5-8.5",
+    "crumbs": [
+      "Arroz"
+    ]
+  },
+  {
+    "objectID": "Arroz.html#aptitud-climatica-de-las-tierras-norets-diciembre-marzo",
+    "href": "Arroz.html#aptitud-climatica-de-las-tierras-norets-diciembre-marzo",
+    "title": "Arroz",
+    "section": "Aptitud climatica de las tierras Norets (Diciembre-Marzo)",
+    "text": "Aptitud climatica de las tierras Norets (Diciembre-Marzo)\n\n1. Escenario SSP2-4.5\n\n\n2. Escenario SSP5-8.5\n\n\n\n2. Escenario SSP2-4.5:\n\n\n\n3. Escenario SSP5-8.5:",
     "crumbs": [
       "Arroz"
     ]
