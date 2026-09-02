@@ -1,26 +1,26 @@
 {
-    "id": "AAB8AD99",
-    "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/1_Arroz/apt_arroz.R",
+    "id": "73227435",
+    "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/3_Cafe/apt_cafe.R",
     "project_path": null,
     "type": "r_source",
     "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1787797430773.0,
+    "created": 1788274747715.0,
     "source_on_save": false,
-    "relative_order": 4,
+    "relative_order": 6,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "32,0",
-        "scrollLine": "0"
+        "cursorPosition": "773,0",
+        "scrollLine": "751"
     },
     "folds": "",
-    "lastKnownWriteTime": 1788193437,
+    "lastKnownWriteTime": 1788375746,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1788193437554,
+    "last_content_update": 1788375746644,
     "read_only": false,
     "read_only_alternatives": []
 }

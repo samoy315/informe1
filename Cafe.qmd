@@ -44,10 +44,28 @@ En Venezuela la superficie total de Region de Exposicion para el **Cafe** es de"
 ![](./images/cafe/cafe_fe_timf_anual.png)
 
 #### 5. Tempertura media anual:
-![](./images/cafe/maiz_fe_pp_agosto.png)
+![](./images/cafe/cafe_fe_tem_anual.png)
 
-#### 6. Temperatura media del ciclo de cultivo:
-![](./images/cafe/maiz_fe_tem_ciclo.png)
+## Aptitud cliamtica de las tierras
 
-#### 7. Temperatura minima del ciclo de cultivo:
-![](./images/cafe/maiz_fe_tim_ciclo7.png)
+#### Escenario Historico o Base:
+![](./images/cafe/cafe_aptitud_min_historico.png)
+
+#### Escenario SSP2-4.5:
+
+![](./images/cafe/cafe_aptitud_min_ssp45.png)
+
+#### Escenario SSP5-8.5:
+
+![](./images/cafe/cafe_aptitud_min_ssp85.png)
+
+## Amenaza
+
+#### Cambio con respecto al Escenario SSP2-4.5:
+
+![](./images/cafe/cafe_amenaza_min_ssp45.png)
+
+#### Cambio con respecto al Escenario SSP5-8.5:
+
+![](./images/cafe/cafe_amenaza_min_ssp85.png)
+

@@ -1,0 +1,961 @@
+
+# PROYECYO FAO SOBRE CAMBIO CLIMATICO | jUNIO 2026 | Oscar Silva y Victor Sevila
+# ==================DETERMINACION DE LA APTITU CLIMATICA DE LAS TIERRAS ========================
+#------------------------------------------CAFE-------------------------------------------------
+
+setwd("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/3_Cafe")
+getwd()
+library(dplyr)
+library(terra)
+library(ggplot2)
+library(sf)
+paleta_semaforo <- colorRampPalette(c("red", "orange", "yellow", "green3"))
+paleta_temperatura <- colorRampPalette(c("darkblue", "blue", "skyblue", "yellow","orange", "red"))
+paleta_precipitacion <- colorRampPalette(c("lightblue", "skyblue", "cornflowerblue", "royalblue", "dodgerblue", 'blue', 'darkblue'))
+paleta_dias_secos <- colorRampPalette(c("darkgreen", "green", "palegoldenrod", "yellow", "orange", "red"))
+colores_meses <- c("lightblue", "deepskyblue", "lightgreen", "green", "forestgreen", "yellow", "gold", "orange", "tomato", "red", "saddlebrown", "plum")
+colores_semaforo1<- (c("red", "orange", "yellow", "green"))
+colores_semaforo2<- (c("red", "yellow", "green", "dodgerblue"))
+colores_semaforo3<- (c("dodgerblue", "green", "yellow", "red"))
+venezuela <- st_read("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Contorno_Venezuela/AOI_linea_referencia1.shp")
+
+
+# ==========================EVALUACION DE FACTORES DE EXPOSICION================================
+
+# ----------------------------------------------------------------------------------------------
+# ----------------------------PRECIPITACION MEDIA ANUAL:----------------------------------------
+# ----------------------------------------------------------------------------------------------
+
+# Cargamos las capas raster:
+p_h_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Precipitacion/Anual/P_Anual_WC.tif")
+p_45_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Precipitacion/Anual/p_45_anual.tif")
+p_85_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Precipitacion/Anual/p_85_anual.tif")
+
+par(mfrow=c(2,2))
+plot(p_h_anual,col = paleta_precipitacion(100),main="Precipitacion media anual historico")
+plot(p_45_anual,col = paleta_precipitacion(100),main="Precipitacion media anual SSP2 4.5")
+plot(p_85_anual,col= paleta_precipitacion(100),main= "Precipitacion media anual SSP5 8.5")
+
+summary(p_h_anual); summary(p_45_anual); summary(p_85_anual)
+
+# Valoracion de los parametros:
+pa_cafe <- tibble(
+  pa = c(0, 800, 1000, 1200, 1500, 1800, 2000, 2500, 3680),
+  g_aptitud = c(0, 1, 2, 3, 4, 3, 2 ,2, 2)
+)
+
+pa_cafe1 <- pa_cafe %>%
+  mutate(
+    pendiente = (g_aptitud - lag(g_aptitud)) / (pa - lag(pa)),
+    intercepto = g_aptitud - (pendiente * pa)
+  )
+print(pa_cafe1)
+
+# Extraemos los límites de precipitación de su columna
+# Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
+# a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
+palim_800  <- pa_cafe1$pa[2]
+palim_1000  <- pa_cafe1$pa[3]
+palim_1200 <- pa_cafe1$pa[4]
+palim_1500 <- pa_cafe1$pa[5]
+palim_1800 <- pa_cafe1$pa[6]
+palim_2000 <- pa_cafe1$pa[7]
+palim_2500 <- pa_cafe1$pa[8]
+palim_3680 <- pa_cafe1$pa[9]
+
+# Extraemos pendientes (m) e interceptos (b) de las mismas filas
+pam800  <- pa_cafe1$pendiente[2]
+pab800  <- pa_cafe1$intercepto[2]
+
+pam1000  <- pa_cafe1$pendiente[3]
+pab1000  <- pa_cafe1$intercepto[3]
+
+pam1200 <- pa_cafe1$pendiente[4]
+pab1200 <- pa_cafe1$intercepto[4]
+
+pam1500 <- pa_cafe1$pendiente[5]
+pab1500 <- pa_cafe1$intercepto[5]
+
+pam1800 <- pa_cafe1$pendiente[6]
+pab1800 <- pa_cafe1$intercepto[6]
+
+pam2000 <- pa_cafe1$pendiente[7]
+pab2000 <- pa_cafe1$intercepto[7]
+
+pam2500 <- pa_cafe1$pendiente[8]
+pab2500 <- pa_cafe1$intercepto[8]
+
+pam3680 <- pa_cafe1$pendiente[9]
+pab3680 <- pa_cafe1$intercepto[9]
+
+# Calculamos el nuevo raster con todo 100% parametrizado
+
+p_h_anual1 <- ifel(p_h_anual < palim_800,  (pam800  * p_h_anual) + pab800,
+                 ifel(p_h_anual < palim_1000, (pam1000 * p_h_anual) + pab1000,
+                      ifel(p_h_anual < palim_1200, (pam1200 * p_h_anual) + pab1200,
+                           ifel(p_h_anual < palim_1500, (pam1500 * p_h_anual) + pab1500,
+                                ifel(p_h_anual < palim_1800, (pam1800 * p_h_anual) + pab1800,
+                                     ifel(p_h_anual < palim_2000, (pam2000 * p_h_anual) + pab2000,
+                                          ifel(p_h_anual < palim_2500, (pam2500 * p_h_anual) + pab2500,
+                                               ifel(p_h_anual < palim_3680, (pam3680 * p_h_anual) + pab3680, NA))))))))
+
+p_45_anual1 <- ifel(p_45_anual < palim_800,  (pam800  * p_45_anual) + pab800,
+                   ifel(p_45_anual < palim_1000, (pam1000 * p_45_anual) + pab1000,
+                        ifel(p_45_anual < palim_1200, (pam1200 * p_45_anual) + pab1200,
+                             ifel(p_45_anual < palim_1500, (pam1500 * p_45_anual) + pab1500,
+                                  ifel(p_45_anual < palim_1800, (pam1800 * p_45_anual) + pab1800,
+                                       ifel(p_45_anual < palim_2000, (pam2000 * p_45_anual) + pab2000,
+                                            ifel(p_45_anual < palim_2500, (pam2500 * p_45_anual) + pab2500,
+                                                 ifel(p_45_anual < palim_3680, (pam3680 * p_45_anual) + pab3680, NA))))))))
+
+p_85_anual1 <- ifel(p_85_anual < palim_800,  (pam800  * p_85_anual) + pab800,
+                    ifel(p_85_anual < palim_1000, (pam1000 * p_85_anual) + pab1000,
+                         ifel(p_85_anual < palim_1200, (pam1200 * p_85_anual) + pab1200,
+                              ifel(p_85_anual < palim_1500, (pam1500 * p_85_anual) + pab1500,
+                                   ifel(p_85_anual < palim_1800, (pam1800 * p_85_anual) + pab1800,
+                                        ifel(p_85_anual < palim_2000, (pam2000 * p_85_anual) + pab2000,
+                                             ifel(p_85_anual < palim_2500, (pam2500 * p_85_anual) + pab2500,
+                                                  ifel(p_85_anual < palim_3680, (pam3680 * p_85_anual) + pab3680, NA))))))))
+
+par(mfrow=c(2,2))
+plot(p_h_anual1,col = paleta_semaforo(4),main = "Aptitud climatica de las tierras por precipitacion anual | historico", cex.main=0.9)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+plot(p_45_anual1,col= paleta_semaforo(4),main= "Aptitud climatica de las tierras por precipitacion anual | SSP2-4.5", cex.main=0.9)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)     
+plot(p_85_anual1,col= paleta_semaforo(4),main= "Aptitud climatica de las tierras por precipitacion anual | SSP5-8.5", cex.main=0.9)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)     
+
+# ------------------------------------------------------------------------------------------------
+# ---------------------------------DIAS SECOS:----------------------------------------------------
+# ------------------------------------------------------------------------------------------------
+
+# Cargamos las capas raster:
+ps_h_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Periodos_humedad/DiasSecos_Base.tif")
+ps_45_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Periodos_humedad/DiasSecos_45.tif")
+ps_85_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Periodos_humedad/DiasSecos_48.tif")
+ps_45_anual1 <- ifel(ps_45_anual > 365,  365, ps_45_anual)
+ps_85_anual1 <- ifel(ps_85_anual > 365,  365, ps_85_anual)
+
+summary(ps_h_anual); summary(ps_45_anual1); summary(ps_85_anual1)
+
+#Valoracion de los parametros:
+ps_cafe <- tibble(
+  ps = c(0, 60, 75, 90, 150, 180, 365),
+  g_aptitud = c(0, 1, 4, 3, 2, 1, 0)
+)
+
+ps_cafe1 <- ps_cafe %>%
+  mutate(
+    pendiente = (g_aptitud - lag(g_aptitud)) / (ps - lag(ps)),
+    intercepto = g_aptitud - (pendiente * ps)
+  )
+print(ps_cafe1)
+
+# Extraemos los límites de precipitación de su columna
+# Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
+# a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
+pslim_60  <- ps_cafe1$ps[2]
+pslim_75 <- ps_cafe1$ps[3]
+pslim_90 <- ps_cafe1$ps[4]
+pslim_150 <- ps_cafe1$ps[5]
+pslim_180 <- ps_cafe1$ps[6]
+pslim_365 <- ps_cafe1$ps[7]
+
+# Extraemos pendientes (m) e interceptos (b) de las mismas filas
+psm60  <- ps_cafe1$pendiente[2]
+psb60  <- ps_cafe1$intercepto[2]
+
+psm75 <- ps_cafe1$pendiente[3]
+psb75 <- ps_cafe1$intercepto[3]
+
+psm90 <- ps_cafe1$pendiente[4]
+psb90 <- ps_cafe1$intercepto[4]
+
+psm150 <- ps_cafe1$pendiente[5]
+psb150 <- ps_cafe1$intercepto[5]
+
+psm180 <- ps_cafe1$pendiente[6]
+psb180 <- ps_cafe1$intercepto[6]
+
+psm365 <- ps_cafe1$pendiente[7]
+psb365 <- ps_cafe1$intercepto[7]
+
+# Calculamos el nuevo raster con todo 100% parametrizado
+ps_h_anual1 <- ifel(ps_h_anual < pslim_60,  (psm60  * ps_h_anual) + psb60,
+                 ifel(ps_h_anual < pslim_75, (psm75 * ps_h_anual) + psb75,
+                      ifel(ps_h_anual < pslim_90, (psm90 * ps_h_anual) + psb90,
+                           ifel(ps_h_anual < pslim_150, (psm150 * ps_h_anual) + psb150,
+                                ifel(ps_h_anual < pslim_180, (psm180 * ps_h_anual) + psb180,
+                                     ifel(ps_h_anual < pslim_365,(psm365 * ps_h_anual) + psb365, NA))))))
+
+ps_45_anual2 <- ifel(ps_45_anual1 < pslim_60,  (psm60  * ps_45_anual1) + psb60,
+                    ifel(ps_45_anual1 < pslim_75, (psm75 * ps_45_anual1) + psb75,
+                         ifel(ps_45_anual1 < pslim_90, (psm90 * ps_45_anual1) + psb90,
+                              ifel(ps_45_anual1 < pslim_150, (psm150 * ps_45_anual1) + psb150,
+                                   ifel(ps_45_anual1 < pslim_180, (psm180 * ps_45_anual1) + psb180,
+                                        ifel(ps_45_anual1 < pslim_365,(psm365 * ps_45_anual1) + psb365, NA))))))
+
+ps_85_anual2 <- ifel(ps_85_anual1 < pslim_60,  (psm60  * ps_85_anual1) + psb60,
+                     ifel(ps_85_anual1 < pslim_75, (psm75 * ps_85_anual1) + psb75,
+                          ifel(ps_85_anual1 < pslim_90, (psm90 * ps_85_anual1) + psb90,
+                               ifel(ps_85_anual1 < pslim_150, (psm150 * ps_85_anual1) + psb150,
+                                    ifel(ps_85_anual1 < pslim_180, (psm180 * ps_85_anual1) + psb180,
+                                         ifel(ps_85_anual1 < pslim_365,(psm365 * ps_85_anual1) + psb365, NA))))))
+
+par(mfrow=c(2,2))
+plot(ps_h_anual1,col = paleta_semaforo(4),main = "Aptitud climatica de las tierras por periodo seco | historico", cex.main=0.9)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+plot(ps_45_anual2,col=paleta_semaforo(4),main="Aptitud climatica de las tierras por periodo seco | SSP2 4.5", cex.main=0.9)
+plot(st_geometry(venezuela),add=TRUE,border="black",lwd=1.5)
+plot(ps_85_anual2,col=paleta_semaforo(4),main="Aptitud climatica de las tierras por periodo seco | SSP5 8.5", cex.main=0.9)
+plot(st_geometry(venezuela),add=TRUE,border="black",lwd=1.5)
+
+# ----------------------------------------------------------------------------------------------------
+# ----------------------------Temperatura maxima anual -----------------------------------------------
+# ----------------------------------------------------------------------------------------------------
+
+# Cargamos las capas raster:
+taa_h_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmax/Anual/Tmax_Anual_WC.tif")
+taa_45_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmax/Anual/Tmax_anual_45.tif")
+taa_85_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmax/Anual/Tmax_anual_85.tif")
+
+par(mfrow=c(2,2))
+plot(taa_h_anual,col = paleta_dias_secos (100),main ="Temperatura maxima media anual historico")
+plot(taa_45_anual,col= paleta_dias_secos(100),main= "Temperatura maxima media anual SSP2 4.5")
+plot(taa_85_anual,col= paleta_dias_secos(100),main= "Temperatura maxima media anual SSP5 8.5")
+
+summary(taa_h_anual); summary(taa_45_anual); summary(taa_85_anual)
+
+taa_cafe <- tibble(
+  taa = c(0, 18, 20, 22, 25, 28, 30, 32, 38),
+  g_aptitud = c(0, 1, 2, 3, 4, 3, 2, 1, 0)
+)
+
+taa_cafe1 <- taa_cafe %>%
+  mutate(
+    pendiente = (g_aptitud - lag(g_aptitud)) / (taa - lag(taa)),
+    intercepto = g_aptitud - (pendiente * taa)
+  )
+print(taa_cafe1)
+
+# Extraemos los límites de precipitación de su columna
+# Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
+# a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
+taalim_18  <- taa_cafe1$taa[2]
+taalim_20 <- taa_cafe1$taa[3]
+taalim_22 <- taa_cafe1$taa[4]
+taalim_25 <- taa_cafe1$taa[5]
+taalim_28 <- taa_cafe1$taa[6]
+taalim_30 <- taa_cafe1$taa[7]
+taalim_32 <- taa_cafe1$taa[8]
+taalim_38 <- taa_cafe1$taa[9]
+
+# Extraemos pendientes (m) e interceptos (b) de las mismas filas
+taam18  <- taa_cafe1$pendiente[2]
+taab18  <- taa_cafe1$intercepto[2]
+
+taam20 <- taa_cafe1$pendiente[3]
+taab20 <- taa_cafe1$intercepto[3]
+
+taam22 <- taa_cafe1$pendiente[4]
+taab22 <- taa_cafe1$intercepto[4]
+
+taam25 <- taa_cafe1$pendiente[5]
+taab25 <- taa_cafe1$intercepto[5]
+
+taam28 <- taa_cafe1$pendiente[6]
+taab28 <- taa_cafe1$intercepto[6]
+
+taam30 <- taa_cafe1$pendiente[7]
+taab30 <- taa_cafe1$intercepto[7]
+
+taam32 <- taa_cafe1$pendiente[8]
+taab32 <- taa_cafe1$intercepto[8]
+
+taam38 <- taa_cafe1$pendiente[9]
+taab38 <- taa_cafe1$intercepto[9]
+
+# Calculamos el nuevo raster con todo 100% parametrizado
+taa_h_anual1 <- ifel(taa_h_anual < taalim_18,  (taam18  * taa_h_anual) + taab18,
+                    ifel(taa_h_anual < taalim_20, (taam20 * taa_h_anual) + taab20,
+                         ifel(taa_h_anual < taalim_22, (taam22 * taa_h_anual) + taab22,
+                              ifel(taa_h_anual < taalim_25, (taam25 * taa_h_anual) + taab25,
+                                   ifel(taa_h_anual < taalim_28, (taam28 * taa_h_anual) + taab28,
+                                        ifel(taa_h_anual < taalim_30,(taam30 * taa_h_anual) + taab30,
+                                          ifel(taa_h_anual < taalim_32,(taam32 * taa_h_anual) + taab32,
+                                            ifel(taa_h_anual <= taalim_38,(taam38 * taa_h_anual) + taab38, NA))))))))
+
+taa_45_anual1 <- ifel(taa_45_anual < taalim_18,  (taam18  * taa_45_anual) + taab18,
+                     ifel(taa_45_anual < taalim_20, (taam20 * taa_45_anual) + taab20,
+                          ifel(taa_45_anual < taalim_22, (taam22 * taa_45_anual) + taab22,
+                               ifel(taa_45_anual < taalim_25, (taam25 * taa_45_anual) + taab25,
+                                    ifel(taa_45_anual < taalim_28, (taam28 * taa_45_anual) + taab28,
+                                         ifel(taa_45_anual < taalim_30,(taam30 * taa_45_anual) + taab30,
+                                              ifel(taa_45_anual < taalim_32,(taam32 * taa_45_anual) + taab32, 
+                                                   ifel(taa_45_anual <= taalim_38,(taam38 * taa_45_anual) + taab38, NA))))))))
+
+taa_85_anual1 <- ifel(taa_85_anual < taalim_18,  (taam18  * taa_85_anual) + taab18,
+                      ifel(taa_85_anual < taalim_20, (taam20 * taa_85_anual) + taab20,
+                           ifel(taa_85_anual < taalim_22, (taam22 * taa_85_anual) + taab22,
+                                ifel(taa_85_anual < taalim_25, (taam25 * taa_85_anual) + taab25,
+                                     ifel(taa_85_anual < taalim_28, (taam28 * taa_85_anual) + taab28,
+                                          ifel(taa_85_anual < taalim_30,(taam30 * taa_85_anual) + taab30,
+                                               ifel(taa_85_anual < taalim_32,(taam32 * taa_85_anual) + taab32, 
+                                                    ifel(taa_85_anual <= taalim_38,(taam38 * taa_85_anual) + taab38, NA))))))))
+
+par(mfrow=c(2,2))
+plot(taa_h_anual1,col = paleta_semaforo(4),main = "Aptitud climatica por Temperatura maxima | historico", cex.main=0.9)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+plot(taa_45_anual1,col = paleta_semaforo(4),main = "Aptitud climatica por Temperatura maxima | SSP2-4.5", cex.main=0.9)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+plot(taa_85_anual1,col=paleta_semaforo(4),main="Aptitud climatica por Temperatura maxima | SSP5-8.5", cex.main=0.9)
+plot(st_geometry(venezuela),add=TRUE,border="black",lwd=1.5)
+
+# ------------------------------------------------------------------------------------------------------
+# -------------------------------Temperatura minima MF -------------------------------------------------
+# ------------------------------------------------------------------------------------------------------
+
+#buscamos el mes mas frio del año para el escenario historico:
+#cargamos las capas de tempetura minima:
+tim_m1<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmin/Mensuales/wc21_30s_tmin_01.tif")
+tim_m2<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmin/Mensuales/wc21_30s_tmin_02.tif")
+tim_m3<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmin/Mensuales/wc21_30s_tmin_03.tif")
+tim_m4<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmin/Mensuales/wc21_30s_tmin_04.tif")
+tim_m5<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmin/Mensuales/wc21_30s_tmin_05.tif")
+tim_m6<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmin/Mensuales/wc21_30s_tmin_06.tif")
+tim_m7<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmin/Mensuales/wc21_30s_tmin_07.tif")
+tim_m8<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmin/Mensuales/wc21_30s_tmin_08.tif")
+tim_m9<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmin/Mensuales/wc21_30s_tmin_09.tif")
+tim_m10<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmin/Mensuales/wc21_30s_tmin_10.tif")
+tim_m11<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmin/Mensuales/wc21_30s_tmin_11.tif")
+tim_m12<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmin/Mensuales/wc21_30s_tmin_12.tif")
+
+names(tim_m1) <- "enero"; names(tim_m2) <- "febrero"; names(tim_m3) <- "marzo"; names(tim_m4) <- "abril"; names(tim_m5) <- "mayo"
+names(tim_m6) <- "junio"; names(tim_m7) <- "julio"; names(tim_m8) <- "agosto"; names(tim_m9) <- "septiembre"; names(tim_m10) <- "octubre"
+names(tim_m11) <- "noviembre"; names(tim_m12) <- "diciembre"
+
+tim_mes<- c(tim_m1, tim_m2, tim_m3, tim_m4, tim_m5, tim_m6, tim_m7, tim_m8, tim_m9, tim_m10, tim_m11, tim_m12)
+names(tim_mes)
+
+plot(tim_mes,col = paleta_temperatura(100))
+
+tim_mes1<- app(tim_mes, fun = min, na.rm = TRUE)
+summary(tim_mes1)
+tim_mes1a <- ifel(tim_mes1 < 0, 0, tim_mes1)
+summary(tim_mes1a)
+
+mes_mas_frio_min <- app(tim_mes, fun = which.min)
+
+par(mfrow=c(2,1))
+plot(mes_mas_frio_min,col = paleta_semaforo(100),main= "Mes mas frio escenario historico")
+plot(tim_mes1,col=paleta_temperatura(100),main="Temperatura minima del mes mas frio escenario historico")
+
+#--------------------------------------------------------
+#buscamos el mes mas frio del año para el escenario SP45:
+#cargamos las capas de tempetura minima:
+tim_45m1<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmin/Mensuales/Tmin_mes/tmin01.tif")
+tim_45m2<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmin/Mensuales/Tmin_mes/tmin02.tif")
+tim_45m3<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmin/Mensuales/Tmin_mes/tmin03.tif")
+tim_45m4<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmin/Mensuales/Tmin_mes/tmin04.tif")
+tim_45m5<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmin/Mensuales/Tmin_mes/tmin05.tif")
+tim_45m6<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmin/Mensuales/Tmin_mes/tmin06.tif")
+tim_45m7<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmin/Mensuales/Tmin_mes/tmin07.tif")
+tim_45m8<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmin/Mensuales/Tmin_mes/tmin08.tif")
+tim_45m9<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmin/Mensuales/Tmin_mes/tmin09.tif")
+tim_45m10<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmin/Mensuales/Tmin_mes/tmin10.tif")
+tim_45m11<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmin/Mensuales/Tmin_mes/tmin11.tif")
+tim_45m12<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmin/Mensuales/Tmin_mes/tmin12.tif")
+
+names(tim_45m1) <- "enero"; names(tim_45m2) <- "febrero"; names(tim_45m3) <- "marzo"; names(tim_45m4) <- "abril"; names(tim_45m5) <- "mayo"
+names(tim_45m6) <- "junio"; names(tim_45m7) <- "julio"; names(tim_45m8) <- "agosto"; names(tim_45m9) <- "septiembre"; names(tim_45m10) <- "octubre"
+names(tim_45m11) <- "noviembre"; names(tim_45m12) <- "diciembre"
+
+tim_45mes<- c(tim_45m1, tim_45m2, tim_45m3, tim_45m4, tim_45m5, tim_45m6, tim_45m7, tim_45m8, tim_45m9, tim_45m10, tim_45m11, tim_45m12)
+names(tim_45mes)
+
+par(mfrow=c(1,1))
+plot(tim_45mes,col = paleta_temperatura(100))
+
+tim_45mes1<- app(tim_45mes, fun = min, na.rm = TRUE)
+summary(tim_45mes1)
+tim_45mes1a <- ifel(tim_45mes1 < 0, 0, tim_45mes1)
+summary(tim_45mes1a)
+
+mes_mas_frio_min45 <- app(tim_45mes, fun = which.min)
+
+par(mfrow=c(2,1))
+plot(mes_mas_frio_min45,col = paleta_semaforo(100),main="Mes mas frio escenario SP45")
+plot(tim_45mes1,col= paleta_temperatura(100),main="Temperatura minima del mes mas frio escenario SSP2-4.5")
+
+#--------------------------------------------------------
+#buscamos el mes mas frio del año para el escenario SP85:
+#cargamos las capas de tempetura minima:
+tim_85m1<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_01.tif")
+tim_85m2<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_02.tif")
+tim_85m3<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_03.tif")
+tim_85m4<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_04.tif")
+tim_85m5<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_05.tif")
+tim_85m6<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_06.tif")
+tim_85m7<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_07.tif")
+tim_85m8<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_08.tif")
+tim_85m9<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_09.tif")
+tim_85m10<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_10.tif")
+tim_85m11<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_11.tif")
+tim_85m12<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_12.tif")
+
+names(tim_85m1) <- "enero"; names(tim_85m2) <- "febrero"; names(tim_85m3) <- "marzo"; names(tim_85m4) <- "abril"; names(tim_85m5) <- "mayo"
+names(tim_85m6) <- "junio"; names(tim_85m7) <- "julio"; names(tim_85m8) <- "agosto"; names(tim_85m9) <- "septiembre"; names(tim_85m10) <- "octubre"
+names(tim_85m11) <- "noviembre"; names(tim_85m12) <- "diciembre"
+
+tim_85mes<- c(tim_85m1, tim_85m2, tim_85m3, tim_85m4, tim_85m5, tim_85m6, tim_85m7, tim_85m8, tim_85m9, tim_85m10, tim_85m11, tim_85m12)
+names(tim_85mes)
+
+par(mfrow=c(1,1))
+plot(tim_85mes,col = paleta_temperatura(100))
+
+tim_85mes1<- app(tim_85mes, fun = min, na.rm = TRUE)
+summary(tim_85mes1)
+
+mes_mas_frio_min85 <- app(tim_85mes, fun = which.min)
+
+par(mfrow=c(2,1))
+plot(mes_mas_frio_min85,col = paleta_semaforo(100),main="Mes mas frio escenario SP85")
+plot(tim_85mes1,col= paleta_temperatura(100),main="Temperatura minima del mes mas frio escenario SP85")
+
+# Imprimir el mes mas frio para cada escenario climatico:
+
+par(mfrow=c(2,2))
+meses_presentes_h <- na.omit(unique(mes_mas_frio_min)[, 1])
+meses_presentes_45 <- na.omit(unique(mes_mas_frio_min45)[, 1])
+meses_presentes_85 <- na.omit(unique(mes_mas_frio_min85)[, 1])
+par(mfrow=c(2,2))
+plot(mes_mas_frio_min,type = "classes",col=colores_meses[meses_presentes_h],main="Mes mas frio | historico")
+plot(mes_mas_frio_min45,type = "classes",col=colores_meses[meses_presentes_45],main="Mes mas frio | SSP2-4.5")
+plot(mes_mas_frio_min85,type = "classes",col=colores_meses[meses_presentes_85],main="Mes mas frio | SSP5-8.5")
+
+#Valoracion de parametros:
+tim_mf <- tibble(
+  tim_mf = c(0, 4, 7, 10, 14.5, 19, 21, 23, 27),
+  g_aptitud = c(0, 1, 2, 3, 4, 3, 2, 1, 0)
+)
+
+tim_mf1 <- tim_mf %>%
+  mutate(
+    pendiente = (g_aptitud - lag(g_aptitud)) / (tim_mf - lag(tim_mf)),
+    intercepto = g_aptitud - (pendiente * tim_mf)
+  )
+print(tim_mf1)
+
+# Extraemos los límites de precipitación de su columna
+# Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
+# a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
+tilim_4  <- tim_mf1$tim_mf[2]
+tilim_7 <- tim_mf1$tim_mf[3]
+tilim_10 <- tim_mf1$tim_mf[4]
+tilim_145 <- tim_mf1$tim_mf[5]
+tilim_19 <- tim_mf1$tim_mf[6]
+tilim_21 <- tim_mf1$tim_mf[7]
+tilim_23 <- tim_mf1$tim_mf[8]
+tilim_27 <- tim_mf1$tim_mf[9]
+
+# Extraemos pendientes (m) e interceptos (b) de las mismas filas
+tim4  <- tim_mf1$pendiente[2]
+tib4  <- tim_mf1$intercepto[2]
+
+tim7 <- tim_mf1$pendiente[3]
+tib7 <- tim_mf1$intercepto[3]
+
+tim10 <- tim_mf1$pendiente[4]
+tib10 <- tim_mf1$intercepto[4]
+
+tim145 <- tim_mf1$pendiente[5]
+tib145 <- tim_mf1$intercepto[5]
+
+tim19 <- tim_mf1$pendiente[6]
+tib19 <- tim_mf1$intercepto[6]
+
+tim21 <- tim_mf1$pendiente[7]
+tib21 <- tim_mf1$intercepto[7]
+
+tim23 <- tim_mf1$pendiente[8]
+tib23 <- tim_mf1$intercepto[8]
+
+tim27 <- tim_mf1$pendiente[9]
+tib27 <- tim_mf1$intercepto[9]
+
+# Calculamos el nuevo raster con todo 100% parametrizado
+ti_mf_h <- ifel(tim_mes1a < tilim_4,  (tim4  * tim_mes1a) + tib4,
+                     ifel(tim_mes1a < tilim_7, (tim7 * tim_mes1a) + tib7,
+                          ifel(tim_mes1a < tilim_10, (tim10 * tim_mes1a) + tib10,
+                               ifel(tim_mes1a < tilim_145, (tim145 * tim_mes1a) + tib145,
+                                    ifel(tim_mes1a < tilim_19, (tim19 * tim_mes1a) + tib19,
+                                         ifel(tim_mes1a < tilim_21,(tim21 * tim_mes1a) + tib21,
+                                              ifel(tim_mes1a < tilim_23,(tim23 * tim_mes1a) + tib23,
+                                                   ifel(tim_mes1a < tilim_27,(tim27 * tim_mes1a) + tib27, NA))))))))
+
+ti_mf_45 <- ifel(tim_45mes1a < tilim_4,  (tim4  * tim_45mes1a) + tib4,
+                ifel(tim_45mes1a < tilim_7, (tim7 * tim_45mes1a) + tib7,
+                     ifel(tim_45mes1a < tilim_10, (tim10 * tim_45mes1a) + tib10,
+                          ifel(tim_45mes1a < tilim_145, (tim145 * tim_45mes1a) + tib145,
+                               ifel(tim_45mes1a < tilim_19, (tim19 * tim_45mes1a) + tib19,
+                                    ifel(tim_45mes1a < tilim_21,(tim21 * tim_45mes1a) + tib21,
+                                         ifel(tim_45mes1a < tilim_23,(tim23 * tim_45mes1a) + tib23,
+                                              ifel(tim_45mes1a < tilim_27,(tim27 * tim_45mes1a) + tib27, NA))))))))
+
+ti_mf_85 <- ifel(tim_85mes1 < tilim_4,  (tim4  * tim_85mes1) + tib4,
+                 ifel(tim_85mes1 < tilim_7, (tim7 * tim_85mes1) + tib7,
+                      ifel(tim_85mes1 < tilim_10, (tim10 * tim_85mes1) + tib10,
+                           ifel(tim_85mes1 < tilim_145, (tim145 * tim_85mes1) + tib145,
+                                ifel(tim_85mes1 < tilim_19, (tim19 * tim_85mes1) + tib19,
+                                     ifel(tim_85mes1 < tilim_21,(tim21 * tim_85mes1) + tib21,
+                                          ifel(tim_85mes1 < tilim_23,(tim23 * tim_85mes1) + tib23,
+                                               ifel(tim_85mes1 < tilim_27,(tim27 * tim_85mes1) + tib27, NA))))))))
+par(mfrow=c(2,2))
+plot(ti_mf_h,col = paleta_semaforo(4),main = "Aptitud climatica por Temperatura minima del mas frio | historico", cex.main=0.9)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+plot(ti_mf_45,col = paleta_semaforo(4),main = "Aptitud climatica por Temperatura minim del mas frio | SSP2-4.5", cex.main=0.9)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+plot(ti_mf_85,col=paleta_semaforo(4),main="Aptitud climatica por Temperatura minima del mas frio | SSP5-8.5", cex.main=0.9)
+plot(st_geometry(venezuela),add=TRUE,border="black",lwd=1.5)
+
+# -----------------------------------------------------------------------------------------------------------------
+# ----------------------Temperatura media anual -------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------------
+
+# Cargamos las capas raster:
+tea_h_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Anual/Tmed_Anual_WC.tif")
+tea_45_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Anual/Tmed_Anual_45.tif")
+tea_85_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_Anual_85.tif")
+
+par(mfrow=c(2,2))
+plot(tea_h_anual,col = paleta_dias_secos (100),main ="Temperatura media media anual historico")
+plot(tea_45_anual,col= paleta_dias_secos(100),main= "Temperatura media media anual SSP2-4.5")
+plot(tea_85_anual,col= paleta_dias_secos(100),main= "Temperatura media media anual SSP5-8.5")
+
+summary(tea_h_anual); summary(tea_45_anual); summary(tea_85_anual)
+
+tea_cafe <- tibble(
+  tea = c(0, 10, 15, 16, 19, 22, 24, 26, 33),
+  g_aptitud = c(0, 1, 2, 3, 4, 3, 2, 1, 0)
+)
+
+tea_cafe1 <- tea_cafe %>%
+  mutate(
+    pendiente = (g_aptitud - lag(g_aptitud)) / (tea - lag(tea)),
+    intercepto = g_aptitud - (pendiente * tea)
+  )
+print(tea_cafe1)
+
+# Extraemos los límites de precipitación de su columna
+# Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
+# a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
+tealim_10  <- tea_cafe1$tea[2]
+tealim_15 <- tea_cafe1$tea[3]
+tealim_16 <- tea_cafe1$tea[4]
+tealim_19 <- tea_cafe1$tea[5]
+tealim_22 <- tea_cafe1$tea[6]
+tealim_24 <- tea_cafe1$tea[7]
+tealim_26 <- tea_cafe1$tea[8]
+tealim_33 <- tea_cafe1$tea[9]
+
+# Extraemos pendientes (m) e interceptos (b) de las mismas filas
+team10  <- tea_cafe1$pendiente[2]
+teab10  <- tea_cafe1$intercepto[2]
+
+team15 <- tea_cafe1$pendiente[3]
+teab15 <- tea_cafe1$intercepto[3]
+
+team16 <- tea_cafe1$pendiente[4]
+teab16 <- tea_cafe1$intercepto[4]
+
+team19 <- tea_cafe1$pendiente[5]
+teab19 <- tea_cafe1$intercepto[5]
+
+team22 <- tea_cafe1$pendiente[6]
+teab22 <- tea_cafe1$intercepto[6]
+
+team24 <- tea_cafe1$pendiente[7]
+teab24 <- tea_cafe1$intercepto[7]
+
+team26 <- tea_cafe1$pendiente[8]
+teab26 <- tea_cafe1$intercepto[8]
+
+team33 <- tea_cafe1$pendiente[9]
+teab33 <- tea_cafe1$intercepto[9]
+
+# Calculamos el nuevo raster con todo 100% parametrizado
+tea_h_anual1 <- ifel(tea_h_anual < tealim_10,  (team10  * tea_h_anual) + teab10,
+                     ifel(tea_h_anual < tealim_15, (team15 * tea_h_anual) + teab15,
+                          ifel(tea_h_anual < tealim_16, (team16 * tea_h_anual) + teab16,
+                               ifel(tea_h_anual < tealim_19, (team19 * tea_h_anual) + teab19,
+                                    ifel(tea_h_anual < tealim_22, (team22 * tea_h_anual) + teab22,
+                                         ifel(tea_h_anual < tealim_24,(team24 * tea_h_anual) + teab24,
+                                              ifel(tea_h_anual < tealim_26,(team26 * tea_h_anual) + teab26,
+                                                   ifel(tea_h_anual < tealim_33,(team33 * tea_h_anual) + teab33, NA))))))))
+
+tea_45_anual1 <- ifel(tea_45_anual < tealim_10,  (team10  * tea_45_anual) + teab10,
+                     ifel(tea_45_anual < tealim_15, (team15 * tea_45_anual) + teab15,
+                          ifel(tea_45_anual < tealim_16, (team16 * tea_45_anual) + teab16,
+                               ifel(tea_45_anual < tealim_19, (team19 * tea_45_anual) + teab19,
+                                    ifel(tea_45_anual < tealim_22, (team22 * tea_45_anual) + teab22,
+                                         ifel(tea_45_anual < tealim_24,(team24 * tea_45_anual) + teab24,
+                                              ifel(tea_45_anual < tealim_26,(team26 * tea_45_anual) + teab26,
+                                                   ifel(tea_45_anual < tealim_33,(team33 * tea_45_anual) + teab33, NA))))))))
+
+tea_85_anual1 <- ifel(tea_85_anual < tealim_10,  (team10  * tea_85_anual) + teab10,
+                      ifel(tea_85_anual < tealim_15, (team15 * tea_85_anual) + teab15,
+                           ifel(tea_85_anual < tealim_16, (team16 * tea_85_anual) + teab16,
+                                ifel(tea_85_anual < tealim_19, (team19 * tea_85_anual) + teab19,
+                                     ifel(tea_85_anual < tealim_22, (team22 * tea_85_anual) + teab22,
+                                          ifel(tea_85_anual < tealim_24,(team24 * tea_85_anual) + teab24,
+                                               ifel(tea_85_anual < tealim_26,(team26 * tea_85_anual) + teab26,
+                                                    ifel(tea_85_anual < tealim_33,(team33 * tea_85_anual) + teab33, NA))))))))
+
+par(mfrow=c(2,2))
+plot(tea_h_anual1,col = paleta_semaforo(4),main = "Aptitud climatica por Temperatura media | historico", cex.main=0.9)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+plot(tea_45_anual1,col = paleta_semaforo(4),main = "Aptitud climatica por Temperatura media | SSP2-4.5", cex.main=0.9)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+plot(tea_85_anual1,col=paleta_semaforo(4),main="Aptitud climatica por Temperatura media | SSP5-8.5", cex.main=0.9)
+plot(st_geometry(venezuela),add=TRUE,border="black",lwd=1.5)
+
+
+
+# Estimacion de la APTITUD CLIMATICA de las tierras (MINIMOS O PROMEDIOS)----------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------------
+
+re_cafe<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/reg_cafe_estandar.tif")
+
+# HISTORICO O BASE:---------------------------------------
+
+# Igualando extension de las capas raster:
+taa_h_anual2<- resample(taa_h_anual1, p_h_anual1, method = "near")
+ti_mf_h1<- resample(ti_mf_h, p_h_anual1, method="near")
+
+cafe_h_min<- min(p_h_anual1, ps_h_anual1, taa_h_anual2, ti_mf_h1, tea_h_anual1, na.rm=TRUE) # minimo o aptitud de todo el pais.
+cafe_h_min1<- mask(c(p_h_anual1, ps_h_anual1, taa_h_anual2, ti_mf_h1, tea_h_anual1), re_cafe) # todos los factores cortados a la region de exposicion estanadar.
+names(cafe_h_min1)<- c("PP anual", "Dias secos", "Temp max anual", "Temp min mes mas frio", "Temp media anual") # colocamos nombre a los factores
+cafe_h_min2<- mask(min(c(p_h_anual1, ps_h_anual1, taa_h_anual2, ti_mf_h1, tea_h_anual1)), re_cafe) # minimo o aptitud de solo la region de exposicion.
+cafe_h_min2a<- round(cafe_h_min2, digits = 3) # minimo o aptitud de solo la region de exposicion redondeado a 3 digitos.
+
+par(mfrow=c(1,1))
+plot(cafe_h_min1,col=paleta_semaforo(4))
+
+cafe_h_apt <- ifel(cafe_h_min2a <= 1,  1,
+                   ifel(cafe_h_min2a <= 2,2,
+                        ifel(cafe_h_min2a <= 3,3,4)))
+
+cafe_clases_pre_h <- na.omit(unique(cafe_h_apt)[, 1])
+plot(cafe_h_apt,type = "classes",col=colores_semaforo2[cafe_clases_pre_h],main="Aptitud climatica de las tierras para cafe | Historico")
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+# repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
+cafe_h_min_fig<- round(cafe_h_min, digits = 3)
+
+cafe_h_min_fig1<- ifel(cafe_h_min_fig <= 1,  1,
+                     ifel(cafe_h_min_fig <= 2,2,
+                          ifel(cafe_h_min_fig <= 3,3,4)))
+
+cafe_clases_pre_h_fig <- na.omit(unique(cafe_h_min_fig1)[, 1])
+plot(cafe_h_min_fig1,type = "classes",col=colores_semaforo2[cafe_clases_pre_h_fig],main="Aptitud climatica de las tierras para cafe | Historico", cex.main=1)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+
+# SSP2-4.5:-------------------------------------------------
+
+# Igualando extension de las capas raster:
+taa_45_anual2<- resample(taa_45_anual1, p_45_anual1, method = "bilinear")
+ti_mf_45a<- resample(ti_mf_45, p_45_anual1, method="bilinear")
+ps_45_anual3<- resample(ps_45_anual2, p_45_anual1, method="bilinear")
+tea_45_anual2<- resample(tea_45_anual1, p_45_anual1, method="bilinear")
+re_cafe1<- resample(re_cafe, p_45_anual1, method="bilinear" )
+
+cafe_45_min<- min(p_45_anual1, ps_45_anual3, taa_45_anual2, ti_mf_45a, tea_45_anual2, na.rm=TRUE) # minimo o aptitud de todo el pais.
+cafe_45_min1<- mask(c(p_45_anual1, ps_45_anual3, taa_45_anual2, ti_mf_45a, tea_45_anual2), re_cafe1) # todos los factores cortados a la region de exposicion estanadar.
+names(cafe_45_min1)<- c("PP anual", "Dias secos", "Temp max anual", "Temp min mes frio", "Temp media anual") # colocamos nombre a los factores
+cafe_45_min2<- mask(min(c(p_45_anual1, ps_45_anual3, taa_45_anual2, ti_mf_45a, tea_45_anual2)), re_cafe1) # minimo o aptitud de solo la region de exposicion.
+cafe_45_min2a<- round(cafe_45_min2, digits = 3) # minimo o aptitud de solo la region de exposicion redondeado a 3 digitos.
+
+par(mfrow=c(1,1))
+plot(cafe_45_min1,col=paleta_semaforo(4))
+
+cafe_45_apt <- ifel(cafe_45_min2a <= 1,  1,
+                   ifel(cafe_45_min2a <= 2,2,
+                        ifel(cafe_45_min2a <= 3,3,4)))
+
+cafe_clases_pre_45 <- na.omit(unique(cafe_45_apt)[, 1])
+plot(cafe_45_apt,type = "classes",col=colores_semaforo2[cafe_clases_pre_45],main="Aptitud climatica de las tierras para cafe | SSP2-4.5")
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+# repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
+cafe_45_min_fig<- round(cafe_45_min, digits = 3)
+
+cafe_45_min_fig1<- ifel(cafe_45_min_fig <= 1,  1,
+                       ifel(cafe_45_min_fig <= 2,2,
+                            ifel(cafe_45_min_fig <= 3,3,4)))
+
+cafe_clases_pre_45_fig <- na.omit(unique(cafe_45_min_fig1)[, 1])
+plot(cafe_45_min_fig1,type = "classes",col=colores_semaforo2[cafe_clases_pre_45_fig],main="Aptitud climatica de las tierras para cafe | SSP2-4.5", cex.main=1)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+
+# SSP5-8.5:-------------------------------------------------
+
+# Igualando extension de las capas raster:
+ps_85_anual3<- resample(ps_85_anual2, p_85_anual1, method="bilinear")
+
+cafe_85_min<- min(p_85_anual1, ps_85_anual3, taa_85_anual1, ti_mf_85, tea_85_anual1, na.rm=TRUE) # minimo o aptitud de todo el pais.
+cafe_85_min1<- mask(c(p_85_anual1, ps_85_anual3, taa_85_anual1, ti_mf_85, tea_85_anual1), re_cafe1) # todos los factores cortados a la region de exposicion estanadar.
+names(cafe_85_min1)<- c("PP anual", "Dias secos", "Temp max anual", "Temp min mes frio", "Temp media anual") # colocamos nombre a los factores
+cafe_85_min2<- mask(min(c(p_85_anual1, ps_85_anual3, taa_85_anual1, ti_mf_85, tea_85_anual1)), re_cafe1) # minimo o aptitud de solo la region de exposicion.
+cafe_85_min2a<- round(cafe_85_min2, digits = 3) # minimo o aptitud de solo la region de exposicion redondeado a 3 digitos.
+
+par(mfrow=c(1,1))
+plot(cafe_85_min1,col=paleta_semaforo(4))
+
+cafe_85_apt <- ifel(cafe_85_min2a <= 1,  1,
+                    ifel(cafe_85_min2a <= 2,2,
+                         ifel(cafe_85_min2a <= 3,3,4)))
+
+cafe_clases_pre_85 <- na.omit(unique(cafe_85_apt)[, 1])
+plot(cafe_85_apt,type = "classes",col=colores_semaforo2[cafe_clases_pre_85],main="Aptitud climatica de las tierras para cafe | SSP2-4.5")
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+# repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
+cafe_85_min_fig<- round(cafe_85_min, digits = 3)
+
+cafe_85_min_fig1<- ifel(cafe_85_min_fig <= 1,  1,
+                        ifel(cafe_85_min_fig <= 2,2,
+                             ifel(cafe_85_min_fig <= 3,3,4)))
+
+cafe_clases_pre_85_fig <- na.omit(unique(cafe_85_min_fig1)[, 1])
+plot(cafe_85_min_fig1,type = "classes",col=colores_semaforo2[cafe_clases_pre_85_fig],main="Aptitud climatica de las tierras para cafe | SSP2-8.5", cex.main=1)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+
+# Estimacion de la AMENAZA CLIMATICA de las tierras (DIFERENCIA antigua SENSIBILIDAD)---------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+# ------------------Diferencia entre el escenario SSP2-4.5 menos Historico:
+
+cafe_45_min3 <- resample(cafe_45_min2, cafe_h_min2, method= "near")
+cafe_45_sen<- cafe_45_min3 - cafe_h_min2
+par(mfrow=c(1,1))
+plot(cafe_45_sen)
+cafe_45_sena<- round(cafe_45_sen, digits = 3)
+
+cafe_45_sen1 <- ifel(cafe_45_sena < -1,  1,
+                     ifel(cafe_45_sena > -1 & cafe_45_sena < -0.5, 2,
+                          ifel(cafe_45_sena > -0.5 & cafe_45_sena < 0, 3, 4)))
+
+cafe_clases_pre_sen1_45 <- na.omit(unique(cafe_45_sen1)[, 1])
+
+par(mfrow=c(1,1))
+plot(cafe_45_sen1, type="classes",col=colores_semaforo1[cafe_clases_pre_sen1_45], main="Amenaza del cambio climatico sobre el cafe | SSP2-4.5", cex.main=1)
+plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
+
+# ------------------Diferencia entre el escenario SSP5-8.5 menos Historico:
+
+cafe_85_min3 <- resample(cafe_85_min2, cafe_h_min2, method= "near")
+cafe_85_sen<- cafe_85_min3 - cafe_h_min2
+par(mfrow=c(1,1))
+plot(cafe_85_sen)
+cafe_85_sena<- round(cafe_85_sen, digits = 3)
+
+cafe_85_sen1 <- ifel(cafe_85_sena < -1,  1,
+                     ifel(cafe_85_sena > -1 & cafe_85_sena < -0.5, 2,
+                          ifel(cafe_85_sena > -0.5 & cafe_85_sena < 0, 3, 4)))
+
+cafe_clases_pre_sen1_85 <- na.omit(unique(cafe_85_sen1)[, 1])
+
+par(mfrow=c(1,1))
+plot(cafe_85_sen1, type="classes",col=colores_semaforo1[cafe_clases_pre_sen1_85], main="Amenaza del cambio climatico sobre el cafe | SSP5-8.5", cex.main=1)
+plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ------------------------------------------------------------------------------------------------------------------
+# -----------------------------Clasificacion final de aptitud ------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------
+
+cafe_h_apt <- ifel(cafe_h_min <= 1,  1,
+                 ifel(cafe_h_min <= 2,2,
+                      ifel(cafe_h_min <= 3,3,4)))
+cafe_45_apt <- ifel(cafe_45_min <= 1,  1,
+                   ifel(cafe_45_min <= 2,2,
+                        ifel(cafe_45_min <= 3,3,4)))
+cafe_85_apt <- ifel(cafe_85_min <= 1,  1,
+                    ifel(cafe_85_min <= 2,2,
+                         ifel(cafe_85_min <= 3,3,4)))
+par(mfrow=c(2,2))
+plot(cafe_h_apt, 
+     col = paleta_semaforo(4), 
+     main = "Aptitud climatica de las tierras para Cafe historico")
+plot(st_geometry(venezuela), 
+     add = TRUE, 
+     border = "black",
+     lwd = 1.5)
+plot(cafe_45_apt, 
+     col = paleta_semaforo(4), 
+     main = "Aptitud climatica de las tierras para Cafe SSP2 4.5")
+plot(st_geometry(venezuela), 
+     add = TRUE, 
+     border = "black",
+     lwd = 1.5)
+plot(cafe_85_apt, 
+     col = paleta_semaforo(4), 
+     main = "Aptitud climatica de las tierras para Cafe SSP5 8.5")
+plot(st_geometry(venezuela), 
+     add = TRUE, 
+     border = "black",
+     lwd = 1.5)
+
+summary(cafe_h_apt); summary(cafe_45_apt); summary(cafe_85_apt)
+
+# ----------------------------------------------------------------------------------------------------------
+# ------------------------Valoracion de la Sensibilidad (Diferencia)----------------------------------------
+# ----------------------------------------------------------------------------------------------------------
+
+# Sensibilidad:
+
+cafe_45_min1 <- resample(cafe_45_min, cafe_h_min, method= "near")
+cafe_85_min1 <- resample(cafe_85_min, cafe_h_min, method= "near")
+
+cafe_45_sen<- cafe_45_min1 - cafe_h_min
+cafe_85_sen<- cafe_85_min1 - cafe_h_min
+
+# Clasificacion de la sensibilidad con fines cartograficos:
+
+cafe_45_sen1 <- ifel(cafe_45_sen < -1,  1,
+                   ifel(cafe_45_sen >= -1 & cafe_45_sen < -0.5, 2,
+                        ifel(cafe_45_sen >= -0.5 & cafe_45_sen < 0, 3, 4)))
+
+cafe_85_sen1 <- ifel(cafe_85_sen < -1,  1,
+                     ifel(cafe_85_sen >= -1 & cafe_85_sen < -0.5, 2,
+                          ifel(cafe_85_sen >= -0.5 & cafe_85_sen < 0, 3, 4)))
+
+par(mfrow = c(2, 1))
+plot(cafe_45_sen1,
+     col=paleta_semaforo(4),
+     main="Sensibilidad ante cambio climatico cafe SSP2 4.5")
+plot(cafe_85_sen1,
+     col=paleta_semaforo(4),
+     main="Sensibilidad ante cambio climatico cafe SSP5 8.5")
+     
+# Grado de sensibilidad segun el impacto sobre la aptitud climatica:
+
+cafe_45_A_Apt <- ((-2 * cafe_45_sen) + 2)
+cafe_85_A_Apt <- ((-2 * cafe_85_sen) + 2)
+
+plot(cafe_45_A_Apt,
+     col=paleta_semaforo(4))
+plot(cafe_85_A_Apt,
+     col=paleta_semaforo(4))
+
+summary(cafe_45_A_Apt); summary(cafe_85_A_Apt)
+
+# Clasificacion del gardo de sensibilidad con fines cartograficos:
+
+cafe_45_A_Apt1 <- ifel(cafe_45_A_Apt < 2,  4,
+                     ifel(cafe_45_A_Apt >= 2 & cafe_45_A_Apt < 3, 3,
+                          ifel(cafe_45_A_Apt >= 3 & cafe_45_A_Apt < 4, 2, 1)))
+
+cafe_85_A_Apt1 <- ifel(cafe_85_A_Apt < 2,  4,
+                       ifel(cafe_85_A_Apt >= 2 & cafe_85_A_Apt < 3, 3,
+                            ifel(cafe_85_A_Apt >= 3 & cafe_85_A_Apt < 4, 2, 1)))
+
+par(mfrow=c(1,2), oma = c(0,0,0,0), mar=c(0,0,0,0))
+plot(cafe_45_A_Apt1,
+     col=paleta_semaforo(4),
+     main="Grado de sensibilidad segun impacto climatico SSP2 4.5")
+     
+plot(cafe_85_A_Apt1,
+     col=paleta_semaforo(4),
+     main="Grado de sensibilidad segun impacto climatico SSP5 8.5")
+
+# ----------------------------------------------------------------------------------------------------------
+# --------------------------Crear y ver las paletas de colores ---------------------------------------------
+# ----------------------------------------------------------------------------------------------------------
+
+# ------------------------------Colores verdes -------------------------------------------------------------
+
+# 1. Creamos un vector con la selección de verdes más usados
+mis_verdes <- c(
+  "yellowgreen", "chartreuse3", "chartreuse4", 
+  "lightgreen", "palegreen2", "palegreen3", 
+  "forestgreen", "darkgreen", "green3", "green4",
+  "darkseagreen3", "seagreen4", "mediumseagreen"
+)
+
+# 2. Configurar márgenes para que se lean bien los nombres
+par(mar = c(2, 8, 3, 2))
+
+# 3. Dibujar el gráfico horizontal
+barplot(
+  rep(1, length(mis_verdes)), 
+  col = mis_verdes, 
+  names.arg = mis_verdes, 
+  horiz = TRUE, 
+  las = 1, 
+  border = "white",
+  main = "Selección de Verdes en R"
+)
+
+# ------------------------------Colores azules -------------------------------------------------------------
+
+par(mfrow=c(1,1))
+# 1. Creamos un vector con la selección de azules más usados
+mis_azules <- c(
+  "aliceblue", "lightblue", "lightskyblue", "powderblue", 
+  "skyblue", "dodgerblue", "cornflowerblue", "royalblue", 
+  "steelblue", "cadetblue", "slateblue",
+  "blue", "darkblue", "navy", "midnightblue"
+)
+
+# 2. Configurar márgenes para que los nombres se lean bien
+par(mar = c(2, 8, 3, 2))
+
+# 3. Dibujar el gráfico horizontal
+barplot(
+  rep(1, length(mis_azules)), 
+  col = mis_azules, 
+  names.arg = mis_azules, 
+  horiz = TRUE, 
+  las = 1, 
+  border = "white",
+  main = "Selección de Azules en R"
+)
+
+# ------------------------------Colores amarillos -------------------------------------------------------------
+
+# 1. Creamos un vector con la selección de amarillos y dorados
+mis_amarillos <- c(
+  "lightyellow", "lemonchiffon", "palegoldenrod", 
+  "yellow", "yellow2", "gold", "gold2",
+  "goldenrod", "goldenrod2", "darkgoldenrod"
+)
+
+# 2. Configurar márgenes para que se lean los nombres
+par(mar = c(2, 8, 3, 2))
+
+# 3. Dibujar el gráfico horizontal con bordes grises/negros
+barplot(
+  rep(1, length(mis_amarillos)), 
+  col = mis_amarillos, 
+  names.arg = mis_amarillos, 
+  horiz = TRUE, 
+  las = 1, 
+  border = "gray30",
+  main = "Selección de Amarillos en R"
+)
