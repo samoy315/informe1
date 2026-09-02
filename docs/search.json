@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "",
     "section": "",
-    "text": "Vulnerabilidad de las tierras al cambio climatico",
+    "text": "Vulnerabilidad ante el Cambio Climático del Sector de Agricultura",
     "crumbs": [
       "Introduccion"
     ]
@@ -277,6 +277,26 @@
     "text": "Amenaza\n\nCambio con respecto al Escenario SSP2-4.5:\n\n\n\nCambio con respecto al Escenario SSP5-8.5:",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Cafe</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#objetivo",
+    "href": "index.html#objetivo",
+    "title": "",
+    "section": "Objetivo",
+    "text": "Objetivo\nEstimar el impacto del cambio climático sobre la aptitud climática de las tierras destinadas al sistema de cultivos.",
+    "crumbs": [
+      "Introduccion"
+    ]
+  },
+  {
+    "objectID": "index.html#alcance",
+    "href": "index.html#alcance",
+    "title": "",
+    "section": "Alcance",
+    "text": "Alcance\nEl Subproducto 02 comprende la evaluación de la vulnerabilidad de cultivos según el impacto del cambio climático en la aptitud de las tierras, y se evaluará la variación que sufriría la aptitud climática de las tierras en cuanto a la adaptabilidad productiva de los cultivos.\nLa extensión espacial o alcance superficial del estudio parte de la consideración de las Regiones de exposición, las cuales se refieren al territorio nacional con condiciones fisiográficas y climáticas asociadas a cada uno de los cultivos considerados.\nEn este trabajo se emplearon tres condiciones climáticas. Dos escenarios de cambio climático: SSP2-4.5 y SSP5-8.5, ambos para el periodo 2041 a 2060, y un tercer escenario histórico o base que sirve para la comparación de los cambios de actitud climáticas de las tierras.\nSe seleccionaron 10 cultivos según su importancia en superficie sembrada, valor de la producción y criterios de expertos del INIA, lo que resultó en la siguiente lista: arroz, cacao, café, caña de azúcar, frijol, maíz, naranja, papa, plátano y yuca. Algunos de estos cultivos se subdividen en tipo de utilización o variantes según su fecha de siembra durante el año (inicio o salidas de lluvias) y la implementación o no de riego (Cuadro 1).\n\nCuadro 1. Cultivos y variantes evaluados.\n\n\n\n\nTUT\nCultivo\nRiego\nFecha de siembra\n\n\n\n\n1\nArroz\nSi\nSecano (Mayo)\n\n\n2\nArroz\nSi\nVerano (Diciembre)\n\n\n3\nCacao\nSi\n-\n\n\n4\nCacao\nNo\n-\n\n\n5\nCafe\nNo\n-\n\n\n6\nCaña de azucar\nSi\nSecano (Mayo)\n\n\n7\nCaña de azucar\nSi\nNortes\n\n\n8\nFrijol\nNo\nSalidas de lluvias (Septiembre)\n\n\n9\nMaiz\nNo\nSecano (Mayo)\n\n\n10\nNaranja\nNo\nInicio de lluvias\n\n\n11\nPapa\nNo\n-\n\n\n12\nPlatano\nNo\n-\n\n\n13\nYuca\nNo\nSecano (Mayo)",
+    "crumbs": [
+      "Introduccion"
     ]
   }
 ]
