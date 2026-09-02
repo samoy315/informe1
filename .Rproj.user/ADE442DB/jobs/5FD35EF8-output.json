@@ -88,3 +88,5 @@
 [1,"\r  |                                                       \r  |.................................................| 100%                     \r                                                                                                               \r\noutput file: Cafe.knit.md\r\n\r\n"]
 [1,"pandoc \n  to: html\n  output-file: Cafe.html\n  standalone: true\n  toc: true\n  number-sections: false\n  title-prefix: '<img src=''images/logo7.png'' style=''max-width: 150px;''>'\n  section-divs: true\n  html-math-method: mathjax\n  wrap: none\n  default-image-extension: png\n  css:\n    - styles.css\n  number-offset:\n    - 2\n  \nmetadata\n  crossref:\n    chapters: true\n  document-css: false\n  link-citations: true\n  date-format: long\n  lang: es\n  theme: cosmo\n  hide-description: true\n  title: '[Cafe]{.chapter-title}'\n  \n"]
 [1,"Output created: docs\\Cafe.html\n\nWatching files for changes\n"]
+[1,"GET: /Cafe.html\n"]
+[1,"GET: /Cafe.html\n"]
