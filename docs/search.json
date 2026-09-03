@@ -14,7 +14,7 @@
     "href": "Arroz.html",
     "title": "Arroz",
     "section": "",
-    "text": "Region de exposicion:\nEn Venezuela la superficie total de Region de Exposicion para la Arroz es de” 19.857,7 Km2.",
+    "text": "Region de exposicion:\nLa evaluación de la aptitud climática de las tierras se realizó para el cultivo general de arroz (Oryza sativa), bajo un manejo tradicional y común en el país, principalmente en cuanto a la preparación de tierras, fertilización y riego. Sin embargo, se plantearon dos tipos de utilización del mismo cultivo de arroz, en donde su única diferencia es la fecha de siembra. Uno sembrado en el mes de Mayo (secano) y otro sembrado en diciembre (verano). A continuación se muestran los resultados.\nEn Venezuela la superficie total de Region de Exposicion para la Arroz es de” 19.857,7 Km2.",
     "crumbs": [
       "Arroz"
     ]
@@ -64,7 +64,7 @@
     "href": "Maiz.html",
     "title": "Maiz",
     "section": "",
-    "text": "Region de exposicion:\nDescripcion brebe de lo que se trate este tipo de utilizacion de la tierra del maiz, como: fecha de siembra, duracin del ciclo, si usa riego o no, etc\nEn Venezuela la superficie total de Region de Exposicion para el Maiz es de” 315.856,6 Km2.",
+    "text": "Region de exposicion:\nLa evaluación de la aptitud climática de las tierras se realizó para el cultivo general de maíz (Zea mays L), bajo un manejo tradicional y común en el país, principalmente en cuanto a la preparación de tierras, fertilización y riego. El maíz considerado es blanco y su destino principal es para la agroindustria, además se siembra en el mes de Mayo (secano) y no se emplea riego en su manejo. A continuación se muestran los resultados.\nEn Venezuela la superficie total de Region de Exposicion para el Maiz es de” 315.856,6 Km2.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Maiz</span>"
     ]
@@ -295,6 +295,26 @@
     "title": "",
     "section": "Alcance",
     "text": "Alcance\nEl Subproducto 02 comprende la evaluación de la vulnerabilidad de cultivos según el impacto del cambio climático en la aptitud de las tierras, y se evaluará la variación que sufriría la aptitud climática de las tierras en cuanto a la adaptabilidad productiva de los cultivos.\nLa extensión espacial o alcance superficial del estudio parte de la consideración de las Regiones de exposición, las cuales se refieren al territorio nacional con condiciones fisiográficas y climáticas asociadas a cada uno de los cultivos considerados.\nEn este trabajo se emplearon tres condiciones climáticas. Dos escenarios de cambio climático: SSP2-4.5 y SSP5-8.5, ambos para el periodo 2041 a 2060, y un tercer escenario histórico o base que sirve para la comparación de los cambios de actitud climáticas de las tierras.\nSe seleccionaron 10 cultivos según su importancia en superficie sembrada, valor de la producción y criterios de expertos del INIA, lo que resultó en la siguiente lista: arroz, cacao, café, caña de azúcar, frijol, maíz, naranja, papa, plátano y yuca. Algunos de estos cultivos se subdividen en tipo de utilización o variantes según su fecha de siembra durante el año (inicio o salidas de lluvias) y la implementación o no de riego (Cuadro 1).\n\nCuadro 1. Cultivos y variantes evaluados.\n\n\n\n\nTUT\nCultivo\nRiego\nFecha de siembra\n\n\n\n\n1\nArroz\nSi\nSecano (Mayo)\n\n\n2\nArroz\nSi\nVerano (Diciembre)\n\n\n3\nCacao\nSi\n-\n\n\n4\nCacao\nNo\n-\n\n\n5\nCafe\nNo\n-\n\n\n6\nCaña de azucar\nSi\nSecano (Mayo)\n\n\n7\nCaña de azucar\nSi\nNortes\n\n\n8\nFrijol\nNo\nSalidas de lluvias (Septiembre)\n\n\n9\nMaiz\nNo\nSecano (Mayo)\n\n\n10\nNaranja\nNo\nInicio de lluvias\n\n\n11\nPapa\nNo\n-\n\n\n12\nPlatano\nNo\n-\n\n\n13\nYuca\nNo\nSecano (Mayo)",
+    "crumbs": [
+      "Introduccion"
+    ]
+  },
+  {
+    "objectID": "index.html#objetivo-general",
+    "href": "index.html#objetivo-general",
+    "title": "",
+    "section": "Objetivo general",
+    "text": "Objetivo general\nEvaluar la vulnerabilidad de cultivos según el impacto del cambio climático en la aptitud climática de las tierras con alcance nacional.\n\nObjetivos especificos\n\nVerificar en cuanto a pertinencia y factibilidad de al menos 10 cultivos sujetos a la evaluación del impacto del cambio climático sobre la aptitud climática de las tierras, con base en criterios pre identificados por la UGP. \nCaracterizar y valorar espacialmente el impacto del cambio climático sobre la aptitud climática de las tierras, así como sobre la sensibilidad consecuente en la adaptabilidad de los cultivos seleccionados según la metodología desarrollada por el equipo del proyecto PNA FAO. \nCaracterizar, distribuida por regiones fisiográficas, la capacidad adaptativa de los cultivos evaluados según la percepción y criterio de un conjunto de actores del sector agrícola.\nValorar y caracterizar espacialmente la vulnerabilidad de los cultivos evaluados sobre la base de los insumos correspondientes a las actividades anteriores.",
+    "crumbs": [
+      "Introduccion"
+    ]
+  },
+  {
+    "objectID": "index.html#objetivos-especificos",
+    "href": "index.html#objetivos-especificos",
+    "title": "",
+    "section": "Objetivos especificos",
+    "text": "Objetivos especificos\n\nVerificar en cuanto a pertinencia y factibilidad de al menos 10 cultivos sujetos a la evaluación del impacto del cambio climático sobre la aptitud climática de las tierras, con base en criterios pre identificados por la UGP. \nCaracterizar y valorar espacialmente el impacto del cambio climático sobre la aptitud climática de las tierras, así como sobre la sensibilidad consecuente en la adaptabilidad de los cultivos seleccionados según la metodología desarrollada por el equipo del proyecto PNA FAO. \nCaracterizar, distribuida por regiones fisiográficas, la capacidad adaptativa de los cultivos evaluados según la percepción y criterio de un conjunto de actores del sector agrícola.\nValorar y caracterizar espacialmente la vulnerabilidad de los cultivos evaluados sobre la base de los insumos correspondientes a las actividades anteriores.",
     "crumbs": [
       "Introduccion"
     ]

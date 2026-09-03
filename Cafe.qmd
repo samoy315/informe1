@@ -1,6 +1,6 @@
 # Cafe
 
-Descripcion brebe de lo que se trate este tipo de utilizacion de la tierra del maiz, como: fecha de siembra, duracin del ciclo, si usa riego o no, etc
+La evaluación de la aptitud climática de las tierras se realizó para el cultivo general de café (Coffea arabica), bajo un manejo tradicional y común en el país, principalmente en cuanto a su siembra, fertilización y sin riego. A continuación se muestran los resultados.
 
 ## Region de exposicion:
 

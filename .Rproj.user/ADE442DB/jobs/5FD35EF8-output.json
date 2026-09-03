@@ -160,3 +160,8 @@
 [1,"GET: /\nGET: /\n"]
 [1,"GET: /\n"]
 [1,"  /.well-known/appspecific/com.chrome.devtools.json (404: Not Found)\n"]
+[1,"GET: /\n"]
+[1,"GET: /Maiz.html\n"]
+[1,"GET: /\n"]
+[1,"GET: /Arroz.html\n"]
+[1,"GET: /Maiz.html\n"]
