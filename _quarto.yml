@@ -21,6 +21,7 @@ book:
     - Papa.qmd
     - Platano.qmd
     - Yuca.qmd
+    - Reporte.qmd
 
 format:
   html:
