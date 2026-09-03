@@ -3,7 +3,7 @@
     "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/informe1/Reporte.qmd",
     "project_path": "Reporte.qmd",
     "type": "quarto_markdown",
-    "hash": "2919133628",
+    "hash": "3389642104",
     "contents": "",
     "dirty": false,
     "created": 1788473632824.0,
@@ -12,7 +12,7 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "10,48",
+        "cursorPosition": "7,26",
         "scrollLine": "0",
         "rmdVisualMode": "false",
         "rmdVisualWrapConfigured": "true",
@@ -21,11 +21,11 @@
         "rmdVisualModeLocation": "41:20.799999237060547"
     },
     "folds": "",
-    "lastKnownWriteTime": 1788475105,
+    "lastKnownWriteTime": 1788475608,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1788475105721,
+    "last_content_update": 1788475608567,
     "read_only": false,
     "read_only_alternatives": []
 }
