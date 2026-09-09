@@ -1,0 +1,25 @@
+---
+title: "Test de Renderizado"
+format: html
+editor: visual
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(sf)
+library(ggplot2)
+```
+
+```{r}
+#| label: mapa-prueba
+# Carga de datos integrados para reproducibilidad total
+nc <- st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
+
+ggplot(nc) +
+  geom_sf(aes(fill = AREA)) +
+  scale_fill_viridis_c() +
+  theme_minimal() +
+  labs(title = "Validación de Motor Espacial")
+```
+

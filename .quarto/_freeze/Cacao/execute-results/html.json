@@ -1,8 +1,8 @@
 {
-  "hash": "5173955313c78558caa21ef27b0b8708",
+  "hash": "ce1376982a3e2dbde3de36eacdbd45dc",
   "result": {
     "engine": "knitr",
-    "markdown": "# Cacao\n\n## Region de exposicion:\n\n\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![](Cacao_files/figure-html/mapa-cacao-estandar-1.png){fig-align='center' width=672}\n:::\n:::\n\n\n\n\nEn Venezuela la superficie total de Region de Exposicion para la **Cacao** es de\" **286.638,2** Km^2^.",
+    "markdown": "# Cacao\n\n## Region de exposicion:\n\n\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![](Cacao_files/figure-html/mapa-cacao-estandar-1.png){fig-align='center' width=672}\n:::\n:::\n\n\n\n\nEn Venezuela la superficie total de Region de Exposicion para la **Cacao** es de\" **286.638,2** Km^2^.\n\n## Factores de Exposición\n\n#### 1. Precipitación anual:\n\n![](./images/cacao/cacao_fe_pp_anual.png)\n\n#### 2. Duracion de estacion seca:\n![](./images/cacao/cacao_fe_eseca_anual.png)\n\n#### 3. Temperatura media anual:\n![](./images/cacao/cacao_fe_tem_anual.png)\n\n#### 4. Temperatura maxima anual:\n![](./images/cacao/cacao_fe_tam_anual.png)\n\n#### 5. Temperatura minima anual:\n![](./images/cacao/cacao_fe_tim_anual.png)\n\n#### 6. Humedad relativa del mes mas seco:\n![](./images/cacao/cacao_fe_hr_anual.png)\n\n#### Mes con mayor humedad relativa al año\n![](./images/cacao/cacao_fe_hr_mes_anual.png)\n\n## Aptitud climática de las tierras\n\n#### Escenario Histórico o Base:\n![](./images/cacao/cacao_aptitud_min_historico.png)\n\n\n#### Escenario SSP2-4.5:\n![](./images/cacao/cacao_aptitud_min_ssp45.png)\n\n#### Escenario SSP5-8.5:\n![](./images/cacao/cacao_aptitud_min_ssp85.png)\n\n## Amenaza\n\n#### Cambio con respecto al Escenario SSP2-4.5:\n\n![](./images/cacao/cacao_amenaza_min_ssp45.png)\n\n#### Cambio con respecto al Escenario SSP5-8.5:\n![](./images/cacao/cacao_amenaza_min_ssp85.png)\n\n",
     "supporting": [
       "Cacao_files"
     ],

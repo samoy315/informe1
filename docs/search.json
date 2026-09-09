@@ -34,7 +34,7 @@
     "href": "Cafe.html",
     "title": "Cafe",
     "section": "",
-    "text": "Region de exposicion:\nLa evaluación de la aptitud climática de las tierras para el cultivo general de café (Coffea arabica), se realizó bajo el manejo tradicional y común en el país, principalmente en cuanto a su siembra, fertilización y sin el empleo de riego. A continuación se muestran los resultados.\nEn Venezuela la superficie total de Region de Exposicion para el Cafe es de” 29.097,4 Km2.",
+    "text": "Region de exposicion:\nLa evaluación de la aptitud climática de las tierras para el cultivo general de café (Coffea arabica), se realizó bajo el manejo tradicional y común de este rubro en el país, principalmente en cuanto a su siembra, fertilización y sin el empleo de riego. A continuación se muestran los resultados.\nEn Venezuela la superficie total de Region de Exposicion para el Cafe es de” 29.097,4 Km2.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Cafe</span>"
     ]
@@ -427,6 +427,36 @@
     "text": "Avances:\n\nActividades 2.1 y 2.2:\nEstablecimiento de regiones de exposición para 10 tipos de cultivos. 100%\nEvaluación de aptitud climática para 13 tipos de cultivos y tres escenarios climáticos (6 tipos de cultivos).\nUn promedio de 6 factores de exposición por tipos de cultivos.\n300 capas raster (aproximadas) (115 capas).\n\n\n\nNudos críticos:\n\nProblemas críticos con los cortes eléctricos.\n\n\n\nPróximos pasos:\n\nContinuar con la evaluación de la aptitud climática de las tierras de los cultivos restantes.\nActividades 2.3 (Capacidad adaptativa) y 2.4.",
     "crumbs": [
       "<span class='chapter-number'>10</span>  <span class='chapter-title'>Reporte</span>"
+    ]
+  },
+  {
+    "objectID": "Cacao.html#factores-de-exposición",
+    "href": "Cacao.html#factores-de-exposición",
+    "title": "Cacao",
+    "section": "Factores de Exposición",
+    "text": "Factores de Exposición\n\n1. Precipitación anual:\n\n\n\n2. Duracion de estacion seca:\n\n\n\n3. Temperatura media anual:\n\n\n\n4. Temperatura maxima anual:\n\n\n\n5. Temperatura minima anual:\n\n\n\n6. Humedad relativa del mes mas seco:\n\n\n\nMes con mayor humedad relativa al año",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Cacao</span>"
+    ]
+  },
+  {
+    "objectID": "Cacao.html#aptitud-climática-de-las-tierras",
+    "href": "Cacao.html#aptitud-climática-de-las-tierras",
+    "title": "Cacao",
+    "section": "Aptitud climática de las tierras",
+    "text": "Aptitud climática de las tierras\n\nEscenario Histórico o Base:\n\n\n\nEscenario SSP2-4.5:\n\n\n\nEscenario SSP5-8.5:",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Cacao</span>"
+    ]
+  },
+  {
+    "objectID": "Cacao.html#amenaza",
+    "href": "Cacao.html#amenaza",
+    "title": "Cacao",
+    "section": "Amenaza",
+    "text": "Amenaza\n\nCambio con respecto al Escenario SSP2-4.5:\n\n\n\nCambio con respecto al Escenario SSP5-8.5:",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Cacao</span>"
     ]
   }
 ]
