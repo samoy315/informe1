@@ -73,6 +73,7 @@ En Venezuela la superficie total de Region de Exposicion para la **Cacao** es de
 
 ##### Sin riego
 ![](./images/cacao/cacao_aptitud_min_ssp85.png)
+
 ##### Con riego
 ![](./images/cacao/cacao_aptitud_min_ssp85_riego.png)
 
