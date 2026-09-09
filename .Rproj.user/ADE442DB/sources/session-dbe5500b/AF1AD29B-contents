@@ -614,6 +614,8 @@ plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 # Estimacion de la APTITUD CLIMATICA de las tierras (MINIMOS O PROMEDIOS)----------------------------------------------------
 # ---------------------------------------------------------------------------------------------------------------------------
 
+# ============================================ SIN RIEGO ==================================================================== 
+
 # exportamos la region de exposicion estandar del cacao:
 re_cacao<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/reg_cacao_estandar.tif")
 par(mfrow=c(1,1))
@@ -761,6 +763,144 @@ clases_presentes_sen1_85 <- na.omit(unique(cacao_85_sen1)[, 1])
 par(mfrow=c(1,1))
 plot(cacao_85_sen1, type="classes",col=colores_semaforo1[clases_presentes_sen1_85], main="Amenaza del cambio climatico sobre el cacao sin riego | SSP5-8.5", cex.main=1)
 plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
+
+
+# =================================== CON RIEGO ========================================================================
+
+# HISTORICO O BASE:------------
+
+E1_h_min_r<- min(tem_h_a, tam_h_b, tim_h_c, hr_h_a)
+E1_h_min1_r<- mask(c(tem_h_a, tam_h_b, tim_h_c, hr_h_a), re_cacao)
+names(E1_h_min1_r)<- c("temp media", "temp maxima", "temp minima", "HR")
+E1_h_min2_r<- mask(min(c(tem_h_a, tam_h_b, tim_h_c, hr_h_a)), re_cacao)
+E1_h_min2a_r<- round(E1_h_min2_r, digits = 3)
+
+par(mfrow=c(1,1))
+plot(E1_h_min1_r,col=paleta_semaforo(4))
+
+cacao_h_apt_r <- ifel(E1_h_min2a_r <= 1,  1,
+                    ifel(E1_h_min2a_r <= 2,2,
+                         ifel(E1_h_min2a_r <= 3,3,4)))
+
+clases_presentes_h_r <- na.omit(unique(cacao_h_apt_r)[, 1])
+plot(cacao_h_apt_r,type = "classes",col=colores_semaforo2[clases_presentes_h_r],main="Aptitud climatica de las tierras para cacao con riego | Historico")
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+# repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
+E1_h_min_fig_r<- round(E1_h_min_r, digits = 3)
+
+E1_h_min_fig1_r<- ifel(E1_h_min_fig_r <= 1,  1,
+                     ifel(E1_h_min_fig_r <= 2,2,
+                          ifel(E1_h_min_fig_r <= 3,3,4)))
+
+clases_presentes_h_fig_r <- na.omit(unique(E1_h_min_fig1_r)[, 1])
+plot(E1_h_min_fig1_r,type = "classes",col=colores_semaforo2[clases_presentes_h_fig_r],main="Aptitud climatica de las tierras para cacao con riego | Historico", cex.main=1)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+
+# SSP2-4.5:--------------------------------------------------------------------------------
+
+E3_45_min_r<- min(tem_45_a, tam_45_a, tim_45_a, hr_45_b)
+E3_45_min1_r<- mask(c(tem_45_a, tam_45_a, tim_45_a, hr_45_b), re_cacao1)
+names(E3_45_min1_r)<- c("temp media", "temp maxima", "temp minima", "HR")
+E3_45_min2_r<- mask(min(c(tem_45_a, tam_45_a, tim_45_a, hr_45_b)), re_cacao1)
+E3_45_min2a_r<- round(E3_45_min2_r, digits = 3)
+
+par(mfrow=c(1,1))
+plot(E3_45_min1_r,col=paleta_semaforo(4))
+
+cacao_45_apt_r <- ifel(E3_45_min2a_r <= 1,  1,
+                     ifel(E3_45_min2a_r <= 2,2,
+                          ifel(E3_45_min2a_r <= 3,3,4)))
+
+clases_presentes_45_r <- na.omit(unique(cacao_45_apt_r)[, 1])
+plot(cacao_45_apt_r,type = "classes",col=colores_semaforo2[clases_presentes_45_r],main="Aptitud climatica de las tierras para cacao con riego | SSP2-4.5")
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+# repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
+E3_45_min_fig_r<- round(E3_45_min_r, digits = 3)
+
+E3_45_min_fig1_r<- ifel(E3_45_min_fig_r <= 1,  1,
+                      ifel(E3_45_min_fig_r <= 2,2,
+                           ifel(E3_45_min_fig_r <= 3,3,4)))
+
+clases_presentes_45_fig_r <- na.omit(unique(E3_45_min_fig1_r)[, 1])
+plot(E3_45_min_fig1_r,type = "classes",col=colores_semaforo2[clases_presentes_45_fig_r],main="Aptitud climatica de las tierras para cacao con riego | SSP2-4.5", cex.main=1)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+
+# SSP5-8.5:--------------------------------------------------------------------------------
+
+E5_85_min_r<- min(tem_85_a, tam_85_a, tim_85_a, hr_85_b)
+
+E5_85_min1_r<- mask(c(tem_85_a, tam_85_a, tim_85_a, hr_85_b), re_cacao1)
+names(E5_85_min1_r)<- c("temp media", "temp maxima", "temp minima", "HR")
+E5_85_min2_r<- mask(min(c(tem_85_a, tam_85_a, tim_85_a, hr_85_b)), re_cacao1)
+E5_85_min2a_r<- round(E5_85_min2_r, digits = 3)
+
+par(mfrow=c(1,1))
+plot(E5_85_min1_r,col=paleta_semaforo(4))
+
+cacao_85_apt_r <- ifel(E5_85_min2a_r <= 1,  1,
+                     ifel(E5_85_min2a_r <= 2,2,
+                          ifel(E5_85_min2a_r <= 3,3,4)))
+
+clases_presentes_85_r <- na.omit(unique(cacao_85_apt_r)[, 1])
+plot(cacao_85_apt_r,type = "classes",col=colores_semaforo2[clases_presentes_85_r],main="Aptitud climatica de las tierras para cacao con riego | SSP5-8.5")
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+# repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
+E5_85_min_fig_r<- round(E5_85_min_r, digits = 3)
+
+E5_85_min_fig1_r<- ifel(E5_85_min_fig_r <= 1,  1,
+                      ifel(E5_85_min_fig_r <= 2,2,
+                           ifel(E5_85_min_fig_r <= 3,3,4)))
+
+clases_presentes_85_fig_r <- na.omit(unique(E5_85_min_fig1_r)[, 1])
+plot(E5_85_min_fig1_r,type = "classes",col=colores_semaforo2[clases_presentes_85_fig_r],main="Aptitud climatica de las tierras para cacao con riego | SSP5-8.5")
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+# Estimacion de la AMENAZA CLIMATICA de las tierras (DIFERENCIA antigua SENSIBILIDAD)---------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+# ------------------Diferencia entre el escenario SSP2-4.5 menos Historico:
+
+E3_45_min3_r <- resample(E3_45_min2_r, E1_h_min2_r, method= "near")
+cacao_45_sen_r<- E3_45_min3_r - E1_h_min2_r
+par(mfrow=c(1,1))
+plot(cacao_45_sen_r)
+cacao_45_sena_r<- round(cacao_45_sen_r, digits = 3)
+
+cacao_45_sen1_r <- ifel(cacao_45_sena_r < -1,  1,
+                      ifel(cacao_45_sena_r > -1 & cacao_45_sena_r < -0.5, 2,
+                           ifel(cacao_45_sena_r > -0.5 & cacao_45_sena_r < 0, 3, 4)))
+
+clases_presentes_sen1_45_r <- na.omit(unique(cacao_45_sen1_r)[, 1])
+
+par(mfrow=c(1,1))
+plot(cacao_45_sen1_r, type="classes",col=colores_semaforo1[clases_presentes_sen1_45_r], main="Amenaza del cambio climatico sobre el cacao con riego | SSP2-4.5", cex.main=1)
+plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
+
+# ------------------Diferencia entre el escenario SSP5-8.5 menos Historico:
+
+E5_85_min3_r <- resample(E5_85_min2_r, E1_h_min2_r, method= "near")
+cacao_85_sen_r<- E5_85_min3_r - E1_h_min2_r
+par(mfrow=c(1,1))
+plot(cacao_85_sen_r)
+cacao_85_sena_r<- round(cacao_85_sen_r, digits = 3)
+
+cacao_85_sen1_r <- ifel(cacao_85_sena_r < -1,  1,
+                      ifel(cacao_85_sena_r > -1 & cacao_85_sena_r < -0.5, 2,
+                           ifel(cacao_85_sena_r > -0.5 & cacao_85_sena_r < 0, 3, 4)))
+
+clases_presentes_sen1_85_r <- na.omit(unique(cacao_85_sen1_r)[, 1])
+
+par(mfrow=c(1,1))
+plot(cacao_85_sen1_r, type="classes",col=colores_semaforo1[clases_presentes_sen1_85_r], main="Amenaza del cambio climatico sobre el cacao con riego | SSP5-8.5", cex.main=1)
+plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
+
+
+
 
 
 # # Estimacion del IMPACTO del cambio climatico en las tierras (Linea multiplicada por 2)-------------------------------------

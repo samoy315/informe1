@@ -54,21 +54,42 @@ En Venezuela la superficie total de Region de Exposicion para la **Cacao** es de
 ## Aptitud climática de las tierras
 
 #### Escenario Histórico o Base:
+
+##### Sin Riego
 ![](./images/cacao/cacao_aptitud_min_historico.png)
 
+##### Con riego
+![](./images/cacao/cacao_aptitud_min_historico_riego.png)
 
 #### Escenario SSP2-4.5:
+
+##### Sin riego
 ![](./images/cacao/cacao_aptitud_min_ssp45.png)
 
+##### Con riego
+![](./images/cacao/cacao_aptitud_min_ssp45_riego.png)
+
 #### Escenario SSP5-8.5:
+
+##### Sin riego
 ![](./images/cacao/cacao_aptitud_min_ssp85.png)
+##### Con riego
+![](./images/cacao/cacao_aptitud_min_ssp85_riego.png)
 
 ## Amenaza
 
 #### Cambio con respecto al Escenario SSP2-4.5:
 
+##### Sin riego
 ![](./images/cacao/cacao_amenaza_min_ssp45.png)
 
+##### Con riego
+![](./images/cacao/cacao_amenaza_min_ssp45_riego.png)
+
 #### Cambio con respecto al Escenario SSP5-8.5:
+
+##### Sin riego
 ![](./images/cacao/cacao_amenaza_min_ssp85.png)
 
+##### Con riego
+![](./images/cacao/cacao_amenaza_min_ssp85_riego.png)
