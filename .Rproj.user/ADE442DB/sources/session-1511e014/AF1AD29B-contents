@@ -11,7 +11,9 @@ library(dplyr)
 library(terra)
 library(ggplot2)
 library(sf)
+library(tidyterra)
 paleta_semaforo <- colorRampPalette(c("red", "orange", "yellow", "green3"))
+paleta_semaforo1 <- colorRampPalette(c("red", "gold", "green3", "dodgerblue"))
 paleta_temperatura <- colorRampPalette(c("darkblue", "blue", "skyblue", "yellow","orange", "red"))
 paleta_precipitacion <- colorRampPalette(c("lightblue", "skyblue", "cornflowerblue", "royalblue", "dodgerblue", 'blue', 'darkblue'))
 paleta_dias_secos <- colorRampPalette(c("darkgreen", "green", "palegoldenrod", "yellow", "orange", "red"))
@@ -19,6 +21,10 @@ colores_meses <- c("lightblue", "deepskyblue", "lightgreen", "green", "forestgre
 colores_semaforo1<- (c("red", "orange", "yellow", "green"))
 colores_semaforo2<- (c("red", "yellow", "green", "dodgerblue"))
 colores_semaforo3<- (c("dodgerblue", "green", "yellow", "red"))
+
+colores_fijos <- c("red", "gold", "green3", "dodgerblue")
+cortes_breaks <- c(-Inf, 1, 2, 3.01, Inf)
+
 venezuela <- st_read("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Contorno_Venezuela/AOI_linea_referencia1.shp")
 
 
@@ -44,7 +50,7 @@ summary(p_h_anual); summary(p_45_anual); summary(p_85_anual)
 
 # Parametros:
 p_cacao <- tibble(
-  p = c(0, 1200, 1400, 1600, 2050, 2500, 3500, 4400, 5300),
+  p = c(0, 1200, 1345, 1455, 2000, 2500, 3500, 4400, 5300),
   g_aptitud = c(0, 1, 2, 3, 4, 3, 2 ,1, 0)
 )
 
@@ -121,13 +127,21 @@ p_85_anual1 <- ifel(p_85_anual < plim_1200,  (pm1200  * p_85_anual) + pb1200,
                                              ifel(p_85_anual < plim_4400, (pm4400 * p_85_anual) + pb4400,
                                                   ifel(p_85_anual < plim_5300, (pm5300 * p_85_anual) + pb5300, NA))))))))
 
-par(mfrow=c(2,2))
-plot(p_h_anual1,col = paleta_semaforo(4),main = "Aptitud por precipitacion anual | historico")
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(p_45_anual1,col= paleta_semaforo(4),main= "Aptitud por precipitacion anual | SSP2-4.5")
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)     
-plot(p_85_anual1,col= paleta_semaforo(4),main= "Aptitud por precipitacion anual | SSP5-8.5")
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)     
+# par(mfrow=c(1,1))
+# plot(p_h_anual1,col = paleta_semaforo(4),main = "Aptitud por precipitacion anual | historico")
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# plot(p_45_anual1,col= paleta_semaforo(4),main= "Aptitud por precipitacion anual | SSP2-4.5")
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)     
+# plot(p_85_anual1,col= paleta_semaforo(4),main= "Aptitud por precipitacion anual | SSP5-8.5")
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)     
+
+par(mfrow = c(2, 2), mar = c(2, 2, 3, 1))
+plot(p_h_anual1,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por precipitacion anual | historico", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(p_45_anual1,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por precipitacion anual | SSP2-4.5", cex.main=1, legend=FALSE)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(p_85_anual1,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por precipitacion anual | SSP5-8.5", cex.main=1)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # --------------------------------------DURACION DE ESTACION SECA (MESES PP < 1/2 pet)----------------------------------
@@ -162,7 +176,7 @@ plot(es_85_anual1)
 
 #Parametros:
 es_cacao <- tibble(
-  es = c(0, 60, 90, 120, 365),
+  es = c(0, 90, 120, 150, 365),
   g_aptitud = c(4, 3, 2, 1, 0)
 )
 
@@ -211,13 +225,21 @@ es_85_anual2 <- ifel(es_85_anual1 < eslim_60,  (esm60  * es_85_anual1) + esb60,
                       ifel(es_85_anual1 < eslim_120, (esm120 * es_85_anual1) + esb120,
                            ifel(es_85_anual1 < eslim_365, (esm365 * es_85_anual1) + esb365, NA))))
  
-par(mfrow=c(2,2))
-plot(es_h_anual1,col = paleta_semaforo(4),main = "Aptitud por duracion estacion seca | historico", cex.main=1)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(es_45_anual2,col= paleta_semaforo(4),main= "Aptitud por duracion estacion seca | SSP2-4.5", cex.main=1)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)     
-plot(es_85_anual2,col= paleta_semaforo(4),main= "Aptitud por duracion estacion seca | SSP5-8.5", cex.main=1)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)     
+# par(mfrow=c(1,1))
+# plot(es_h_anual1,col = paleta_semaforo(4),main = "Aptitud por duracion estacion seca | historico", cex.main=1)
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# plot(es_45_anual2,col= paleta_semaforo(4),main= "Aptitud por duracion estacion seca | SSP2-4.5", cex.main=1)
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)     
+# plot(es_85_anual2,col= paleta_semaforo(4),main= "Aptitud por duracion estacion seca | SSP5-8.5", cex.main=1)
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)     
+
+par(mfrow = c(2, 2), mar = c(2, 2, 3, 1))
+plot(es_h_anual1,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por duracion estacion seca | historico", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(es_45_anual2,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por duracion estacion seca | SSP2-4.5", cex.main=1, legend=FALSE)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(es_85_anual2,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por duracion estacion seca | SSP5-8.5", cex.main=1)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # -------------------------------------------------------------------------------------------------------------------------------------
 # ----------------------------------------Temperatura media del ciclo de cultivo-------------------------------------------------------
@@ -306,15 +328,22 @@ tem_85_a <- ifel(tem_85 < temlim_21,  (temm21  * tem_85) + temb21,
                                 ifel(tem_85 < temlim_30, (temm30 * tem_85) + temb30,
                                      ifel(tem_85 < temlim_34,(temm34 * tem_85) + temb34, NA))))))
 
-# Impresion de las capas:
-par(mfrow=c(2,2))
-plot(tem_h_a,col = paleta_semaforo(100),main = "Aptitud por Temperatura media del ciclo | Historico", cex.main=1)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(tem_45_a,col = paleta_semaforo(100),main = "Aptitud por Temperatura media del ciclo | SSP2-4.5", cex.main=1)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(tem_85_a,col = paleta_semaforo(100),main = "Aptitud por Temperatura media del ciclo | SSP5 8.5", cex.main=1)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# # Impresion de las capas:
+# par(mfrow=c(2,2))
+# plot(tem_h_a,col = paleta_semaforo(100),main = "Aptitud por Temperatura media del ciclo | Historico", cex.main=1)
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# plot(tem_45_a,col = paleta_semaforo(100),main = "Aptitud por Temperatura media del ciclo | SSP2-4.5", cex.main=1)
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# plot(tem_85_a,col = paleta_semaforo(100),main = "Aptitud por Temperatura media del ciclo | SSP5 8.5", cex.main=1)
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
+par(mfrow = c(2, 2), mar = c(2, 2, 3, 1))
+plot(tem_h_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media del ciclo | Historico", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(tem_45_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media del ciclo | SSP2-4.5", cex.main=1, legend=FALSE)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(tem_85_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media del ciclo | SSP5 8.5", cex.main=1)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # -------------------------------------------------------------------------------------------------------------------------------------
 # ----------------------------------------Temperatura maxima media anual---------------------------------------------------------------
@@ -404,14 +433,21 @@ tam_85_a <- ifel(tam_85 < tamlim_28,  (tamm28  * tam_85) + tamb28,
                                      ifel(tam_85 < tamlim_48,(tamm48 * tam_85) + tamb48, NA))))))
 
 # Impresion de las capas:
-par(mfrow=c(2,2))
-plot(tam_h_a,col = paleta_semaforo(100),main = "Aptitud por tamperatura maxima del ciclo | Historico", cex.main=1)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(tam_45_a,col = paleta_semaforo(100),main = "Aptitud por tamperatura maxima del ciclo | SSP2-4.5", cex.main=1)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(tam_85_a,col = paleta_semaforo(100),main = "Aptitud por Temperatura maxima del ciclo | SSP5 8.5", cex.main=1)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# par(mfrow=c(2,2))
+# plot(tam_h_a,col = paleta_semaforo(100),main = "Aptitud por tamperatura maxima del ciclo | Historico", cex.main=1)
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# plot(tam_45_a,col = paleta_semaforo(100),main = "Aptitud por tamperatura maxima del ciclo | SSP2-4.5", cex.main=1)
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# plot(tam_85_a,col = paleta_semaforo(100),main = "Aptitud por Temperatura maxima del ciclo | SSP5 8.5", cex.main=1)
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
+par(mfrow = c(2, 2), mar = c(2, 2, 3, 1))
+plot(tam_h_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por temperatura maxima del ciclo | Historico", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(tam_45_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por temperatura maxima del ciclo | SSP2-4.5", cex.main=1, legend=FALSE)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(tam_85_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por temperatura maxima del ciclo | SSP5 8.5", cex.main=1)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # -----------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------Temperatura minima anual ----------------------------------------------------------
@@ -500,13 +536,21 @@ tim_85_a <- ifel(tim_85 < timlim_10,  (timm10  * tim_85) + timb10,
                                 ifel(tim_85 < timlim_24, (timm24 * tim_85) + timb24,
                                      ifel(tim_85 < timlim_28,(timm28 * tim_85) + timb28, NA))))))
 
-par(mfrow=c(2,2))
-plot(tim_h_b,col = paleta_semaforo(4),main = "Aptitud por Temperatura minima | Historico", cex.main=1)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(tim_45_a,col = paleta_semaforo(4),main = "Aptitud por Temperatura minima | SSP2-4.5", cex.main=1)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(tim_85_a,col = paleta_semaforo(4),main = "Aptitud por Temperatura minima | SSP5-8.5", cex.main=1)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# par(mfrow=c(2,2))
+# plot(tim_h_b,col = paleta_semaforo(4),main = "Aptitud por Temperatura minima | Historico", cex.main=1)
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# plot(tim_45_a,col = paleta_semaforo(4),main = "Aptitud por Temperatura minima | SSP2-4.5", cex.main=1)
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# plot(tim_85_a,col = paleta_semaforo(4),main = "Aptitud por Temperatura minima | SSP5-8.5", cex.main=1)
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+par(mfrow = c(2, 2), mar = c(2, 2, 3, 1))
+plot(tim_h_b,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura minima | Historico", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(tim_45_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura minima | SSP2-4.5", cex.main=1, legend=FALSE)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(tim_85_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura minima | SSP5-8.5", cex.main=1)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # ----------------------------------------------------------------------------------------------------
 # ----------------------------Humedad relativa (%) del mes mas seco-----------------------------------
@@ -515,7 +559,7 @@ plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 # Cargamos las capas raster:
 hr_h_m1<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_01.tif")
 hr_h_m2<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_02.tif")
-hr_h_m3<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_03.tif")
+hr_h_m3<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_03_ultimo.tif")
 hr_h_m4<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_04.tif")
 hr_h_m5<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_05.tif")
 hr_h_m6<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_06.tif")
@@ -531,16 +575,17 @@ hr<- c(hr_h_m1, hr_h_m2, hr_h_m3, hr_h_m4, hr_h_m5, hr_h_m6, hr_h_m7, hr_h_m8, h
 plot(hr)
 
 # Buscamos la humedad relativa mas alta del ano para cada celda:
-hr_max<- app(hr, fun = max, na.rm = TRUE)
-summary(hr_max)
-plot(hr_max)
+hr_min<- app(hr, fun = min, na.rm = TRUE)
+summary(hr_min)
+plot(hr_min)
 
 #Buscamos el mes con mayor humedad del ano:
 
-hr_mes_h <- app(hr, fun = which.max)
+hr_mes_h <- app(hr, fun = which.min)
 
 mes_presente_h <- na.omit(unique(hr_mes_h)[, 1])
-plot(hr_mes_h,type = "classes",col=colores_meses[mes_presente_h],main="Mes con mayor HR al año | historico", cex.main=1)
+plot(hr_mes_h,type = "classes",col=colores_meses[mes_presente_h],main="Mes con menor HR al año | historico", cex.main=1)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # Parametros de calculos recta para los tres escenarios:
 
@@ -590,21 +635,20 @@ hrm100 <- hr_cacao1$pendiente[8]
 hrb100 <- hr_cacao1$intercepto[8]
 
 # Calculamos el nuevo raster con todo 100% parametrizado  ------ Ciclo 0508 ------------------------------------------
-hr_h_a <- ifel(hr_max < hrlim_30,  (hrm30  * hr_max) + hrb30,
-                        ifel(hr_max < hrlim_35, (hrm35 * hr_max) + hrb35,
-                             ifel(hr_max < hrlim_40, (hrm40 * hr_max) + hrb40,
-                                  ifel(hr_max < hrlim_45, (hrm45 * hr_max) + hrb45,
-                                       ifel(hr_max < hrlim_65, (hrm65 * hr_max) + hrb65,
-                                            ifel(hr_max < hrlim_75,(hrm75 * hr_max) + hrb75,
-                                                 ifel(hr_max < hrlim_100,(hrm100 * hr_max) + hrb100, NA)))))))
+hr_h_a <- ifel(hr_min < hrlim_30,  (hrm30  * hr_min) + hrb30,
+                        ifel(hr_min < hrlim_35, (hrm35 * hr_min) + hrb35,
+                             ifel(hr_min < hrlim_40, (hrm40 * hr_min) + hrb40,
+                                  ifel(hr_min < hrlim_45, (hrm45 * hr_min) + hrb45,
+                                       ifel(hr_min < hrlim_65, (hrm65 * hr_min) + hrb65,
+                                            ifel(hr_min < hrlim_75,(hrm75 * hr_min) + hrb75,
+                                                 ifel(hr_min < hrlim_100,(hrm100 * hr_min) + hrb100, NA)))))))
 
 hr_45_a<- hr_h_a
 hr_85_a<- hr_h_a
 
-par(mfrow=c(1,1))
-plot(hr_h_a,col = paleta_semaforo(4),main = "Aptitud por HR mas alta en el mes mas humedo | historico", cex.main=1)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-
+par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
+plot(hr_h_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Humedad relativa del mes mas seco | Historico", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 #############################################################################################################################
 ################################### VARIANTE CICLO DE SIEMBRA MAYO A AGOSTO (0508)###########################################
@@ -619,7 +663,7 @@ plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 # exportamos la region de exposicion estandar del cacao:
 re_cacao<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/reg_cacao_estandar.tif")
 par(mfrow=c(1,1))
-plot(re_cacao1,col="green3", legend=FALSE)
+plot(re_cacao,col="green3", legend=FALSE)
 plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
 
 # HISTORICO O BASE:------------
@@ -651,10 +695,13 @@ E1_h_min_fig1<- ifel(E1_h_min_fig <= 1,  1,
                      ifel(E1_h_min_fig <= 2,2,
                           ifel(E1_h_min_fig <= 3,3,4)))
 
-clases_presentes_h_fig <- na.omit(unique(E1_h_min_fig1)[, 1])
-plot(E1_h_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_h_fig],main="Aptitud climatica de las tierras para cacao sin riego | Historico", cex.main=1)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# clases_presentes_h_fig <- na.omit(unique(E1_h_min_fig1)[, 1])
+# plot(E1_h_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_h_fig],main="Aptitud climatica de las tierras para cacao sin riego | Historico", cex.main=1)
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
+par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
+plot(E1_h_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Humedad relativa del mes mas seco | Historico", cex.main=1, legend=TRUE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # SSP2-4.5:--------------------------------------------------------------------------------
 
@@ -686,10 +733,13 @@ E3_45_min_fig1<- ifel(E3_45_min_fig <= 1,  1,
                       ifel(E3_45_min_fig <= 2,2,
                            ifel(E3_45_min_fig <= 3,3,4)))
 
-clases_presentes_45_fig <- na.omit(unique(E3_45_min_fig1)[, 1])
-plot(E3_45_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_45_fig],main="Aptitud climatica de las tierras para cacao sin riego | SSP2-4.5", cex.main=1)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# clases_presentes_45_fig <- na.omit(unique(E3_45_min_fig1)[, 1])
+# plot(E3_45_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_45_fig],main="Aptitud climatica de las tierras para cacao sin riego | SSP2-4.5", cex.main=1)
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
+par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
+plot(E3_45_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para cacao sin riego | SSP2-4.5", cex.main=1, legend=TRUE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # SSP5-8.5:--------------------------------------------------------------------------------
 
@@ -721,9 +771,13 @@ E5_85_min_fig1<- ifel(E5_85_min_fig <= 1,  1,
                       ifel(E5_85_min_fig <= 2,2,
                            ifel(E5_85_min_fig <= 3,3,4)))
 
-clases_presentes_85_fig <- na.omit(unique(E5_85_min_fig1)[, 1])
-plot(E5_85_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_85_fig],main="Aptitud climatica de las tierras para cacao sin riego | SSP5-8.5")
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# clases_presentes_85_fig <- na.omit(unique(E5_85_min_fig1)[, 1])
+# plot(E5_85_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_85_fig],main="Aptitud climatica de las tierras para cacao sin riego | SSP5-8.5")
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
+plot(E5_85_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para cacao sin riego | SSP5-8.5", cex.main=1, legend=TRUE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # Estimacion de la AMENAZA CLIMATICA de las tierras (DIFERENCIA antigua SENSIBILIDAD)---------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
@@ -742,9 +796,14 @@ cacao_45_sen1 <- ifel(cacao_45_sena < -1,  1,
 
 clases_presentes_sen1_45 <- na.omit(unique(cacao_45_sen1)[, 1])
 
-par(mfrow=c(1,1))
-plot(cacao_45_sen1, type="classes",col=colores_semaforo1[clases_presentes_sen1_45], main="Amenaza del cambio climatico sobre el cacao sin riego | SSP2-4.5", cex.main=1)
-plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
+# par(mfrow=c(1,1))
+# plot(cacao_45_sen1, type="classes",col=colores_semaforo1[clases_presentes_sen1_45], main="Amenaza del cambio climatico sobre el cacao sin riego | SSP2-4.5", cex.main=1)
+# plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
+
+cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
+par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
+plot(cacao_45_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Amenaza del cambio climatico sobre el cacao sin riego | SSP2-4.5", cex.main=1, legend=TRUE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # ------------------Diferencia entre el escenario SSP5-8.5 menos Historico:
 
@@ -760,9 +819,16 @@ cacao_85_sen1 <- ifel(cacao_85_sena < -1,  1,
 
 clases_presentes_sen1_85 <- na.omit(unique(cacao_85_sen1)[, 1])
 
-par(mfrow=c(1,1))
-plot(cacao_85_sen1, type="classes",col=colores_semaforo1[clases_presentes_sen1_85], main="Amenaza del cambio climatico sobre el cacao sin riego | SSP5-8.5", cex.main=1)
-plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
+# par(mfrow=c(1,1))
+# plot(cacao_85_sen1, type="classes",col=colores_semaforo1[clases_presentes_sen1_85], main="Amenaza del cambio climatico sobre el cacao sin riego | SSP5-8.5", cex.main=1)
+# plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
+
+cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
+par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
+plot(cacao_85_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Amenaza del cambio climatico sobre el cacao sin riego | SSP5-8.5", cex.main=1, legend=TRUE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+
+
 
 
 # =================================== CON RIEGO ========================================================================
@@ -793,10 +859,13 @@ E1_h_min_fig1_r<- ifel(E1_h_min_fig_r <= 1,  1,
                      ifel(E1_h_min_fig_r <= 2,2,
                           ifel(E1_h_min_fig_r <= 3,3,4)))
 
-clases_presentes_h_fig_r <- na.omit(unique(E1_h_min_fig1_r)[, 1])
-plot(E1_h_min_fig1_r,type = "classes",col=colores_semaforo2[clases_presentes_h_fig_r],main="Aptitud climatica de las tierras para cacao con riego | Historico", cex.main=1)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# clases_presentes_h_fig_r <- na.omit(unique(E1_h_min_fig1_r)[, 1])
+# plot(E1_h_min_fig1_r,type = "classes",col=colores_semaforo2[clases_presentes_h_fig_r],main="Aptitud climatica de las tierras para cacao con riego | Historico", cex.main=1)
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
+par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
+plot(E1_h_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para cacao con riego | Historico", cex.main=1, legend=TRUE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # SSP2-4.5:--------------------------------------------------------------------------------
 
@@ -824,9 +893,13 @@ E3_45_min_fig1_r<- ifel(E3_45_min_fig_r <= 1,  1,
                       ifel(E3_45_min_fig_r <= 2,2,
                            ifel(E3_45_min_fig_r <= 3,3,4)))
 
-clases_presentes_45_fig_r <- na.omit(unique(E3_45_min_fig1_r)[, 1])
-plot(E3_45_min_fig1_r,type = "classes",col=colores_semaforo2[clases_presentes_45_fig_r],main="Aptitud climatica de las tierras para cacao con riego | SSP2-4.5", cex.main=1)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# clases_presentes_45_fig_r <- na.omit(unique(E3_45_min_fig1_r)[, 1])
+# plot(E3_45_min_fig1_r,type = "classes",col=colores_semaforo2[clases_presentes_45_fig_r],main="Aptitud climatica de las tierras para cacao con riego | SSP2-4.5", cex.main=1)
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
+plot(E3_45_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para cacao con riego | SSP2-4.5", cex.main=1, legend=TRUE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 
 # SSP5-8.5:--------------------------------------------------------------------------------
@@ -856,9 +929,13 @@ E5_85_min_fig1_r<- ifel(E5_85_min_fig_r <= 1,  1,
                       ifel(E5_85_min_fig_r <= 2,2,
                            ifel(E5_85_min_fig_r <= 3,3,4)))
 
-clases_presentes_85_fig_r <- na.omit(unique(E5_85_min_fig1_r)[, 1])
-plot(E5_85_min_fig1_r,type = "classes",col=colores_semaforo2[clases_presentes_85_fig_r],main="Aptitud climatica de las tierras para cacao con riego | SSP5-8.5")
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# clases_presentes_85_fig_r <- na.omit(unique(E5_85_min_fig1_r)[, 1])
+# plot(E5_85_min_fig1_r,type = "classes",col=colores_semaforo2[clases_presentes_85_fig_r],main="Aptitud climatica de las tierras para cacao con riego | SSP5-8.5")
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
+plot(E5_85_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para cacao con riego | SSP5-8.5", cex.main=1, legend=TRUE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # Estimacion de la AMENAZA CLIMATICA de las tierras (DIFERENCIA antigua SENSIBILIDAD)---------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
@@ -877,9 +954,14 @@ cacao_45_sen1_r <- ifel(cacao_45_sena_r < -1,  1,
 
 clases_presentes_sen1_45_r <- na.omit(unique(cacao_45_sen1_r)[, 1])
 
-par(mfrow=c(1,1))
-plot(cacao_45_sen1_r, type="classes",col=colores_semaforo1[clases_presentes_sen1_45_r], main="Amenaza del cambio climatico sobre el cacao con riego | SSP2-4.5", cex.main=1)
-plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
+# par(mfrow=c(1,1))
+# plot(cacao_45_sen1_r, type="classes",col=colores_semaforo1[clases_presentes_sen1_45_r], main="Amenaza del cambio climatico sobre el cacao con riego | SSP2-4.5", cex.main=1)
+# plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
+
+cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
+par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
+plot(cacao_45_sena_r,breaks = cortes_breaks1,col = colores_fijos,main = "Amenaza del cambio climatico sobre el cacao con riego | SSP2-4.5", cex.main=1, legend=TRUE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # ------------------Diferencia entre el escenario SSP5-8.5 menos Historico:
 
@@ -895,12 +977,14 @@ cacao_85_sen1_r <- ifel(cacao_85_sena_r < -1,  1,
 
 clases_presentes_sen1_85_r <- na.omit(unique(cacao_85_sen1_r)[, 1])
 
-par(mfrow=c(1,1))
-plot(cacao_85_sen1_r, type="classes",col=colores_semaforo1[clases_presentes_sen1_85_r], main="Amenaza del cambio climatico sobre el cacao con riego | SSP5-8.5", cex.main=1)
-plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
+# par(mfrow=c(1,1))
+# plot(cacao_85_sen1_r, type="classes",col=colores_semaforo1[clases_presentes_sen1_85_r], main="Amenaza del cambio climatico sobre el cacao con riego | SSP5-8.5", cex.main=1)
+# plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
 
-
-
+cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
+par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
+plot(cacao_85_sena_r,breaks = cortes_breaks1,col = colores_fijos,main = "Amenaza del cambio climatico sobre el cacao con riego | SSP5-8.5", cex.main=1, legend=TRUE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 
 # # Estimacion del IMPACTO del cambio climatico en las tierras (Linea multiplicada por 2)-------------------------------------
