@@ -1,27 +1,27 @@
 {
     "id": "AF1AD29B",
-    "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/2_Cacao/apt_cacao.R",
+    "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/4_Cana/apt_cana.R",
     "project_path": null,
     "type": "r_source",
-    "hash": "3834278331",
+    "hash": "0",
     "contents": "",
-    "dirty": false,
+    "dirty": true,
     "created": 1788538791654.0,
     "source_on_save": false,
-    "relative_order": 11,
+    "relative_order": 12,
     "properties": {
         "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "987,0",
-        "scrollLine": "959"
+        "cursorPosition": "505,0",
+        "scrollLine": "538"
     },
     "folds": "",
-    "lastKnownWriteTime": 1789143797,
+    "lastKnownWriteTime": 1789592371,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1789143797620,
+    "last_content_update": 1789933841118,
     "read_only": false,
     "read_only_alternatives": []
 }
