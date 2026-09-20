@@ -54,11 +54,11 @@ En Venezuela la superficie total de Region de Exposicion para la **Caña de azuc
 
 #### 4. Relacion del termoperido con respecto a la temperatura media en la etapa de maduracion:
 
-##### Ciclo al inicio de lluvias
-![](./images/cana/cana_fe_tam_anual.png)
+##### Ciclo al inicio de lluvias (abril)
+![](./images/cana/cana_fe_reltp_tem_maduracion_abr.png)
 
-##### Ciclo a salidas de lluvias
-![](./images/cana/cana_fe_pp_anual.png)
+##### Ciclo a salidas de lluvias (noviembre)
+![](./images/cana/cana_fe_reltp_tem_maduracion_nov.png)
 
 #### 5. Horas de sol al año:
 ![](./images/cana/cana_fe_tim_anual.png)

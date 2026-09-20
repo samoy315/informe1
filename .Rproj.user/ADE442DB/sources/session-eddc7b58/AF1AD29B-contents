@@ -502,142 +502,146 @@ plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 # -----------------------------Relacion (Tmax- Tmin)/Tmed durante la maduracion--------------------------------------------------------
 # -------------------------------------------------------------------------------------------------------------------------------------
 
+# Escenario historico:
+reltp_tem_h_0304<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Termoperiodo/RelTp_Tmed_0304.tif")
+reltp_tem_h_1011<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Termoperiodo/RelTp_Tmed_1011.tif")
 
+# Escenario SSP2-4.5:
+reltp_tem_45_0304<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Termoperiodo/RelTp_Tmed_0304_Had3_45_2050.tif")
+reltp_tem_45_1011<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Termoperiodo/RelTp_Tmed_1011_Had3_245_2050.tif")
 
+# Escenario SSP5-8.5:
 
-tev_h_abr<- (tem_h_abr + tem_h_may + tem_h_jun + tem_h_jul + tem_h_ago + tem_h_sep + tem_h_oct) / 7
-tev_45_abr<- (tem_45_abr + tem_45_may + tem_45_jun + tem_45_jul + tem_45_ago + tem_45_sep + tem_45_oct) / 7
-tev_85_abr<- (tem_85_abr + tem_85_may + tem_85_jun + tem_85_jul + tem_85_ago + tem_85_sep + tem_85_oct) / 7
+tmax_85_03<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmax/Mensuales/Tmax_mes/tmax_03.tif")
+tmax_85_04<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmax/Mensuales/Tmax_mes/tmax_04.tif")
+tmax_85_10<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmax/Mensuales/Tmax_mes/tmax_10.tif")
+tmax_85_11<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmax/Mensuales/Tmax_mes/tmax_11.tif")
 
-par(mfrow=c(2,2))
-plot(tev_h_abr)
-plot(tev_45_abr)
-plot(tev_85_abr)
+tmin_85_03<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_03.tif")
+tmin_85_04<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_04.tif")
+tmin_85_10<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_10.tif")
+tmin_85_11<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_11.tif")
 
-summary(tev_h_abr); summary(tev_45_abr); summary(tev_85_abr)
+reltp_tem_85_0304<- (0.5 * (tmax_85_03 - tmin_85_03)/tem_85_mar) + (0.5 * (tmax_85_04 - tmin_85_04)/ tem_85_abr)
+reltp_tem_85_1011<- (0.5 * (tmax_85_10 - tmin_85_10)/tem_85_oct) + (0.5 * (tmax_85_11 - tmin_85_11)/ tem_85_nov)
+
+par(mfrow=c(2,3))
+plot(reltp_tem_h_0304); plot(reltp_tem_h_1011); plot(reltp_tem_45_0304); plot(reltp_tem_45_1011); plot(reltp_tem_85_0304); plot(reltp_tem_85_1011)
+
+summary(reltp_tem_h_0304); summary(reltp_tem_h_1011); summary(reltp_tem_45_0304); summary(reltp_tem_45_1011); summary(reltp_tem_85_0304); summary(reltp_tem_85_1011)
 
 # Parametros de calculos recta para los tres escenarios:
-tev_cana <- tibble(
-  tev = c(0, 18, 20, 22, 27, 32, 35, 40, 45),
-  g_aptitud = c(0, 1, 2, 3, 4, 3, 2, 2, 2)
+tp_cana <- tibble(
+  tp = c(0, 0.27, 0.34, 0.4, 0.44, 0.68, 0.7, 2.8),
+  g_aptitud = c(0, 1, 2, 3, 4, 4, 4, 4)
 )
 
-tev_cana1 <- tev_cana %>%
+tp_cana1 <- tp_cana %>%
   mutate(
-    pendiente = (g_aptitud - lag(g_aptitud)) / (tev - lag(tev)),
-    intercepto = g_aptitud - (pendiente * tev)
+    pendiente = (g_aptitud - lag(g_aptitud)) / (tp - lag(tp)),
+    intercepto = g_aptitud - (pendiente * tp)
   )
-print(tev_cana1)
+print(tp_cana1)
 
 # Extraemos los límites de precipitación de su columna
 # Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
 # a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
-tevlim_18  <- tev_cana1$tev[2]
-tevlim_20 <- tev_cana1$tev[3]
-tevlim_22 <- tev_cana1$tev[4]
-tevlim_27 <- tev_cana1$tev[5]
-tevlim_32 <- tev_cana1$tev[6]
-tevlim_35 <- tev_cana1$tev[7]
-tevlim_40 <- tev_cana1$tev[8]
-tevlim_45 <- tev_cana1$tev[9]
+tplim_027  <- tp_cana1$tp[2]
+tplim_034 <- tp_cana1$tp[3]
+tplim_04 <- tp_cana1$tp[4]
+tplim_044 <- tp_cana1$tp[5]
+tplim_068 <- tp_cana1$tp[6]
+tplim_07 <- tp_cana1$tp[7]
+tplim_28 <- tp_cana1$tp[8]
 
 # Extraemos pendientes (m) e interceptos (b) de las mismas filas
-tevm18  <- tev_cana1$pendiente[2]
-tevb18  <- tev_cana1$intercepto[2]
+tpm027  <- tp_cana1$pendiente[2]
+tpb027  <- tp_cana1$intercepto[2]
 
-tevm20 <- tev_cana1$pendiente[3]
-tevb20 <- tev_cana1$intercepto[3]
+tpm034 <- tp_cana1$pendiente[3]
+tpb034 <- tp_cana1$intercepto[3]
 
-tevm22 <- tev_cana1$pendiente[4]
-tevb22 <- tev_cana1$intercepto[4]
+tpm04 <- tp_cana1$pendiente[4]
+tpb04 <- tp_cana1$intercepto[4]
 
-tevm27 <- tev_cana1$pendiente[5]
-tevb27 <- tev_cana1$intercepto[5]
+tpm044 <- tp_cana1$pendiente[5]
+tpb044 <- tp_cana1$intercepto[5]
 
-tevm32 <- tev_cana1$pendiente[6]
-tevb32 <- tev_cana1$intercepto[6]
+tpm068 <- tp_cana1$pendiente[6]
+tpb068 <- tp_cana1$intercepto[6]
 
-tevm35 <- tev_cana1$pendiente[7]
-tevb35 <- tev_cana1$intercepto[7]
+tpm07 <- tp_cana1$pendiente[7]
+tpb07 <- tp_cana1$intercepto[7]
 
-tevm40 <- tev_cana1$pendiente[8]
-tevb40 <- tev_cana1$intercepto[8]
-
-tevm45 <- tev_cana1$pendiente[9]
-tevb45 <- tev_cana1$intercepto[9]
+tpm28 <- tp_cana1$pendiente[8]
+tpb28 <- tp_cana1$intercepto[8]
 
 # Calculamos el nuevo raster con todo 100% parametrizado | Tres escenario | Ciclo 0508----------------------------
 
 # Ciclo ABRIL-----------------------------------------------------------------
-tev_h_abr <- ifel(tev_h_abr < tevlim_18,  (tevm18 * tev_h_abr) + tevb18,
-                  ifel(tev_h_abr < tevlim_20, (tevm20 * tev_h_abr) + tevb20,
-                       ifel(tev_h_abr < tevlim_22, (tevm22 * tev_h_abr) + tevb22,
-                            ifel(tev_h_abr < tevlim_27, (tevm27 * tev_h_abr) + tevb27,
-                                 ifel(tev_h_abr < tevlim_32, (tevm32 * tev_h_abr) + tevb32,
-                                      ifel(tev_h_abr < tevlim_35,(tevm35 * tev_h_abr) + tevb35,
-                                           ifel(tev_h_abr < tevlim_40,(tevm40 * tev_h_abr) + tevb40,
-                                                ifel(tev_h_abr < tevlim_45,(tevm45 * tev_h_abr) + tevb45, NA))))))))
+tp_h_abr <- ifel(reltp_tem_h_0304 < tplim_027,  (tpm027 * reltp_tem_h_0304) + tpb027,
+                  ifel(reltp_tem_h_0304 < tplim_034, (tpm034 * reltp_tem_h_0304) + tpb034,
+                       ifel(reltp_tem_h_0304 < tplim_04, (tpm04 * reltp_tem_h_0304) + tpb04,
+                            ifel(reltp_tem_h_0304 < tplim_044, (tpm044 * reltp_tem_h_0304) + tpb044,
+                                 ifel(reltp_tem_h_0304 < tplim_068, (tpm068 * reltp_tem_h_0304) + tpb068,
+                                      ifel(reltp_tem_h_0304 < tplim_07,(tpm07 * reltp_tem_h_0304) + tpb07,
+                                           ifel(reltp_tem_h_0304 < tplim_28,(tpm28 * reltp_tem_h_0304) + tpb28, NA)))))))
 
-tev_45_abr <- ifel(tev_45_abr < tevlim_18,  (tevm18  * tev_45_abr) + tevb18,
-                   ifel(tev_45_abr < tevlim_20, (tevm20 * tev_45_abr) + tevb20,
-                        ifel(tev_45_abr < tevlim_22, (tevm22 * tev_45_abr) + tevb22,
-                             ifel(tev_45_abr < tevlim_27, (tevm27 * tev_45_abr) + tevb27,
-                                  ifel(tev_45_abr < tevlim_32, (tevm32 * tev_45_abr) + tevb32,
-                                       ifel(tev_45_abr < tevlim_35,(tevm35 * tev_45_abr) + tevb35,
-                                            ifel(tev_45_abr < tevlim_40,(tevm40 * tev_45_abr) + tevb40,
-                                                 ifel(tev_45_abr < tevlim_45,(tevm45 * tev_45_abr) + tevb45, NA))))))))
+tp_45_abr <- ifel(reltp_tem_45_0304 < tplim_027,  (tpm027  * reltp_tem_45_0304) + tpb027,
+                   ifel(reltp_tem_45_0304 < tplim_034, (tpm034 * reltp_tem_45_0304) + tpb034,
+                        ifel(reltp_tem_45_0304 < tplim_04, (tpm04 * reltp_tem_45_0304) + tpb04,
+                             ifel(reltp_tem_45_0304 < tplim_044, (tpm044 * reltp_tem_45_0304) + tpb044,
+                                  ifel(reltp_tem_45_0304 < tplim_068, (tpm068 * reltp_tem_45_0304) + tpb068,
+                                       ifel(reltp_tem_45_0304 < tplim_07,(tpm07 * reltp_tem_45_0304) + tpb07,
+                                            ifel(reltp_tem_45_0304 < tplim_28,(tpm28 * reltp_tem_45_0304) + tpb28, NA)))))))
 
-tev_85_abr <- ifel(tev_85_abr < tevlim_18,  (tevm18  * tev_85_abr) + tevb18,
-                   ifel(tev_85_abr < tevlim_20, (tevm20 * tev_85_abr) + tevb20,
-                        ifel(tev_85_abr < tevlim_22, (tevm22 * tev_85_abr) + tevb22,
-                             ifel(tev_85_abr < tevlim_27, (tevm27 * tev_85_abr) + tevb27,
-                                  ifel(tev_85_abr < tevlim_32, (tevm32 * tev_85_abr) + tevb32,
-                                       ifel(tev_85_abr < tevlim_35,(tevm35 * tev_85_abr) + tevb35,
-                                            ifel(tev_85_abr < tevlim_40,(tevm40 * tev_85_abr) + tevb40,
-                                                 ifel(tev_85_abr < tevlim_45,(tevm45 * tev_85_abr) + tevb45, NA))))))))
+tp_85_abr <- ifel(reltp_tem_85_0304 < tplim_027,  (tpm027  * reltp_tem_85_0304) + tpb027,
+                   ifel(reltp_tem_85_0304 < tplim_034, (tpm034 * reltp_tem_85_0304) + tpb034,
+                        ifel(reltp_tem_85_0304 < tplim_04, (tpm04 * reltp_tem_85_0304) + tpb04,
+                             ifel(reltp_tem_85_0304 < tplim_044, (tpm044 * reltp_tem_85_0304) + tpb044,
+                                  ifel(reltp_tem_85_0304 < tplim_068, (tpm068 * reltp_tem_85_0304) + tpb068,
+                                       ifel(reltp_tem_85_0304 < tplim_07,(tpm07 * reltp_tem_85_0304) + tpb07,
+                                            ifel(reltp_tem_85_0304 < tplim_28,(tpm28 * reltp_tem_85_0304) + tpb28, NA)))))))
 par(mfrow = c(2, 2), mar = c(2, 2, 3, 1))
-plot(tev_h_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por temperatura media en vegetativa abril | Historico", cex.main=1, legend=FALSE )
+plot(tp_h_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Relacion termoperiodo/tmed en maduracion abril | Historico", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(tev_45_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por temperatura media en vegetativa abril | SSP2-4.5", cex.main=1, legend=FALSE)
+plot(tp_45_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Relacion termoperiodo/tmed en maduracion abril | SSP2-4.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(tev_85_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por temperatura media en vegetativa abril | SSP5 8.5", cex.main=1)
+plot(tp_85_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Relacion termoperiodo/tmed en maduracion abril | SSP5 8.5", cex.main=1)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 
 # Ciclo NOVIEMBRE:---------------------------------------------------------------
 
-tev_h_nov <- ifel(tev_h_nov < tevlim_18,  (tevm18 * tev_h_nov) + tevb18,
-                  ifel(tev_h_nov < tevlim_20, (tevm20 * tev_h_nov) + tevb20,
-                       ifel(tev_h_nov < tevlim_22, (tevm22 * tev_h_nov) + tevb22,
-                            ifel(tev_h_nov < tevlim_27, (tevm27 * tev_h_nov) + tevb27,
-                                 ifel(tev_h_nov < tevlim_32, (tevm32 * tev_h_nov) + tevb32,
-                                      ifel(tev_h_nov < tevlim_35,(tevm35 * tev_h_nov) + tevb35,
-                                           ifel(tev_h_nov < tevlim_40,(tevm40 * tev_h_nov) + tevb40,
-                                                ifel(tev_h_nov < tevlim_45,(tevm45 * tev_h_nov) + tevb45, NA))))))))
+tp_h_nov <- ifel(reltp_tem_h_1011 < tplim_027,  (tpm027 * reltp_tem_h_1011) + tpb027,
+                  ifel(reltp_tem_h_1011 < tplim_034, (tpm034 * reltp_tem_h_1011) + tpb034,
+                       ifel(reltp_tem_h_1011 < tplim_04, (tpm04 * reltp_tem_h_1011) + tpb04,
+                            ifel(reltp_tem_h_1011 < tplim_044, (tpm044 * reltp_tem_h_1011) + tpb044,
+                                 ifel(reltp_tem_h_1011 < tplim_068, (tpm068 * reltp_tem_h_1011) + tpb068,
+                                      ifel(reltp_tem_h_1011 < tplim_07,(tpm07 * reltp_tem_h_1011) + tpb07,
+                                           ifel(reltp_tem_h_1011 < tplim_28,(tpm28 * reltp_tem_h_1011) + tpb28, NA)))))))
 
-tev_45_nov <- ifel(tev_45_nov < tevlim_18,  (tevm18  * tev_45_nov) + tevb18,
-                   ifel(tev_45_nov < tevlim_20, (tevm20 * tev_45_nov) + tevb20,
-                        ifel(tev_45_nov < tevlim_22, (tevm22 * tev_45_nov) + tevb22,
-                             ifel(tev_45_nov < tevlim_27, (tevm27 * tev_45_nov) + tevb27,
-                                  ifel(tev_45_nov < tevlim_32, (tevm32 * tev_45_nov) + tevb32,
-                                       ifel(tev_45_nov < tevlim_35,(tevm35 * tev_45_nov) + tevb35,
-                                            ifel(tev_45_nov < tevlim_40,(tevm40 * tev_45_nov) + tevb40,
-                                                 ifel(tev_45_nov < tevlim_45,(tevm45 * tev_45_nov) + tevb45, NA))))))))
+tp_45_nov <- ifel(reltp_tem_45_1011 < tplim_027,  (tpm027  * reltp_tem_45_1011) + tpb027,
+                   ifel(reltp_tem_45_1011 < tplim_034, (tpm034 * reltp_tem_45_1011) + tpb034,
+                        ifel(reltp_tem_45_1011 < tplim_04, (tpm04 * reltp_tem_45_1011) + tpb04,
+                             ifel(reltp_tem_45_1011 < tplim_044, (tpm044 * reltp_tem_45_1011) + tpb044,
+                                  ifel(reltp_tem_45_1011 < tplim_068, (tpm068 * reltp_tem_45_1011) + tpb068,
+                                       ifel(reltp_tem_45_1011 < tplim_07,(tpm07 * reltp_tem_45_1011) + tpb07,
+                                            ifel(reltp_tem_45_1011 < tplim_28,(tpm28 * reltp_tem_45_1011) + tpb28, NA)))))))
 
-tev_85_nov <- ifel(tev_85_nov < tevlim_18,  (tevm18  * tev_85_nov) + tevb18,
-                   ifel(tev_85_nov < tevlim_20, (tevm20 * tev_85_nov) + tevb20,
-                        ifel(tev_85_nov < tevlim_22, (tevm22 * tev_85_nov) + tevb22,
-                             ifel(tev_85_nov < tevlim_27, (tevm27 * tev_85_nov) + tevb27,
-                                  ifel(tev_85_nov < tevlim_32, (tevm32 * tev_85_nov) + tevb32,
-                                       ifel(tev_85_nov < tevlim_35,(tevm35 * tev_85_nov) + tevb35,
-                                            ifel(tev_85_nov < tevlim_40,(tevm40 * tev_85_nov) + tevb40,
-                                                 ifel(tev_85_nov < tevlim_45,(tevm45 * tev_85_nov) + tevb45, NA))))))))
+tp_85_nov <- ifel(reltp_tem_85_1011 < tplim_027,  (tpm027  * reltp_tem_85_1011) + tpb027,
+                   ifel(reltp_tem_85_1011 < tplim_034, (tpm034 * reltp_tem_85_1011) + tpb034,
+                        ifel(reltp_tem_85_1011 < tplim_04, (tpm04 * reltp_tem_85_1011) + tpb04,
+                             ifel(reltp_tem_85_1011 < tplim_044, (tpm044 * reltp_tem_85_1011) + tpb044,
+                                  ifel(reltp_tem_85_1011 < tplim_068, (tpm068 * reltp_tem_85_1011) + tpb068,
+                                       ifel(reltp_tem_85_1011 < tplim_07,(tpm07 * reltp_tem_85_1011) + tpb07,
+                                            ifel(reltp_tem_85_1011 < tplim_28,(tpm28 * reltp_tem_85_1011) + tpb28, NA)))))))
 par(mfrow = c(2, 2), mar = c(2, 2, 3, 1))
-plot(tev_h_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media en vegetativa noviembre | Historico", cex.main=1, legend=FALSE )
+plot(tp_h_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Relacion termoperiodo/tmed en maduracion noviembre | Historico", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(tev_45_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media en vegetativa noviembre | SSP2-4.5", cex.main=1, legend=FALSE)
+plot(tp_45_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Relacion termoperiodo/tmed en maduracion noviembre | SSP2-4.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(tev_85_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media en vegetativa noviembre | SSP5 8.5", cex.main=1)
+plot(tp_85_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Relacion termoperiodo/tmed en maduracion noviembre | SSP5 8.5", cex.main=1)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 
