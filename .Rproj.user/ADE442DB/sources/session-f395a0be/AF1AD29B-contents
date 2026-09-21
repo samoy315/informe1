@@ -1011,25 +1011,25 @@ par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
 plot(cana_85_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Amenaza del cambio climatico sobre la caña de azucar abril | SSP5-8.5", cex.main=1, legend=TRUE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
-# =================================== CON RIEGO ========================================================================
+# =================================== NOVIEMBRE ========================================================================
 
 # HISTORICO O BASE:------------
 
-E1_h_min_r<- min(tem_h_a, tam_h_b, tim_h_c, hr_h_a)
-E1_h_min1_r<- mask(c(tem_h_a, tam_h_b, tim_h_c, hr_h_a), re_cacao)
-names(E1_h_min1_r)<- c("temp media", "temp maxima", "temp minima", "HR")
-E1_h_min2_r<- mask(min(c(tem_h_a, tam_h_b, tim_h_c, hr_h_a)), re_cacao)
+E1_h_min_r<- min(teg_h_nov, tel_h_nov, tev_h_nov, tp_h_nov, inh_h_a, inp_h_c, hr_h_1011a)
+E1_h_min1_r<- mask(c(teg_h_nov, tel_h_nov, tev_h_nov, tp_h_nov, inh_h_a, inp_h_c, hr_h_1011a), re_cana)
+names(E1_h_min1_r)<- c("Tem_germinacion", "Temp labranza", "temp vegetativa", "Rel termoperiodo maduracion", "Horas sol anual", "Insolacion 5", "HR maduracion")
+E1_h_min2_r<- mask(min(c(teg_h_nov, tel_h_nov, tev_h_nov, tp_h_nov, inh_h_a, inp_h_c, hr_h_1011a)), re_cana)
 E1_h_min2a_r<- round(E1_h_min2_r, digits = 3)
 
 par(mfrow=c(1,1))
 plot(E1_h_min1_r,col=paleta_semaforo(4))
 
-cacao_h_apt_r <- ifel(E1_h_min2a_r <= 1,  1,
+cana_h_apt_r <- ifel(E1_h_min2a_r <= 1,  1,
                     ifel(E1_h_min2a_r <= 2,2,
                          ifel(E1_h_min2a_r <= 3,3,4)))
 
-clases_presentes_h_r <- na.omit(unique(cacao_h_apt_r)[, 1])
-plot(cacao_h_apt_r,type = "classes",col=colores_semaforo2[clases_presentes_h_r],main="Aptitud climatica de las tierras para cacao con riego | Historico")
+clases_presentes_h_r <- na.omit(unique(cana_h_apt_r)[, 1])
+plot(cana_h_apt_r,type = "classes",col=colores_semaforo2[clases_presentes_h_r],main="Aptitud climatica de las tierras para caña de azucar noviembre | Historico")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
 # repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
@@ -1039,12 +1039,8 @@ E1_h_min_fig1_r<- ifel(E1_h_min_fig_r <= 1,  1,
                      ifel(E1_h_min_fig_r <= 2,2,
                           ifel(E1_h_min_fig_r <= 3,3,4)))
 
-# clases_presentes_h_fig_r <- na.omit(unique(E1_h_min_fig1_r)[, 1])
-# plot(E1_h_min_fig1_r,type = "classes",col=colores_semaforo2[clases_presentes_h_fig_r],main="Aptitud climatica de las tierras para cacao con riego | Historico", cex.main=1)
-# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E1_h_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para cacao con riego | Historico", cex.main=1, legend=TRUE )
+plot(E1_h_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para caña de azucar noviembre| Historico", cex.main=1, legend=TRUE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # SSP2-4.5:--------------------------------------------------------------------------------
