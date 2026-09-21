@@ -3,9 +3,9 @@
     "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/4_Cana/apt_cana.R",
     "project_path": null,
     "type": "r_source",
-    "hash": "0",
+    "hash": "1844067610",
     "contents": "",
-    "dirty": true,
+    "dirty": false,
     "created": 1788538791654.0,
     "source_on_save": false,
     "relative_order": 12,
@@ -13,15 +13,15 @@
         "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "664,0",
-        "scrollLine": "633"
+        "cursorPosition": "870,56",
+        "scrollLine": "858"
     },
     "folds": "",
-    "lastKnownWriteTime": 1789941200,
+    "lastKnownWriteTime": 1789957520,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1789941318943,
+    "last_content_update": 1789957520097,
     "read_only": false,
     "read_only_alternatives": []
 }
