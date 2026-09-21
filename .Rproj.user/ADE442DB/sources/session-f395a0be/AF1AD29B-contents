@@ -859,41 +859,34 @@ plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 
 #############################################################################################################################
-################################### VARIANTE CICLO DE SIEMBRA MAYO A AGOSTO (0508)###########################################
+################################### VARIANTE CICLO DE SIEMBRA ABRIL #########################################################
 #############################################################################################################################
-
-
-# Estimacion de la APTITUD CLIMATICA de las tierras (MINIMOS O PROMEDIOS)----------------------------------------------------
-# ---------------------------------------------------------------------------------------------------------------------------
 
 # ============================================ ABRIL ==================================================================== 
 
 # exportamos la region de exposicion estandar del cacao:
-re_cacao<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/reg_cacao_estandar.tif")
+re_cana<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/reg_cana_estandar.tif")
 par(mfrow=c(1,1))
-plot(re_cacao,col="green3", legend=FALSE)
+plot(re_cana,col="green3", legend=FALSE)
 plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
 
 # HISTORICO O BASE:------------
-
-tam_h_b<- resample(tam_h_a, p_h_anual1, method="bilinear")
-tim_h_c<- resample(tim_h_b, p_h_anual1, method="bilinear")
-E1_h_min<- min(p_h_anual1, es_h_anual1, tem_h_a, tam_h_b, tim_h_c, hr_h_a)
-
-E1_h_min1<- mask(c(p_h_anual1, es_h_anual1, tem_h_a, tam_h_b, tim_h_c, hr_h_a), re_cacao)
-names(E1_h_min1)<- c("pp anual", "estacion seca", "temp media", "temp maxima", "temp minima", "HR")
-E1_h_min2<- mask(min(c(p_h_anual1, es_h_anual1, tem_h_a, tam_h_b, tim_h_c, hr_h_a)), re_cacao)
+inp_h_c<- resample(inp_h_b, teg_h_abr, method="bilinear")
+E1_h_min<- min(teg_h_abr, tel_h_abr, tev_h_abr, tp_h_abr, inh_h_a, inp_h_c, hr_h_0304a)
+E1_h_min1<- mask(c(teg_h_abr, tel_h_abr, tev_h_abr, tp_h_abr, inh_h_a, inp_h_c, hr_h_0304a), re_cana)
+names(E1_h_min1)<- c("Tem_germinacion", "Temp labranza", "temp vegetativa", "Rel termoperiodo maduracion", "Horas sol anual", "Insolacion 5", "HR maduracion")
+E1_h_min2<- mask(min(c(teg_h_abr, tel_h_abr, tev_h_abr, tp_h_abr, inh_h_a, inp_h_c, hr_h_0304a)), re_cana)
 E1_h_min2a<- round(E1_h_min2, digits = 3)
 
 par(mfrow=c(1,1))
 plot(E1_h_min1,col=paleta_semaforo(4))
 
-cacao_h_apt <- ifel(E1_h_min2a <= 1,  1,
+cana_h_apt <- ifel(E1_h_min2a <= 1,  1,
                    ifel(E1_h_min2a <= 2,2,
                         ifel(E1_h_min2a <= 3,3,4)))
 
-clases_presentes_h <- na.omit(unique(cacao_h_apt)[, 1])
-plot(cacao_h_apt,type = "classes",col=colores_semaforo2[clases_presentes_h],main="Aptitud climatica de las tierras para cacao sin riego | Historico")
+clases_presentes_h <- na.omit(unique(cana_h_apt)[, 1])
+plot(cana_h_apt,type = "classes",col=colores_semaforo2[clases_presentes_h],main="Aptitud climatica de las tierras para caña de azucar abril | Historico")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
 # repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
@@ -903,35 +896,33 @@ E1_h_min_fig1<- ifel(E1_h_min_fig <= 1,  1,
                      ifel(E1_h_min_fig <= 2,2,
                           ifel(E1_h_min_fig <= 3,3,4)))
 
-# clases_presentes_h_fig <- na.omit(unique(E1_h_min_fig1)[, 1])
-# plot(E1_h_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_h_fig],main="Aptitud climatica de las tierras para cacao sin riego | Historico", cex.main=1)
-# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E1_h_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Humedad relativa del mes mas seco | Historico", cex.main=1, legend=TRUE )
+plot(E1_h_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para caña de azucar abril | Historico", cex.main=1, legend=TRUE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # SSP2-4.5:--------------------------------------------------------------------------------
 
-es_45_anual3<- resample(es_45_anual2, p_45_anual1, method="bilinear")
-hr_45_b<- resample(hr_45_a, p_45_anual1, method="bilinear")
-re_cacao1<- resample(re_cacao,p_45_anual1, method="bilinear")
+tel_45_abr1<- resample(tel_45_abr, teg_45_abr, method="bilinear")
+inp_45_c<- resample(inp_45_b, teg_45_abr, method="bilinear")
+inh_45_b<- resample(inh_45_a,teg_45_abr, method="bilinear")
+hr_45_0304b<- resample(hr_45_0304a, teg_45_abr, method="bilinear")
+re_cana1<- resample(re_cana,teg_45_abr, method="bilinear")
 
-E3_45_min<- min(p_45_anual1, es_45_anual3, tem_45_a, tam_45_a, tim_45_a, hr_45_b)
-E3_45_min1<- mask(c(p_45_anual1, es_45_anual3, tem_45_a, tam_45_a, tim_45_a, hr_45_b), re_cacao1)
-names(E3_45_min1)<- c("pp anual", "estacion seca", "temp media", "temp maxima", "temp minima", "HR")
-E3_45_min2<- mask(min(c(p_45_anual1, es_45_anual3, tem_45_a, tam_45_a, tim_45_a, hr_45_b)), re_cacao1)
+E3_45_min<- min(teg_45_abr, tel_45_abr1, tev_45_abr,tp_45_abr, inh_45_b, inp_45_c, hr_45_0304b)
+E3_45_min1<- mask(c(teg_45_abr, tel_45_abr1, tev_45_abr,tp_45_abr, inh_45_b, inp_45_c, hr_45_0304b), re_cana1)
+names(E3_45_min1)<- c("Tem_germinacion", "Temp labranza", "temp vegetativa", "Rel termoperiodo maduracion", "Horas sol anual", "Insolacion 5", "HR maduracion")
+E3_45_min2<- mask(min(c(teg_45_abr, tel_45_abr1, tev_45_abr,tp_45_abr, inh_45_b, inp_45_c, hr_45_0304b)), re_cana1)
 E3_45_min2a<- round(E3_45_min2, digits = 3)
 
 par(mfrow=c(1,1))
 plot(E3_45_min1,col=paleta_semaforo(4))
 
-cacao_45_apt <- ifel(E3_45_min2a <= 1,  1,
+cana_45_apt <- ifel(E3_45_min2a <= 1,  1,
                     ifel(E3_45_min2a <= 2,2,
                          ifel(E3_45_min2a <= 3,3,4)))
 
-clases_presentes_45 <- na.omit(unique(cacao_45_apt)[, 1])
-plot(cacao_45_apt,type = "classes",col=colores_semaforo2[clases_presentes_45],main="Aptitud climatica de las tierras para cacao sin riego | SSP2-4.5")
+clases_presentes_45 <- na.omit(unique(cana_45_apt)[, 1])
+plot(cana_45_apt,type = "classes",col=colores_semaforo2[clases_presentes_45],main="Aptitud climatica de las tierras para caña de azucar abril | SSP2-4.5")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
 # repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
@@ -941,12 +932,8 @@ E3_45_min_fig1<- ifel(E3_45_min_fig <= 1,  1,
                       ifel(E3_45_min_fig <= 2,2,
                            ifel(E3_45_min_fig <= 3,3,4)))
 
-# clases_presentes_45_fig <- na.omit(unique(E3_45_min_fig1)[, 1])
-# plot(E3_45_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_45_fig],main="Aptitud climatica de las tierras para cacao sin riego | SSP2-4.5", cex.main=1)
-# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E3_45_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para cacao sin riego | SSP2-4.5", cex.main=1, legend=TRUE )
+plot(E3_45_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para caña de azucar abril | SSP2-4.5", cex.main=1, legend=TRUE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # SSP5-8.5:--------------------------------------------------------------------------------
@@ -1035,9 +1022,6 @@ cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
 plot(cacao_85_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Amenaza del cambio climatico sobre el cacao sin riego | SSP5-8.5", cex.main=1, legend=TRUE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-
-
-
 
 # =================================== CON RIEGO ========================================================================
 
