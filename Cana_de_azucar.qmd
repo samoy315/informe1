@@ -98,7 +98,7 @@ En Venezuela la superficie total de Region de Exposicion para la **Caña de azuc
 ![](./images/cana/cana_aptitud_min_ssp85_abr.png)
 
 ##### Ciclo a salidas de lluvias
-![](./images/cana/cana_aptitud_min_ssp85_riego.png)
+![](./images/cana/cana_aptitud_min_ssp85_nov.png)
 
 ## Amenaza
 
