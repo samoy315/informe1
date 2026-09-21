@@ -1111,48 +1111,40 @@ plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # ------------------Diferencia entre el escenario SSP2-4.5 menos Historico:
 
-E3_45_min3_r <- resample(E3_45_min2_r, E1_h_min2_r, method= "near")
-cacao_45_sen_r<- E3_45_min3_r - E1_h_min2_r
+E3_45_min3_r <- resample(E3_45_min2_r, E1_h_min2_r, method= "bilinear")
+cana_45_sen_r<- E3_45_min3_r - E1_h_min2_r
 par(mfrow=c(1,1))
-plot(cacao_45_sen_r)
-cacao_45_sena_r<- round(cacao_45_sen_r, digits = 3)
+plot(cana_45_sen_r)
+cana_45_sena_r<- round(cana_45_sen_r, digits = 3)
 
-cacao_45_sen1_r <- ifel(cacao_45_sena_r < -1,  1,
-                      ifel(cacao_45_sena_r > -1 & cacao_45_sena_r < -0.5, 2,
-                           ifel(cacao_45_sena_r > -0.5 & cacao_45_sena_r < 0, 3, 4)))
+cana_45_sen1_r <- ifel(cana_45_sena_r < -1,  1,
+                      ifel(cana_45_sena_r > -1 & cana_45_sena_r < -0.5, 2,
+                           ifel(cana_45_sena_r > -0.5 & cana_45_sena_r < 0, 3, 4)))
 
-clases_presentes_sen1_45_r <- na.omit(unique(cacao_45_sen1_r)[, 1])
-
-# par(mfrow=c(1,1))
-# plot(cacao_45_sen1_r, type="classes",col=colores_semaforo1[clases_presentes_sen1_45_r], main="Amenaza del cambio climatico sobre el cacao con riego | SSP2-4.5", cex.main=1)
-# plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
+clases_presentes_sen1_45_r <- na.omit(unique(cana_45_sen1_r)[, 1])
 
 cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(cacao_45_sena_r,breaks = cortes_breaks1,col = colores_fijos,main = "Amenaza del cambio climatico sobre el cacao con riego | SSP2-4.5", cex.main=1, legend=TRUE )
+plot(cana_45_sena_r,breaks = cortes_breaks1,col = colores_fijos,main = "Amenaza del cambio climatico sobre el caña de azucar noviembre | SSP2-4.5", cex.main=1, legend=TRUE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # ------------------Diferencia entre el escenario SSP5-8.5 menos Historico:
 
-E5_85_min3_r <- resample(E5_85_min2_r, E1_h_min2_r, method= "near")
-cacao_85_sen_r<- E5_85_min3_r - E1_h_min2_r
+E5_85_min3_r <- resample(E5_85_min2_r, E1_h_min2_r, method= "bilinear")
+cana_85_sen_r<- E5_85_min3_r - E1_h_min2_r
 par(mfrow=c(1,1))
-plot(cacao_85_sen_r)
-cacao_85_sena_r<- round(cacao_85_sen_r, digits = 3)
+plot(cana_85_sen_r)
+cana_85_sena_r<- round(cana_85_sen_r, digits = 3)
 
-cacao_85_sen1_r <- ifel(cacao_85_sena_r < -1,  1,
-                      ifel(cacao_85_sena_r > -1 & cacao_85_sena_r < -0.5, 2,
-                           ifel(cacao_85_sena_r > -0.5 & cacao_85_sena_r < 0, 3, 4)))
+cana_85_sen1_r <- ifel(cana_85_sena_r < -1,  1,
+                      ifel(cana_85_sena_r > -1 & cana_85_sena_r < -0.5, 2,
+                           ifel(cana_85_sena_r > -0.5 & cana_85_sena_r < 0, 3, 4)))
 
-clases_presentes_sen1_85_r <- na.omit(unique(cacao_85_sen1_r)[, 1])
-
-# par(mfrow=c(1,1))
-# plot(cacao_85_sen1_r, type="classes",col=colores_semaforo1[clases_presentes_sen1_85_r], main="Amenaza del cambio climatico sobre el cacao con riego | SSP5-8.5", cex.main=1)
-# plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
+clases_presentes_sen1_85_r <- na.omit(unique(cana_85_sen1_r)[, 1])
 
 cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(cacao_85_sena_r,breaks = cortes_breaks1,col = colores_fijos,main = "Amenaza del cambio climatico sobre el cacao con riego | SSP5-8.5", cex.main=1, legend=TRUE )
+plot(cana_85_sena_r,breaks = cortes_breaks1,col = colores_fijos,main = "Amenaza del cambio climatico sobre el caña de azucar noviembre | SSP5-8.5", cex.main=1, legend=TRUE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 
