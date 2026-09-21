@@ -938,25 +938,25 @@ plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # SSP5-8.5:--------------------------------------------------------------------------------
 
-es_85_anual3<- resample(es_85_anual2, p_85_anual1, method="bilinear")
-hr_85_b<- resample(hr_85_a, p_85_anual1, method="bilinear")
+inh_85_b<- resample(inh_85_a, teg_85_abr, method="bilinear")
+inp_85_c<- resample(inp_85_b, teg_85_abr, method="bilinear")
+hr_85_0304b<- resample(hr_85_0304a, teg_85_abr, method="bilinear")
 
-E5_85_min<- min(p_85_anual1, es_85_anual3, tem_85_a, tam_85_a, tim_85_a, hr_85_b)
-
-E5_85_min1<- mask(c(p_85_anual1, es_85_anual3, tem_85_a, tam_85_a, tim_85_a, hr_85_b), re_cacao1)
-names(E5_85_min1)<- c("pp anual", "estacion seca", "temp media", "temp maxima", "temp minima", "HR")
-E5_85_min2<- mask(min(c(p_85_anual1, es_85_anual3, tem_85_a, tam_85_a, tim_85_a, hr_85_b)), re_cacao1)
+E5_85_min<- min(teg_85_abr, tel_85_abr, tev_85_abr, tp_85_abr, inh_85_b, inp_85_c, hr_85_0304b)
+E5_85_min1<- mask(c(teg_85_abr, tel_85_abr, tev_85_abr, tp_85_abr, inh_85_b, inp_85_c, hr_85_0304b), re_cana1)
+names(E5_85_min1)<- c("Tem_germinacion", "Temp labranza", "temp vegetativa", "Rel termoperiodo maduracion", "Horas sol anual", "Insolacion 5", "HR maduracion")
+E5_85_min2<- mask(min(c(teg_85_abr, tel_85_abr, tev_85_abr, tp_85_abr, inh_85_b, inp_85_c, hr_85_0304b)), re_cana1)
 E5_85_min2a<- round(E5_85_min2, digits = 3)
 
 par(mfrow=c(1,1))
 plot(E5_85_min1,col=paleta_semaforo(4))
 
-cacao_85_apt <- ifel(E5_85_min2a <= 1,  1,
+cana_85_apt <- ifel(E5_85_min2a <= 1,  1,
                     ifel(E5_85_min2a <= 2,2,
                          ifel(E5_85_min2a <= 3,3,4)))
 
-clases_presentes_85 <- na.omit(unique(cacao_85_apt)[, 1])
-plot(cacao_85_apt,type = "classes",col=colores_semaforo2[clases_presentes_85],main="Aptitud climatica de las tierras para cacao sin riego | SSP5-8.5")
+clases_presentes_85 <- na.omit(unique(cana_85_apt)[, 1])
+plot(cana_85_apt,type = "classes",col=colores_semaforo2[clases_presentes_85],main="Aptitud climatica de las tierras para caña de azucar abril | SSP5-8.5")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
 # repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
@@ -966,12 +966,8 @@ E5_85_min_fig1<- ifel(E5_85_min_fig <= 1,  1,
                       ifel(E5_85_min_fig <= 2,2,
                            ifel(E5_85_min_fig <= 3,3,4)))
 
-# clases_presentes_85_fig <- na.omit(unique(E5_85_min_fig1)[, 1])
-# plot(E5_85_min_fig1,type = "classes",col=colores_semaforo2[clases_presentes_85_fig],main="Aptitud climatica de las tierras para cacao sin riego | SSP5-8.5")
-# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E5_85_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para cacao sin riego | SSP5-8.5", cex.main=1, legend=TRUE )
+plot(E5_85_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para caña de azucar abril | SSP5-8.5", cex.main=1, legend=TRUE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # Estimacion de la AMENAZA CLIMATICA de las tierras (DIFERENCIA antigua SENSIBILIDAD)---------------------------------------
