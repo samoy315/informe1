@@ -140,8 +140,8 @@ summary(ps_h_anual); summary(ps_45_anual1); summary(ps_85_anual1)
 
 #Valoracion de los parametros:
 ps_cafe <- tibble(
-  ps = c(0, 60, 75, 90, 150, 180, 365),
-  g_aptitud = c(0, 1, 4, 3, 2, 1, 0)
+  ps = c(0, 30, 75, 120, 150, 180, 365),
+  g_aptitud = c(3, 3, 4, 3, 2, 1, 0)
 )
 
 ps_cafe1 <- ps_cafe %>%
