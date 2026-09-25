@@ -39,11 +39,12 @@ Se seleccionaron 10 cultivos según su importancia en superficie sembrada, valor
 | 3   | Cacao          | Si    | \-                              |
 | 4   | Cacao          | No    | \-                              |
 | 5   | Cafe           | No    | \-                              |
-| 6   | Caña de azucar | Si    | Secano (Mayo)                   |
-| 7   | Caña de azucar | Si    | Nortes                          |
+| 6   | Caña de azucar | Si    | Inicio de lluvias (Abril)       |
+| 7   | Caña de azucar | Si    | Salidas de lluvias (Noviembre)  |
 | 8   | Frijol         | No    | Salidas de lluvias (Septiembre) |
 | 9   | Maiz           | No    | Secano (Mayo)                   |
-| 10  | Naranja        | No    | Inicio de lluvias               |
+| 10  | Naranja        | No    | Inicio de lluvias (Mayo)        |
 | 11  | Papa           | No    | \-                              |
-| 12  | Platano        | No    | \-                              |
-| 13  | Yuca           | No    | Secano (Mayo)                   |
+| 12  | Musaceas       | No    | Inicio de lluvias (Mayo)        |
+| 13  | Musaceas       | Si    | Salidas de lluvias (Noviembre)  |
+| 14  | Yuca           | No    | Inicio de lluvias (Mayo)        |
