@@ -1,27 +1,26 @@
 {
-    "id": "AF1AD29B",
-    "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/9_platano/apt_platano.R",
+    "id": "C025E7DE",
+    "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/9_Musaceas/apt_musaceas.R",
     "project_path": null,
     "type": "r_source",
     "hash": "0",
     "contents": "",
-    "dirty": true,
-    "created": 1788538791654.0,
+    "dirty": false,
+    "created": 1790300404339.0,
     "source_on_save": false,
     "relative_order": 13,
     "properties": {
-        "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "213,0",
-        "scrollLine": "211"
+        "cursorPosition": "212,64",
+        "scrollLine": "197"
     },
     "folds": "",
-    "lastKnownWriteTime": 1790294126,
+    "lastKnownWriteTime": 1790300429,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1790295125307,
+    "last_content_update": 1790300429189,
     "read_only": false,
     "read_only_alternatives": []
 }

@@ -1,8 +1,8 @@
 {
-  "hash": "444720d90874d29b733b63d41933c25a",
+  "hash": "6fde9765bfed25c75f8feb634dc1e257",
   "result": {
     "engine": "knitr",
-    "markdown": "# Platano\n\n## Region de exposicion:\n\n\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![](Platano_files/figure-html/mapa-platano-estandar-1.png){fig-align='center' width=672}\n:::\n:::\n\n\n\n\nEn Venezuela la superficie total de Region de Exposicion para la **Platano** es de\" **409.304,4** Km^2^.\n",
+    "markdown": "# Platano\n\n## Region de exposicion:\n\n\n\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![](Platano_files/figure-html/mapa-platano-estandar-1.png){fig-align='center' width=672}\n:::\n:::\n\n\n\n\n\nEn Venezuela la superficie total de Region de Exposicion para la **Platano** es de\" **409.304,4** Km^2^.\n\n## Factores de Exposición\n\n#### 1. Precipitación anual:\n\n![](./images/cacao/cacao_fe_pp_anual.png)\n\n#### 2. Duracion de estacion seca:\n![](./images/cacao/cacao_fe_eseca_anual.png)",
     "supporting": [
       "Platano_files"
     ],
