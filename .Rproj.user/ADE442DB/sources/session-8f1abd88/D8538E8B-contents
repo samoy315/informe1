@@ -35,3 +35,14 @@ En Venezuela la superficie total de Region de Exposicion para la **Musaceas** es
 
 #### 2. Duracion de estacion seca:
 ![](./images/musaceas/musa_fe_eseca_anual.png)
+
+#### 3. Temperatura media anual:
+![](./images/musaceas/musa_fe_tem_anual.png)
+
+#### 4. Temperatura minima promedio del mes mas frio:
+
+##### Distibuccion espacial de los meses mas frios al año para los tres escenarios climaticos
+![](./images/musaceas/musa_fe_mes_frio.png)
+
+##### Temperatura minima promedio del mes mas frio
+![](./images/musaceas/musa_fe_timf_anual.png)
