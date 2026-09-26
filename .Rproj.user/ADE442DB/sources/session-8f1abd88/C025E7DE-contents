@@ -480,13 +480,23 @@ ti_mf_85 <- ifel(tim_85mes1 < tilim_2,  (tim2  * tim_85mes1) + tib2,
                       ifel(tim_85mes1 < tilim_15, (tim15 * tim_85mes1) + tib15,
                            ifel(tim_85mes1 < tilim_20, (tim20 * tim_85mes1) + tib20,
                                 ifel(tim_85mes1 < tilim_27, (tim27 * tim_85mes1) + tib27, NA)))))
-par(mfrow=c(2,2))
-plot(ti_mf_h,col = paleta_semaforo(4),main = "Aptitud climatica por Temperatura minima del mas frio | historico", cex.main=0.9)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(ti_mf_45,col = paleta_semaforo(4),main = "Aptitud climatica por Temperatura minima del mas frio | SSP2-4.5", cex.main=0.9)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-plot(ti_mf_85,col=paleta_semaforo(4),main="Aptitud climatica por Temperatura minima del mas frio | SSP5-8.5", cex.main=0.9)
-plot(st_geometry(venezuela),add=TRUE,border="black",lwd=1.5)
+# par(mfrow=c(2,2))
+# plot(ti_mf_h,col = paleta_semaforo(4),main = "Aptitud climatica por Temperatura minima del mas frio | historico", cex.main=0.9)
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# plot(ti_mf_45,col = paleta_semaforo(4),main = "Aptitud climatica por Temperatura minima del mas frio | SSP2-4.5", cex.main=0.9)
+# plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+# plot(ti_mf_85,col=paleta_semaforo(4),main="Aptitud climatica por Temperatura minima del mas frio | SSP5-8.5", cex.main=0.9)
+# plot(st_geometry(venezuela),add=TRUE,border="black",lwd=1.5)
+
+
+
+par(mfrow = c(2, 2), mar = c(2, 2, 3, 1))
+plot(ti_mf_h,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica por Temperatura minima del mas frio | historico", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(ti_mf_45,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica por Temperatura minima del mas frio | SSP2-4.5", cex.main=1, legend=FALSE)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(ti_mf_85,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica por Temperatura minima del mas frio | SSP5-8.5", cex.main=1)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 
 #############################################################################################################################
