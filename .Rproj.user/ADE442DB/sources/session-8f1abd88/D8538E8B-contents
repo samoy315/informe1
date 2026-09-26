@@ -51,8 +51,44 @@ En Venezuela la superficie total de Region de Exposicion para la **Musaceas** es
 
 #### Escenario Histórico o Base:
 
-##### Siembra en Mayo al inicio de lluvias (mayo) sin riego
+##### Siembra en mayo al inicio de lluvias sin riego
 ![](./images/musaceas/musa_aptitud_min_historico_mayo_sin_riego.png)
 
+##### Siembra en noviembre salidas de lluvias con riego
+![](./images/musaceas/musa_aptitud_min_historico_nov.png)
+
+#### Escenario SSP2-4.5:
+
+##### Siembra en mayo al inicio de lluvias sin riego
+![](./images/musaceas/cana_aptitud_min_ssp45_abr.png)
+
+##### Siembra en noviembre salidas de lluvias con riego
+![](./images/musaceas/cana_aptitud_min_ssp45_nov.png)
+
+#### Escenario SSP5-8.5:
+
+##### Siembra en mayo al inicio de lluvias sin riego
+![](./images/musaceas/cana_aptitud_min_ssp85_abr.png)
+
+##### Siembra en noviembre salidas de lluvias con riego
+![](./images/musaceas/cana_aptitud_min_ssp85_nov.png)
+
+## Amenaza
+
+#### Cambio con respecto al Escenario SSP2-4.5:
+
+##### Siembra en mayo al inicio de lluvias sin riego
+![](./images/musaceas/cana_amenaza_min_ssp45_abr.png)
+
+##### Siembra en noviembre salidas de lluvias con riego
+![](./images/musaceas/cana_amenaza_min_ssp45_nov.png)
+
+#### Cambio con respecto al Escenario SSP5-8.5:
+
+##### Siembra en mayo al inicio de lluvias sin riego
+![](./images/musaceas/cana_amenaza_min_ssp85_abr.png)
+
+##### Siembra en noviembre salidas de lluvias con riego
+![](./images/musaceas/cana_amenaza_min_ssp85_nov.png)
 
 
