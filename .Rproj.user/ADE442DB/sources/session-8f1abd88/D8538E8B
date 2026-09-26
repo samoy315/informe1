@@ -3,7 +3,7 @@
     "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/informe1/Musaceas.qmd",
     "project_path": "Musaceas.qmd",
     "type": "quarto_markdown",
-    "hash": "367097025",
+    "hash": "2344509695",
     "contents": "",
     "dirty": false,
     "created": 1790295175089.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "47,40",
-        "scrollLine": "40"
+        "cursorPosition": "54,21",
+        "scrollLine": "45"
     },
     "folds": "",
-    "lastKnownWriteTime": 1790442714,
+    "lastKnownWriteTime": 1790443922,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1790442714162,
+    "last_content_update": 1790443922496,
     "read_only": false,
     "read_only_alternatives": []
 }
