@@ -1,0 +1,49 @@
+# Empezar en cinco minutos
+
+En este recorrido abrirás el ejemplo, moverás el modelo 3D y medirás una distancia. No necesitas
+crear una cuenta ni preparar archivos.
+
+## 1. Abre el visor
+
+Pulsa **Abrir el visor** arriba a la derecha. También puedes entrar directamente a
+[`/app`](/app). Espera a que aparezcan dos vistas: **Modelo 3D** a la izquierda e **Imagen
+satelital** a la derecha.
+
+> [!NOTA]
+> El primer terreno es el “Proyecto de ejemplo”. Está ahí para que puedas aprender sin cargar información propia.
+
+## 2. Mueve el terreno
+
+En **Modelo 3D**:
+
+- Arrastra para girar y mirar el relieve desde otro ángulo.
+- Usa la rueda del ratón o el gesto de pellizcar para acercarte y alejarte.
+- Usa el control de vista inicial si quieres volver al encuadre original.
+
+En **Imagen satelital** el movimiento es en planta, como en un mapa. Los controles de una vista no
+mueven la otra.
+
+## 3. Mira la ficha del proyecto
+
+La columna izquierda resume el terreno. Allí verás el CRS, las cotas mínima y máxima, el tamaño de
+la celda del DEM, la separación de las curvas, el área del levantamiento y la zona de influencia.
+No tienes que memorizar esos datos: sirven para comprobar con qué información estás trabajando.
+
+## 4. Mide una línea
+
+1. En **Herramientas de la imagen satelital**, pulsa **Medición**.
+2. Haz clic en un punto del mapa.
+3. Haz clic en un segundo punto.
+4. Lee la longitud y el desnivel en el panel.
+5. Pulsa **Limpiar recorrido** para comenzar de nuevo.
+
+Si añades más puntos y cierras sobre el primero, el recorrido se convierte en polígono y el panel
+también muestra el perímetro y el área.
+
+## 5. Abre tu propia zona cuando estés listo
+
+Pulsa el selector **Proyecto de ejemplo** en la cabecera y elige crear una zona. Necesitarás un KML
+o KMZ con un polígono. El paso a paso está en [Cargar una zona propia](/manual/zona-propia/).
+
+> [!CONSEJO]
+> El icono `?` de la cabecera abre este manual en otra pestaña. Puedes dejar el manual al lado del visor y seguir los pasos sin perder tu trabajo.
