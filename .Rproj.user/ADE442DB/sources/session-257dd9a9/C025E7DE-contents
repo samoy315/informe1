@@ -684,22 +684,21 @@ plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # SSP2-4.5:--------------------------------------------------------------------------------
 
-hr_45_1011b<- resample(hr_45_1011a, teg_45_nov, method="bilinear" )
-E3_45_min_r<- min(teg_45_nov, tel_45_nov, tev_45_nov, tp_45_nov, inh_45_b, inp_45_c, hr_45_1011b)
-E3_45_min1_r<- mask(c(teg_45_nov, tel_45_nov, tev_45_nov, tp_45_nov, inh_45_b, inp_45_c, hr_45_1011b), re_cana1)
-names(E3_45_min1_r)<- c("Tem_germinacion", "Temp labranza", "temp vegetativa", "Rel termoperiodo maduracion", "Horas sol anual", "Insolacion 5", "HR maduracion")
-E3_45_min2_r<- mask(min(c(teg_45_nov, tel_45_nov, tev_45_nov, tp_45_nov, inh_45_b, inp_45_c, hr_45_1011b)), re_cana1)
+E3_45_min_r<- min(tem_45_a, ti_mf_45)
+E3_45_min1_r<- mask(c(tem_45_a, ti_mf_45), re_musa1)
+names(E3_45_min1_r)<- c("Temp media anual", "Temp minima mes frio")
+E3_45_min2_r<- mask(min(c(tem_45_a, ti_mf_45)), re_musa1)
 E3_45_min2a_r<- round(E3_45_min2_r, digits = 3)
 
 par(mfrow=c(1,1))
 plot(E3_45_min1_r,col=paleta_semaforo(4))
 
-cana_45_apt_r <- ifel(E3_45_min2a_r <= 1,  1,
+musa_45_apt_r <- ifel(E3_45_min2a_r <= 1,  1,
                      ifel(E3_45_min2a_r <= 2,2,
                           ifel(E3_45_min2a_r <= 3,3,4)))
 
-clases_presentes_45_r <- na.omit(unique(cana_45_apt_r)[, 1])
-plot(cana_45_apt_r,type = "classes",col=colores_semaforo2[clases_presentes_45_r],main="Aptitud climatica de las tierras para caña de azucar noviembre | SSP2-4.5")
+clases_presentes_45_r <- na.omit(unique(musa_45_apt_r)[, 1])
+plot(musa_45_apt_r,type = "classes",col=colores_semaforo2[clases_presentes_45_r],main="Aptitud climatica de las tierras para musaceas noviembre con riego | SSP2-4.5")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
 # repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
@@ -710,28 +709,27 @@ E3_45_min_fig1_r<- ifel(E3_45_min_fig_r <= 1,  1,
                            ifel(E3_45_min_fig_r <= 3,3,4)))
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E3_45_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para caña de azucar noviembre | SSP2-4.5", cex.main=1, legend=TRUE )
+plot(E3_45_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para musaceas noviembre con riego | SSP2-4.5", cex.main=1, legend=TRUE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 
 # SSP5-8.5:--------------------------------------------------------------------------------
 
-hr_85_1011b<- resample(hr_85_1011a, teg_85_nov, method="bilinear")
-E5_85_min_r<- min(teg_85_nov, tel_85_nov, tev_85_nov, tp_85_nov, inh_85_b, inp_85_c, hr_85_1011b)
-E5_85_min1_r<- mask(c(teg_85_nov, tel_85_nov, tev_85_nov, tp_85_nov, inh_85_b, inp_85_c, hr_85_1011b), re_cana1)
-names(E5_85_min1_r)<- c("Tem_germinacion", "Temp labranza", "temp vegetativa", "Rel termoperiodo maduracion", "Horas sol anual", "Insolacion 5", "HR maduracion")
-E5_85_min2_r<- mask(min(c(teg_85_nov, tel_85_nov, tev_85_nov, tp_85_nov, inh_85_b, inp_85_c, hr_85_1011b)), re_cana1)
+E5_85_min_r<- min(tem_85_a, ti_mf_85)
+E5_85_min1_r<- mask(c(tem_85_a, ti_mf_85), re_musa1)
+names(E5_85_min1_r)<- c("Temp media anual", "Temp minima mes frio")
+E5_85_min2_r<- mask(min(c(tem_85_a, ti_mf_85)), re_musa1)
 E5_85_min2a_r<- round(E5_85_min2_r, digits = 3)
 
 par(mfrow=c(1,1))
 plot(E5_85_min1_r,col=paleta_semaforo(4))
 
-cana_85_apt_r <- ifel(E5_85_min2a_r <= 1,  1,
+musa_85_apt_r <- ifel(E5_85_min2a_r <= 1,  1,
                      ifel(E5_85_min2a_r <= 2,2,
                           ifel(E5_85_min2a_r <= 3,3,4)))
 
-clases_presentes_85_r <- na.omit(unique(cana_85_apt_r)[, 1])
-plot(cana_85_apt_r,type = "classes",col=colores_semaforo2[clases_presentes_85_r],main="Aptitud climatica de las tierras para caña de azucar noviembre | SSP5-8.5")
+clases_presentes_85_r <- na.omit(unique(musa_85_apt_r)[, 1])
+plot(musa_85_apt_r,type = "classes",col=colores_semaforo2[clases_presentes_85_r],main="Aptitud climatica de las tierras para musaceas noviembre con riego | SSP5-8.5")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
 # repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
@@ -742,7 +740,7 @@ E5_85_min_fig1_r<- ifel(E5_85_min_fig_r <= 1,  1,
                            ifel(E5_85_min_fig_r <= 3,3,4)))
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E5_85_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para caña de azucar noviembre | SSP5-8.5", cex.main=1, legend=TRUE )
+plot(E5_85_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para musaceas noviembre con riego | SSP5-8.5", cex.main=1, legend=TRUE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # Estimacion de la AMENAZA CLIMATICA de las tierras (DIFERENCIA antigua SENSIBILIDAD)---------------------------------------
@@ -751,20 +749,20 @@ plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 # ------------------Diferencia entre el escenario SSP2-4.5 menos Historico:
 
 E3_45_min3_r <- resample(E3_45_min2_r, E1_h_min2_r, method= "bilinear")
-cana_45_sen_r<- E3_45_min3_r - E1_h_min2_r
+musa_45_sen_r<- E3_45_min3_r - E1_h_min2_r
 par(mfrow=c(1,1))
-plot(cana_45_sen_r)
-cana_45_sena_r<- round(cana_45_sen_r, digits = 3)
+plot(musa_45_sen_r)
+musa_45_sena_r<- round(musa_45_sen_r, digits = 3)
 
-cana_45_sen1_r <- ifel(cana_45_sena_r < -1,  1,
-                      ifel(cana_45_sena_r > -1 & cana_45_sena_r < -0.5, 2,
-                           ifel(cana_45_sena_r > -0.5 & cana_45_sena_r < 0, 3, 4)))
+musa_45_sen1_r <- ifel(musa_45_sena_r < -1,  1,
+                      ifel(musa_45_sena_r > -1 & musa_45_sena_r < -0.5, 2,
+                           ifel(musa_45_sena_r > -0.5 & musa_45_sena_r < 0, 3, 4)))
 
-clases_presentes_sen1_45_r <- na.omit(unique(cana_45_sen1_r)[, 1])
+clases_presentes_sen1_45_r <- na.omit(unique(musa_45_sen1_r)[, 1])
 
 cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(cana_45_sena_r,breaks = cortes_breaks1,col = colores_fijos,main = "Amenaza del cambio climatico sobre el caña de azucar noviembre | SSP2-4.5", cex.main=1, legend=TRUE )
+plot(musa_45_sena_r,breaks = cortes_breaks1,col = colores_fijos,main = "Amenaza del cambio climatico sobre musaceas noviembre con riego | SSP2-4.5", cex.main=1, legend=TRUE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 
 # ------------------Diferencia entre el escenario SSP5-8.5 menos Historico:
