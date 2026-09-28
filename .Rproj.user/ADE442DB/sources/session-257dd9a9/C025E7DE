@@ -3,24 +3,24 @@
     "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/9_Musaceas/apt_musaceas.R",
     "project_path": null,
     "type": "r_source",
-    "hash": "0",
+    "hash": "3992548031",
     "contents": "",
-    "dirty": true,
+    "dirty": false,
     "created": 1790300404339.0,
     "source_on_save": false,
     "relative_order": 13,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "633,0",
-        "scrollLine": "610"
+        "cursorPosition": "652,0",
+        "scrollLine": "617"
     },
     "folds": "",
-    "lastKnownWriteTime": 1790606763,
+    "lastKnownWriteTime": 1790612063,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1790611265407,
+    "last_content_update": 1790612063202,
     "read_only": false,
     "read_only_alternatives": []
 }
