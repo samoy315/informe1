@@ -55,7 +55,7 @@ En Venezuela la superficie total de Region de Exposicion para la **Musaceas** es
 ![](./images/musaceas/musa_aptitud_min_historico_mayo_sin_riego.png)
 
 ##### Siembra en noviembre salidas de lluvias con riego
-![](./images/musaceas/musa_aptitud_min_historico_nov.png)
+![](./images/musaceas/musa_aptitud_min_historico_nov_con_riego.png)
 
 #### Escenario SSP2-4.5:
 
