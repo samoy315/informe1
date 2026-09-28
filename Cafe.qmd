@@ -57,7 +57,7 @@ En Venezuela la superficie total de Region de Exposicion para el **Cafe** es de"
 #### Escenario SSP5-8.5:
 ![](./images/cafe/cafe_aptitud_min_ssp85.png)
 
-## Amenaza
+## Grado de Impacto
 
 #### Cambio con respecto al Escenario SSP2-4.5:
 

@@ -65,7 +65,7 @@ En Venezuela la superficie total de Region de Exposicion para el **Maiz** es de"
 #### Escenario SSP5-8.5:
 ![](./images/maiz/maiz_aptitud_min_ssp85.png)
 
-## Amenaza
+## Grado de Impacto
 
 #### Cambio con respecto al Escenario SSP2-4.5:
 ![](./images/maiz/maiz_amenaza_min_ssp45.png)
