@@ -175,8 +175,15 @@ plot(teg_h_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Te
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 plot(teg_45_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media en germinacion abril | SSP2-4.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(teg_85_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media en germinacion abril | SSP5 8.5", cex.main=1)
+plot(teg_85_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media en germinacion abril | SSP5 8.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
+legend("center", 
+       legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
+       fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
+       title = "Aptitud por temperatura media germinacion", # Título de la leyenda
+       bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
+       cex = 1.3)  # Aumentamos el tamaño del texto
 
 
 # Ciclo NOVIEMBRE:---------------------------------------------------------------
@@ -212,8 +219,15 @@ plot(teg_h_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Te
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 plot(teg_45_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media en germinacion noviembre | SSP2-4.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(teg_85_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media en germinacion noviembre | SSP5 8.5", cex.main=1)
+plot(teg_85_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media en germinacion noviembre | SSP5 8.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
+legend("center", 
+       legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
+       fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
+       title = "Aptitud por temperatura media germinacion", # Título de la leyenda
+       bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
+       cex = 1.3)  # Aumentamos el tamaño del texto
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------
@@ -307,8 +321,15 @@ plot(tel_h_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Te
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 plot(tel_45_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media en labranza abril | SSP2-4.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(tel_85_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media en labranza abril | SSP5 8.5", cex.main=1)
+plot(tel_85_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media en labranza abril | SSP5 8.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
+legend("center", 
+       legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
+       fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
+       title = "Aptitud por temperatura media labranza", # Título de la leyenda
+       bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
+       cex = 1.3)  # Aumentamos el tamaño del texto
 
 
 # Ciclo NOVIEMBRE:---------------------------------------------------------------
@@ -344,8 +365,15 @@ plot(tel_h_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Te
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 plot(tel_45_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media en labranza noviembre | SSP2-4.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(tel_85_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media en labranza noviembre | SSP5 8.5", cex.main=1)
+plot(tel_85_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media en labranza noviembre | SSP5 8.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
+legend("center", 
+       legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
+       fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
+       title = "Aptitud por temperatura media labranza", # Título de la leyenda
+       bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
+       cex = 1.3)  # Aumentamos el tamaño del texto
 
 # -------------------------------------------------------------------------------------------------------------------------------------
 # ----------------------------------------Temperatura media promedio de la etapa vegetativa--------------------------------------------
@@ -457,8 +485,15 @@ plot(tev_h_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por te
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 plot(tev_45_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por temperatura media en vegetativa abril | SSP2-4.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(tev_85_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por temperatura media en vegetativa abril | SSP5 8.5", cex.main=1)
+plot(tev_85_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por temperatura media en vegetativa abril | SSP5 8.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
+legend("center", 
+       legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
+       fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
+       title = "Aptitud por temperatura media vegetativa", # Título de la leyenda
+       bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
+       cex = 1.2)  # Aumentamos el tamaño del texto
 
 
 # Ciclo NOVIEMBRE:---------------------------------------------------------------
@@ -494,8 +529,15 @@ plot(tev_h_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Te
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 plot(tev_45_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media en vegetativa noviembre | SSP2-4.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(tev_85_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media en vegetativa noviembre | SSP5 8.5", cex.main=1)
+plot(tev_85_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media en vegetativa noviembre | SSP5 8.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
+legend("center", 
+       legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
+       fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
+       title = "Aptitud por temperatura media vegetativa", # Título de la leyenda
+       bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
+       cex = 1.2)  # Aumentamos el tamaño del texto
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------
@@ -607,8 +649,15 @@ plot(tp_h_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Rel
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 plot(tp_45_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Relacion termoperiodo/tmed en maduracion abril | SSP2-4.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(tp_85_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Relacion termoperiodo/tmed en maduracion abril | SSP5 8.5", cex.main=1)
+plot(tp_85_abr,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Relacion termoperiodo/tmed en maduracion abril | SSP5 8.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
+legend("center", 
+       legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
+       fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
+       title = "Aptitud por termoperido/temp media maduracion", # Título de la leyenda
+       bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
+       cex = 1.2)  # Aumentamos el tamaño del texto
 
 
 # Ciclo NOVIEMBRE:---------------------------------------------------------------
@@ -641,8 +690,15 @@ plot(tp_h_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Rel
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 plot(tp_45_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Relacion termoperiodo/tmed en maduracion noviembre | SSP2-4.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(tp_85_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Relacion termoperiodo/tmed en maduracion noviembre | SSP5 8.5", cex.main=1)
+plot(tp_85_nov,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Relacion termoperiodo/tmed en maduracion noviembre | SSP5 8.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
+legend("center", 
+       legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
+       fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
+       title = "Aptitud por termoperido/temp media maduracion", # Título de la leyenda
+       bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
+       cex = 1.2)  # Aumentamos el tamaño del texto
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------
@@ -713,8 +769,12 @@ inh_45_a<- inh_h_a
 inh_85_a<- inh_h_a
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(inh_h_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por horas al año de insolacion | Historico", cex.main=1, legend=TRUE )
+plot(inh_h_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por horas al año de insolacion | Historico", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.67,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
+
 
 # -----------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------Relacion de insolacion media anual-------------------------------------------------
@@ -785,6 +845,9 @@ inp_85_b<- inp_h_b
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
 plot(inp_h_b,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por relacion de insolacion media anual | Historico", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.67,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
 
 # ----------------------------------------------------------------------------------------------------
 # ----------------------------Humedad relativa (%) del mes mas seco-----------------------------------
@@ -850,12 +913,19 @@ hr_45_1011a<- hr_h_1011a
 hr_85_1011a<- hr_h_1011a
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(hr_h_0304a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Humedad relativa ciclo lluvias abril | Historico", cex.main=1, legend=TRUE )
+plot(hr_h_0304a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Humedad relativa ciclo lluvias abril | Historico", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.67,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
+
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(hr_h_1011a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Humedad relativa ciclo salidas de lluvias noviembre | Historico", cex.main=0.8, legend=TRUE )
+plot(hr_h_1011a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Humedad relativa ciclo salidas de lluvias noviembre | Historico", cex.main=0.8, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.67,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
 
 
 #############################################################################################################################
@@ -897,8 +967,11 @@ E1_h_min_fig1<- ifel(E1_h_min_fig <= 1,  1,
                           ifel(E1_h_min_fig <= 3,3,4)))
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E1_h_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para caña de azucar abril | Historico", cex.main=1, legend=TRUE )
+plot(E1_h_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para caña de azucar abril | Historico", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.67,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
 
 # SSP2-4.5:--------------------------------------------------------------------------------
 
