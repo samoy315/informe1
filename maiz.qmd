@@ -1,6 +1,6 @@
 # Maiz
 
-La evaluación de la aptitud climática de las tierras para el cultivo general de maíz (Zea mays L), se realizó bajo el manejo tradicional y común de este rubro en el país, principalmente en cuanto a la preparación de tierras, fertilización y riego. El maíz considerado es blanco y su destino es la agroindustria, además se siembra en el mes de Mayo (secano) y no se emplea riego en su manejo. A continuación se muestran los resultados.
+La evaluación de la aptitud climática de las tierras para el cultivo general de maíz (Zea mays L), se realizó bajo el manejo tradicional y común de este rubro en el país, principalmente en cuanto a la preparación de tierras, fertilización y riego. El maíz considerado es blanco y su destino es la agroindustria, además se siembra en el mes de Mayo (Ciclo de lluvias) y no se emplea riego en su manejo. A continuación se muestran los resultados.
 
 ## Region de exposicion:
 

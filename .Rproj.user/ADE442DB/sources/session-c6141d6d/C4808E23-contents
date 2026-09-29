@@ -1006,8 +1006,11 @@ E3_45_min_fig1<- ifel(E3_45_min_fig <= 1,  1,
                            ifel(E3_45_min_fig <= 3,3,4)))
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E3_45_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para caña de azucar abril | SSP2-4.5", cex.main=1, legend=TRUE )
+plot(E3_45_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para caña de azucar abril | SSP2-4.5", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.67,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
 
 # SSP5-8.5:--------------------------------------------------------------------------------
 
@@ -1040,8 +1043,11 @@ E5_85_min_fig1<- ifel(E5_85_min_fig <= 1,  1,
                            ifel(E5_85_min_fig <= 3,3,4)))
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E5_85_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para caña de azucar abril | SSP5-8.5", cex.main=1, legend=TRUE )
+plot(E5_85_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para caña de azucar abril | SSP5-8.5", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.67,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
 
 # Estimacion de la AMENAZA CLIMATICA de las tierras (DIFERENCIA antigua SENSIBILIDAD)---------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
@@ -1062,8 +1068,11 @@ clases_presentes_sen1_45 <- na.omit(unique(cana_45_sen1)[, 1])
 
 cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(cana_45_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Amenaza del cambio climatico sobre la caña de azucar abril | SSP2-4.5", cex.main=1, legend=TRUE )
+plot(cana_45_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Grado de impacto del cambio climatico sobre la caña de azucar abril | SSP2-4.5", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill = colores_fijos,title = "Grado de Impacto",bg = "white",box.col = "gray80",cex = 0.9,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
 
 # ------------------Diferencia entre el escenario SSP5-8.5 menos Historico:
 
@@ -1081,8 +1090,11 @@ clases_presentes_sen1_85 <- na.omit(unique(cana_85_sen1)[, 1])
 
 cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(cana_85_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Amenaza del cambio climatico sobre la caña de azucar abril | SSP5-8.5", cex.main=1, legend=TRUE )
+plot(cana_85_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Amenaza del cambio climatico sobre la caña de azucar abril | SSP5-8.5", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill = colores_fijos,title = "Grado de Impacto",bg = "white",box.col = "gray80",cex = 0.9,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
 
 # =================================== NOVIEMBRE ========================================================================
 
@@ -1113,8 +1125,11 @@ E1_h_min_fig1_r<- ifel(E1_h_min_fig_r <= 1,  1,
                           ifel(E1_h_min_fig_r <= 3,3,4)))
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E1_h_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para caña de azucar noviembre| Historico", cex.main=1, legend=TRUE )
+plot(E1_h_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para caña de azucar noviembre| Historico", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.67,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
 
 # SSP2-4.5:--------------------------------------------------------------------------------
 
@@ -1144,8 +1159,11 @@ E3_45_min_fig1_r<- ifel(E3_45_min_fig_r <= 1,  1,
                            ifel(E3_45_min_fig_r <= 3,3,4)))
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E3_45_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para caña de azucar noviembre | SSP2-4.5", cex.main=1, legend=TRUE )
+plot(E3_45_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para caña de azucar noviembre | SSP2-4.5", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.67,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
 
 
 # SSP5-8.5:--------------------------------------------------------------------------------
@@ -1176,8 +1194,11 @@ E5_85_min_fig1_r<- ifel(E5_85_min_fig_r <= 1,  1,
                            ifel(E5_85_min_fig_r <= 3,3,4)))
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E5_85_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para caña de azucar noviembre | SSP5-8.5", cex.main=1, legend=TRUE )
+plot(E5_85_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para caña de azucar noviembre | SSP5-8.5", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.67,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
 
 # Estimacion de la AMENAZA CLIMATICA de las tierras (DIFERENCIA antigua SENSIBILIDAD)---------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
@@ -1198,8 +1219,11 @@ clases_presentes_sen1_45_r <- na.omit(unique(cana_45_sen1_r)[, 1])
 
 cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(cana_45_sena_r,breaks = cortes_breaks1,col = colores_fijos,main = "Amenaza del cambio climatico sobre el caña de azucar noviembre | SSP2-4.5", cex.main=1, legend=TRUE )
+plot(cana_45_sena_r,breaks = cortes_breaks1,col = colores_fijos,main = "Amenaza del cambio climatico sobre el caña de azucar noviembre | SSP2-4.5", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill = colores_fijos,title = "Grado de Impacto",bg = "white",box.col = "gray80",cex = 0.9,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
 
 # ------------------Diferencia entre el escenario SSP5-8.5 menos Historico:
 
@@ -1217,8 +1241,11 @@ clases_presentes_sen1_85_r <- na.omit(unique(cana_85_sen1_r)[, 1])
 
 cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(cana_85_sena_r,breaks = cortes_breaks1,col = colores_fijos,main = "Amenaza del cambio climatico sobre el caña de azucar noviembre | SSP5-8.5", cex.main=1, legend=TRUE )
+plot(cana_85_sena_r,breaks = cortes_breaks1,col = colores_fijos,main = "Amenaza del cambio climatico sobre el caña de azucar noviembre | SSP5-8.5", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill = colores_fijos,title = "Grado de Impacto",bg = "white",box.col = "gray80",cex = 0.9,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
 
 
 # # Estimacion del IMPACTO del cambio climatico en las tierras (Linea multiplicada por 2)-------------------------------------
