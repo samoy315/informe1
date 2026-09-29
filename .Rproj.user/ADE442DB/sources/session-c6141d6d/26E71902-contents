@@ -34,8 +34,8 @@ Se seleccionaron 10 cultivos según su importancia en superficie sembrada, valor
 
 | TUT | Cultivo        | Riego | Fecha de siembra                |
 |-----|----------------|-------|---------------------------------|
-| 1   | Arroz          | Si    | Secano (Mayo)                   |
-| 2   | Arroz          | Si    | Verano (Diciembre)              |
+| 1   | Arroz          | Si    | Ciclo de lluvias (Mayo)         |
+| 2   | Arroz          | Si    | Ciclo norte-verano (Diciembre)  |
 | 3   | Cacao          | Si    | \-                              |
 | 4   | Cacao          | No    | \-                              |
 | 5   | Cafe           | No    | \-                              |

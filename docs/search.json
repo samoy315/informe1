@@ -14,7 +14,7 @@
     "href": "Arroz.html",
     "title": "Arroz",
     "section": "",
-    "text": "Region de exposicion:\nLa evaluación de la aptitud climática de las tierras para el cultivo general de arroz (Oryza sativa), se realizó bajo un manejo tradicional y común de este rubro en el país, principalmente en cuanto a la preparación de tierras, fertilización y riego. Sin embargo, se plantearon dos tipos de utilización del mismo cultivo, en donde su única diferencia es la fecha de siembra. Uno sembrado en el mes de Mayo (secano) y otro sembrado en diciembre (verano). A continuación se muestran los resultados.\nEn Venezuela la superficie total de Region de Exposicion para la Arroz es de” 19.857,7 Km2.",
+    "text": "Region de exposicion:\nLa evaluación de la aptitud climática de las tierras para el cultivo general de arroz (Oryza sativa), se realizó bajo un manejo tradicional y común de este rubro en el país, principalmente en cuanto a la preparación de tierras, fertilización y riego. Sin embargo, se plantearon dos tipos de utilización del mismo cultivo, en donde su única diferencia es la fecha de siembra. Uno sembrado en el mes de Mayo (Ciclo de lluvias) y otro sembrado en diciembre (Ciclo norte-verano). A continuación se muestran los resultados.\nEn Venezuela la superficie total de Region de Exposicion para la Arroz es de” 19.857,7 Km2.",
     "crumbs": [
       "Arroz"
     ]
@@ -364,7 +364,7 @@
     "href": "Arroz.html#factores-de-exposición",
     "title": "Arroz",
     "section": "Factores de Exposición",
-    "text": "Factores de Exposición\n\n1. Temperatura media del ciclo de cultivo\n\nCiclo Secano (mayo a agosto)\n\n\n\nCiclo Verano (diciembre a marzo)\n\n\n\n\n2. Temperatura media en la etapa de desarrollo:\n\nCiclo Secano (mayo a agosto)\n\n\n\nCiclo Verano (diciembre a marzo)\n\n\n\n\n3. Temperatura máxima del mas cálido del ciclo:\n\nCiclo Secano (mayo a agosto)\n\n\n\nCiclo Verano (diciembre a marzo)\n\n\n\n\n4. Temperatura mínima durante la maduración:\n\nCiclo Secano (mayo a agosto)\n\n\n\nCiclo Verano (diciembre a marzo)\n\n\n\n\n5. Humedad relativa (%) etapas labranza y vegetativa:\n\nCiclo Secano (mayo a agosto)\n\n\n\nCiclo Verano (diciembre a marzo)\n\n\n\n\n6. Humedad relativa (%) etapa cosecha:\n\nCiclo Secano (mayo a agosto)\n\n\n\nCiclo Verano (diciembre a marzo)\n\n\n\n\n7. Radiación solar promedio durante ciclo de cultivo:\n\nCiclo Secano (mayo a agosto)\n\n\n\nCiclo Verano (diciembre a marzo)",
+    "text": "Factores de Exposición\n\n1. Temperatura media del ciclo de cultivo\n\nCiclo de lluvias (mayo a agosto)\n\n\n\nCiclo norte-verano (diciembre a marzo)\n\n\n\n\n2. Temperatura media en la etapa de desarrollo:\n\nCiclo de lluvias (mayo a agosto)\n\n\n\nCiclo norte-verano (diciembre a marzo)\n\n\n\n\n3. Temperatura máxima del mas cálido del ciclo:\n\nCiclo de lluvias (mayo a agosto)\n\n\n\nCiclo norte-verano (diciembre a marzo)\n\n\n\n\n4. Temperatura mínima durante la maduración:\n\nCiclo de lluvias (mayo a agosto)\n\n\n\nCiclo norte-verano (diciembre a marzo)\n\n\n\n\n5. Humedad relativa (%) etapas labranza y vegetativa:\n\nCiclo de lluvias (mayo a agosto)\n\n\n\nCiclo norte-verano (diciembre a marzo)\n\n\n\n\n6. Humedad relativa (%) etapa cosecha:\n\nCiclo de lluvias (mayo a agosto)\n\n\n\nCiclo norte-verano (diciembre a marzo)\n\n\n\n\n7. Radiación solar promedio durante ciclo de cultivo:\n\nCiclo de lluvias (mayo a agosto)\n\n\n\nCiclo norte-verano (diciembre a marzo)",
     "crumbs": [
       "Arroz"
     ]
@@ -607,6 +607,46 @@
     "text": "Grado de Impacto\n\nCambio con respecto al Escenario SSP2-4.5:\n\n\n\nCambio con respecto al Escenario SSP5-8.5:",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Maiz</span>"
+    ]
+  },
+  {
+    "objectID": "Arroz.html#aptitud-climática-de-las-tierras-en-ciclo-de-lluvias-mayo-a-agosto",
+    "href": "Arroz.html#aptitud-climática-de-las-tierras-en-ciclo-de-lluvias-mayo-a-agosto",
+    "title": "Arroz",
+    "section": "Aptitud climática de las tierras en Ciclo de lluvias (mayo a agosto)",
+    "text": "Aptitud climática de las tierras en Ciclo de lluvias (mayo a agosto)\n\nEscenario Histórico o Base:\n\n\nEscenario SSP2-4.5:\n\n\n\n\nEscenario SSP5-8.5:",
+    "crumbs": [
+      "Arroz"
+    ]
+  },
+  {
+    "objectID": "Arroz.html#grado-de-impacto-ciclo-de-lluvias-mayo-a-agosto",
+    "href": "Arroz.html#grado-de-impacto-ciclo-de-lluvias-mayo-a-agosto",
+    "title": "Arroz",
+    "section": "Grado de Impacto Ciclo de lluvias (mayo a agosto)",
+    "text": "Grado de Impacto Ciclo de lluvias (mayo a agosto)\n\nEscenarios SSP2-4.5\n\n\n\nEscenario SSP5-8.5",
+    "crumbs": [
+      "Arroz"
+    ]
+  },
+  {
+    "objectID": "Arroz.html#aptitud-climática-de-las-tierras-ciclo-norte-verano-diciembre-marzo",
+    "href": "Arroz.html#aptitud-climática-de-las-tierras-ciclo-norte-verano-diciembre-marzo",
+    "title": "Arroz",
+    "section": "Aptitud climática de las tierras Ciclo norte-verano (diciembre-marzo)",
+    "text": "Aptitud climática de las tierras Ciclo norte-verano (diciembre-marzo)\n\nEscenario Histórico\n\n\n\nEscenario SSP2-4.5\n\n\n\nEscenario SSP5-8.5",
+    "crumbs": [
+      "Arroz"
+    ]
+  },
+  {
+    "objectID": "Arroz.html#grado-de-impacto-ciclo-norte-verano-diciembre-a-marzo",
+    "href": "Arroz.html#grado-de-impacto-ciclo-norte-verano-diciembre-a-marzo",
+    "title": "Arroz",
+    "section": "Grado de Impacto Ciclo norte-verano (diciembre a marzo)",
+    "text": "Grado de Impacto Ciclo norte-verano (diciembre a marzo)\n\nCambios con respecto al escenarios SSP2-4.5:\n\n\n\nCambios con respecto al escenario SSP5-8.5:",
+    "crumbs": [
+      "Arroz"
     ]
   }
 ]
