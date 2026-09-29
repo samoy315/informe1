@@ -119,8 +119,15 @@ plot(p_h_anual1,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por p
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 plot(p_45_anual1,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por precipitacion anual | SSP2-4.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(p_85_anual1,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por precipitacion anual | SSP5-8.5", cex.main=1)
+plot(p_85_anual1,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por precipitacion anual | SSP5-8.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
+legend("center", 
+       legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
+       fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
+       title = "Aptitud por precipitación", # Título de la leyenda
+       bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
+       cex = 1.3)  # Aumentamos el tamaño del texto
 
 # ----------------------------------------------------------------------------------------------------------------------
 # --------------------------------------DURACION DE ESTACION SECA (MESES PP < 1/2 pet)----------------------------------
@@ -211,6 +218,13 @@ plot(es_45_anual2,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 plot(es_85_anual2,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por duracion estacion seca | SSP5-8.5", cex.main=1)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
+legend("center", 
+       legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
+       fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
+       title = "Aptitud por estacion seca", # Título de la leyenda
+       bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
+       cex = 1.3)  # Aumentamos el tamaño del texto
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------
