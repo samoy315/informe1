@@ -1,0 +1,24 @@
+setwd("C:/Sevilla/Diego170825/Rendimientos_maiz/Estimacion")
+library(terra)
+library(sf)
+library(dplyr)
+
+orto<- rast("Orto_5cm_apilado.tif")
+
+plotRGB(orto, r= 1, g = 2, b = 3, stretch = 'lin')
+
+writeRaster(orto$Orto_5cm_apilado_1,"orto_r.tif", overwrite=TRUE)
+writeRaster(orto$Orto_5cm_apilado_2,"orto_g.tif", overwrite=TRUE)
+writeRaster(orto$Orto_5cm_apilado_3,"orto_b.tif", overwrite=TRUE)
+writeRaster(orto$Orto_5cm_apilado_5,"orto_r1.tif", overwrite=TRUE)
+writeRaster(orto$Orto_5cm_apilado_4,"orto_g1.tif", overwrite=TRUE)
+writeRaster(orto$Orto_5cm_apilado_6,"orto_redge.tif", overwrite=TRUE)
+writeRaster(orto$Orto_5cm_apilado_7,"orto_nir.tif", overwrite=TRUE)
+
+
+library(terra)
+setwd("C:/Sevilla/Diego170825/Rendimientos_maiz/Estimacion")
+
+orto <- rast("orto_5cm_uw1.tif")
+orto_10 <- aggregate(orto, fact = 2, fun = "mean", na.rm = TRUE)   # 5 cm x 2 = 10 cm
+writeRaster(orto_10, "orto_10cm_uw1.tif", datatype = "INT2U", overwrite = TRUE)

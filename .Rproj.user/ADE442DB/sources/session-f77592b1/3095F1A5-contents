@@ -1,0 +1,68 @@
+# Cafe
+
+La evaluación de la aptitud climática de las tierras para el cultivo general de café (Coffea arabica), se realizó bajo el manejo tradicional y común de este rubro en el país, principalmente en cuanto a su siembra, fertilización y sin el empleo de riego. A continuación se muestran los resultados.
+
+## Region de exposicion:
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(echo = TRUE)
+library("terra")
+library("sf")
+venezuela <- st_read("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Contorno_Venezuela/AOI_linea_referencia1.shp")
+```
+
+```{r}
+#| label: mapa-cafe-estandar
+#| warning: false
+#| message: false
+#| echo: false
+#| fig-align: center
+re_cafe_estandar<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/reg_cafe_estandar.tif")
+
+plot(re_cafe_estandar,main = "Region de exposicion para cafe segun criterios estandar",col = "darkgreen", legend=FALSE, cex.main=0.78)
+plot(st_geometry(venezuela),add=TRUE, border="black", lwd=1.5)
+
+area_total_cafe<- expanse(re_cafe_estandar, unit = "ha")
+a_cafe<- format(round(area_total_cafe / 100, digits = 1), scientific = FALSE, big.mark = ".", decimal.mark = ",")
+```
+
+En Venezuela la superficie total de Region de Exposicion para el **Cafe** es de" **`r a_cafe$area`** Km^2^.
+
+## Factores de Exposición
+
+#### 1. Precipitación media anual:
+![](./images/cafe/cafe_fe_preci_anual.png)
+
+#### 2. Periodo de humedad (días secos) al año: 
+![](./images/cafe/cafe_fe_dsecos_anual.png)
+
+#### 3. Temperatura máxima anual:
+![](./images/cafe/cafe_fe_tam_anual.png)
+
+#### 4. Temperatura mínima del mes más frio:
+![](./images/cafe/cafe_fe_timf_anual.png)
+
+#### 5. Temperatura media anual:
+![](./images/cafe/cafe_fe_tem_anual.png)
+
+## Aptitud climática de las tierras
+
+#### Escenario Histórico o Base:
+![](./images/cafe/cafe_aptitud_min_historico.png)
+
+#### Escenario SSP2-4.5:
+![](./images/cafe/cafe_aptitud_min_ssp45.png)
+
+#### Escenario SSP5-8.5:
+![](./images/cafe/cafe_aptitud_min_ssp85.png)
+
+## Grado de Impacto
+
+#### Cambio con respecto al Escenario SSP2-4.5:
+
+![](./images/cafe/cafe_amenaza_min_ssp45.png)
+
+#### Cambio con respecto al Escenario SSP5-8.5:
+![](./images/cafe/cafe_amenaza_min_ssp85.png)
+

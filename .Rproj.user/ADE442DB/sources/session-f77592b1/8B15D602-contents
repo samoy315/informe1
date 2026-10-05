@@ -1,0 +1,216 @@
+setwd("C:/Sevilla/Diego170825/Rendimientos_maiz/Estimacion")
+
+# ==============================================================================
+# ESTRATEGIA MEJORADA: PERFIL DE DENSIDAD ROTACIONAL (SWATH PROFILE)
+# Mejoras sobre estimacion1.R:
+#   - Líneas recortadas al rango real de plantas (no de extremo a extremo)
+#   - Búsqueda de ángulo en dos fases (gruesa + fina)
+#   - Umbral de picos al 5% del máximo (permite hileras cortas en esquinas)
+#   - Asignación de puntos a hileras y filtrado de ruido
+#   - Validación por mínimo de puntos por hilera
+#   - Exportación automática a shapefile
+# ==============================================================================
+library(terra)
+library(sf)
+library(dplyr)
+
+# ==============================================================================
+# 1. CARGAR Y BINARIZAR
+# ==============================================================================
+img_terra <- rast("bloque1.tif")
+exg <- (2 * img_terra[[2]]) - img_terra[[1]] - img_terra[[3]]
+mascara_binaria <- exg > 125
+mascara_binaria <- ifel(mascara_binaria, 1, NA)
+
+# Extraer coordenadas de las plantas
+pts <- as.points(mascara_binaria, na.rm = TRUE)
+coords <- geom(pts)[, c("x", "y")]
+df <- data.frame(X = coords[, "x"], Y = coords[, "y"])
+
+# Centrar coordenadas para rotación matemática
+cx <- mean(df$X)
+cy <- mean(df$Y)
+df$X_c <- df$X - cx
+df$Y_c <- df$Y - cy
+
+# ==============================================================================
+# 2. AUTO-DESCUBRIR EL ÁNGULO (Búsqueda en dos fases)
+#    Fase 1: Barrido grueso para localizar la zona del ángulo óptimo
+#    Fase 2: Barrido fino alrededor del mejor candidato
+# ==============================================================================
+
+# --- Fase 1: Búsqueda gruesa (paso = 0.02 rad) ---
+angulos_grueso <- seq(1.5, 3.14, by = 0.02)
+mejor_angulo <- 0
+max_var <- 0
+
+for(ang in angulos_grueso) {
+  x_rot_test <- df$X_c * cos(ang) - df$Y_c * sin(ang)
+  dens_test <- density(x_rot_test, bw = 0.15)
+  if(var(dens_test$y) > max_var) {
+    max_var <- var(dens_test$y)
+    mejor_angulo <- ang
+  }
+}
+
+# --- Fase 2: Búsqueda fina alrededor del mejor ángulo (paso = 0.0005 rad) ---
+angulos_fino <- seq(mejor_angulo - 0.025, mejor_angulo + 0.025, by = 0.0005)
+max_var <- 0
+
+for(ang in angulos_fino) {
+  x_rot_test <- df$X_c * cos(ang) - df$Y_c * sin(ang)
+  dens_test <- density(x_rot_test, bw = 0.15)
+  if(var(dens_test$y) > max_var) {
+    max_var <- var(dens_test$y)
+    mejor_angulo <- ang
+  }
+}
+
+print(paste("Ángulo exacto detectado:", round(mejor_angulo, 4), "radianes"))
+
+# ==============================================================================
+# 3. ROTAR COORDENADAS Y EXTRAER PICOS DE DENSIDAD
+# ==============================================================================
+cos_a <- cos(mejor_angulo)
+sin_a <- sin(mejor_angulo)
+
+df$X_rot <- df$X_c * cos_a - df$Y_c * sin_a
+df$Y_rot <- df$X_c * sin_a + df$Y_c * cos_a
+
+# Densidad de alta definición (n = 4096)
+densidad <- density(df$X_rot, bw = 0.15, n = 4096)
+picos_idx <- which(diff(sign(diff(densidad$y))) == -2) + 1
+picos_x <- densidad$x[picos_idx]
+
+# Umbral basado en el máximo de densidad (como el original) pero al 5%
+# Se usa max en vez de mediana porque las hileras de esquinas son más cortas
+# y sus picos son mucho más bajos — la mediana las eliminaría
+altura_minima <- max(densidad$y) * 0.05
+picos_validos <- picos_x[densidad$y[picos_idx] > altura_minima]
+
+print(paste("Hileras detectadas por densidad:", length(picos_validos)))
+
+# ==============================================================================
+# 3b. COMPLETAR HILERAS FALTANTES USANDO ESPACIAMIENTO REGULAR
+#     Las hileras más cortas de las esquinas producen picos de densidad tan
+#     bajos que ni el umbral del 5% los detecta. Solución: usar el espaciamiento
+#     mediano de las hileras detectadas para generar una grilla regular y
+#     rellenar los huecos. Cada posición interpolada solo generará una línea
+#     si hay plantas reales cerca (validado en la sección 4).
+# ==============================================================================
+if(length(picos_validos) > 2) {
+  n_antes <- length(picos_validos)
+  espaciamiento_est <- median(diff(sort(picos_validos)))
+  
+  # Referencia: el pico detectado más cercano al centro de los datos
+  ref_x <- picos_validos[which.min(abs(picos_validos - median(picos_validos)))]
+  
+  # Generar grilla regular que cubra todo el rango donde hay plantas
+  rango_x <- range(df$X_rot)
+  n_izq <- ceiling((ref_x - rango_x[1]) / espaciamiento_est)
+  n_der <- ceiling((rango_x[2] - ref_x) / espaciamiento_est)
+  grid_regular <- ref_x + seq(-n_izq, n_der) * espaciamiento_est
+  
+  # Quedarnos solo con posiciones dentro del rango de datos
+  grid_regular <- grid_regular[grid_regular >= rango_x[1] &
+                                grid_regular <= rango_x[2]]
+  
+  # Para cada posición de la grilla:
+  #   - Si hay un pico detectado cercano (< 35% del espaciamiento), usar el pico
+  #   - Si no, insertar la posición interpolada (hilera faltante)
+  hileras_completas <- numeric(0)
+  for(g in grid_regular) {
+    dists <- abs(picos_validos - g)
+    if(min(dists) < espaciamiento_est * 0.35) {
+      hileras_completas <- c(hileras_completas, picos_validos[which.min(dists)])
+    } else {
+      hileras_completas <- c(hileras_completas, g)
+    }
+  }
+  
+  picos_validos <- sort(unique(hileras_completas))
+  print(paste("Hileras interpoladas en huecos:", length(picos_validos) - n_antes))
+}
+
+print(paste("Hileras totales (detectadas + interpoladas):", length(picos_validos)))
+
+# ==============================================================================
+# 4. ASIGNAR PUNTOS A HILERAS Y TRAZAR LÍNEAS RECORTADAS
+#    Cada punto se asigna a la hilera (pico) más cercana.
+#    Se filtra por distancia máxima y por mínimo de puntos por hilera.
+#    Las líneas se recortan al rango Y real de las plantas de cada hilera.
+# ==============================================================================
+
+# Asignar cada punto a su hilera más cercana
+df$hilera <- sapply(df$X_rot, function(x) which.min(abs(x - picos_validos)))
+
+# Calcular distancia máxima de asignación = mitad del espaciamiento medio
+if(length(picos_validos) > 1) {
+  espaciamiento <- median(diff(sort(picos_validos)))
+  umbral_asignacion <- espaciamiento / 2
+  print(paste("Espaciamiento medio entre hileras:", round(espaciamiento, 3), "m"))
+} else {
+  umbral_asignacion <- Inf
+}
+
+# Filtrar puntos demasiado lejos de cualquier pico (ruido entre hileras)
+df$dist_a_pico <- abs(df$X_rot - picos_validos[df$hilera])
+df_filtrado <- df[df$dist_a_pico < umbral_asignacion, ]
+
+# Trazar líneas recortadas al rango local de cada hilera
+lista_lineas <- list()
+ids_hilera <- c()
+
+for(i in seq_along(picos_validos)) {
+  pts_hilera <- df_filtrado[df_filtrado$hilera == i, ]
+  
+  # Saltar hileras con muy pocos puntos (ruido)
+  # Umbral bajo (5) para no descartar hileras cortas de las esquinas
+  if(nrow(pts_hilera) < 5) next
+  
+  x_val <- picos_validos[i]
+  
+  # CAMBIO CLAVE: usar el rango Y LOCAL de esta hilera, no el global
+  y_min_local <- min(pts_hilera$Y_rot)
+  y_max_local <- max(pts_hilera$Y_rot)
+  
+  # Transformar de vuelta a coordenadas originales
+  p1_x <- (x_val * cos_a + y_min_local * sin_a) + cx
+  p1_y <- (-x_val * sin_a + y_min_local * cos_a) + cy
+  p2_x <- (x_val * cos_a + y_max_local * sin_a) + cx
+  p2_y <- (-x_val * sin_a + y_max_local * cos_a) + cy
+  
+  lista_lineas[[length(lista_lineas) + 1]] <- st_linestring(
+    matrix(c(p1_x, p1_y, p2_x, p2_y), ncol = 2, byrow = TRUE)
+  )
+  ids_hilera <- c(ids_hilera, i)
+}
+
+# Crear objeto espacial final
+hileras_sf <- st_sf(
+  ID_Hilera = ids_hilera,
+  geometry = st_sfc(lista_lineas, crs = crs(img_terra))
+)
+
+# ==============================================================================
+# 4b. CALCULAR METROS LINEALES
+# ==============================================================================
+hileras_sf$Longitud_m <- as.numeric(st_length(hileras_sf))
+total_metros <- sum(hileras_sf$Longitud_m)
+
+print(paste("Hileras trazadas:", nrow(hileras_sf)))
+print(paste("Total metros lineales:", round(total_metros, 2), "m"))
+
+# ==============================================================================
+# 5. VISUALIZACIÓN DE DIAGNÓSTICO
+# ==============================================================================
+plot(mascara_binaria, col = "red", legend = FALSE,
+     main = paste("Hileras detectadas:", nrow(hileras_sf),
+                  "| Ángulo:", round(mejor_angulo, 4), "rad"))
+plot(st_geometry(hileras_sf), add = TRUE, col = "blue", lwd = 2)
+
+# ==============================================================================
+# 6. EXPORTAR SHAPEFILE
+# ==============================================================================
+st_write(hileras_sf, "Hileras_Maiz_Mejorado.shp", delete_dsn = TRUE)
+print("Shapefile exportado: Hileras_Maiz_Mejorado.shp")

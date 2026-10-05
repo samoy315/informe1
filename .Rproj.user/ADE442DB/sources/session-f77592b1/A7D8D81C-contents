@@ -1,0 +1,95 @@
+setwd("C:/Sevilla/Diego170825/Rendimientos_maiz/Estimacion")
+
+# ==============================================================================
+# NUEVA ESTRATEGIA: PERFIL DE DENSIDAD ROTACIONAL (SWATH PROFILE)
+# ==============================================================================
+library(terra)
+library(sf)
+library(dplyr)
+
+# 1. CARGAR Y BINARIZAR
+img_terra <- rast("bloque1.tif")
+exg <- (2 * img_terra[[2]]) - img_terra[[1]] - img_terra[[3]]
+mascara_binaria <- exg > 125
+mascara_binaria <- ifel(mascara_binaria, 1, NA)
+
+
+# Extraer coordenadas de las plantas (puntos amarillos)
+pts <- as.points(mascara_binaria, na.rm = TRUE)
+coords <- geom(pts)[, c("x", "y")]
+df <- data.frame(X = coords[, "x"], Y = coords[, "y"])
+
+# Centrar coordenadas para rotación matemática
+cx <- mean(df$X)
+cy <- mean(df$Y)
+df$X_c <- df$X - cx
+df$Y_c <- df$Y - cy
+
+
+# ------------------------------------------------------------------------------
+# 2. AUTO-DESCUBRIR EL ÁNGULO CON PRECISIÓN MILIMÉTRICA
+# ------------------------------------------------------------------------------
+# Ampliamos el rango de búsqueda (1.5 a 3.14 rad cubre toda la diagonal NW-SE)
+# Usamos un paso de 0.002 para una precisión casi perfecta.
+angulos_test <- seq(1.5, 3.14, by = 0.002)
+mejor_angulo <- 0
+max_var <- 0
+
+for(ang in angulos_test) {
+  x_rot_test <- df$X_c * cos(ang) - df$Y_c * sin(ang)
+  
+  # bw = 0.15 (Buscamos que las plantas se alineen en franjas de 15 cm de grosor)
+  dens_test <- density(x_rot_test, bw = 0.15) 
+  if(var(dens_test$y) > max_var) {
+    max_var <- var(dens_test$y)
+    mejor_angulo <- ang
+  }
+}
+
+print(paste("Ángulo exacto detectado:", round(mejor_angulo, 4), "radianes"))
+
+# ------------------------------------------------------------------------------
+# 3. EXTRAER PICOS EXACTOS CON ALTA DEFINICIÓN (CORREGIDO PARA ESQUINAS)
+# ------------------------------------------------------------------------------
+cos_a <- cos(mejor_angulo)
+sin_a <- sin(mejor_angulo)
+
+df$X_rot <- df$X_c * cos_a - df$Y_c * sin_a
+df$Y_rot <- df$X_c * sin_a + df$Y_c * cos_a
+
+# Agregamos n = 4096 para que el escáner tenga más "megapíxeles" en los bordes
+densidad <- density(df$X_rot, bw = 0.15, n = 4096) 
+picos_idx <- which(diff(sign(diff(densidad$y))) == -2) + 1
+picos_x <- densidad$x[picos_idx]
+
+# EL CAMBIO CLAVE: Bajamos el umbral del 15% al 3% (0.03)
+# Esto permite que las hileras más cortitas de las esquinas sean reconocidas como válidas
+altura_minima <- max(densidad$y) * 0.03 
+picos_validos <- picos_x[densidad$y[picos_idx] > altura_minima]
+
+# ------------------------------------------------------------------------------
+# 4. TRAZAR LÍNEAS (Mantenemos tu misma lógica matemática)
+# ------------------------------------------------------------------------------
+lista_lineas <- list()
+min_y <- min(df$Y_rot)
+max_y <- max(df$Y_rot)
+
+for(i in seq_along(picos_validos)) {
+  x_val <- picos_validos[i]
+  
+  p1_x <- (x_val * cos_a + min_y * sin_a) + cx
+  p1_y <- (-x_val * sin_a + min_y * cos_a) + cy
+  p2_x <- (x_val * cos_a + max_y * sin_a) + cx
+  p2_y <- (-x_val * sin_a + max_y * cos_a) + cy
+  
+  lista_lineas[[i]] <- st_linestring(matrix(c(p1_x, p1_y, p2_x, p2_y), ncol = 2, byrow=TRUE))
+}
+
+# Creamos el objeto espacial final
+hileras_sf <- st_sf(ID_Hilera = 1:length(lista_lineas), geometry = st_sfc(lista_lineas, crs = crs(img_terra)))
+
+# ------------------------------------------------------------------------------
+# 5. TU VISUALIZACIÓN DE DIAGNÓSTICO
+# ------------------------------------------------------------------------------
+plot(mascara_binaria, col = "red", legend = FALSE, main = "Líneas Azules Alineadas a los Puntos Rojos")
+plot(st_geometry(hileras_sf), add = TRUE, col = "blue", lwd = 2)

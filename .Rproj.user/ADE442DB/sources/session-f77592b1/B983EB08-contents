@@ -1,0 +1,47 @@
+# Manual de GIRA360 Terra
+
+GIRA360 Terra sirve para **entender un terreno antes de ir a campo**. Puedes mirar el relieve en
+3D, cargar el lindero de un predio, medir, estudiar pendientes y drenajes, preparar puntos de
+control y descargar información para un programa SIG.
+
+Este manual está escrito para quien nunca ha usado un sistema de información geográfica. Cuando
+aparezca una palabra técnica, se explica antes de pedirte que hagas algo con ella.
+
+> [!CONSEJO]
+> Si es tu primera visita, sigue [Empezar en cinco minutos](/manual/primeros-pasos/). No necesitas una cuenta para abrir el proyecto de ejemplo y conocer el visor.
+
+## Qué puedes hacer hoy
+
+| Tarea | Qué obtienes |
+| --- | --- |
+| Mirar el terreno | Un modelo 3D, una imagen satelital y curvas de nivel |
+| Cargar tu lindero | Una zona de estudio temporal desde un archivo KML o KMZ |
+| Medir | Distancias, desniveles, perímetros y áreas |
+| Analizar | Perfil, pendiente, orientación, agua, drenaje, cuencas y secciones transversales |
+| Preparar campo | Una propuesta de GCP, checkpoints y puntos auxiliares |
+| Llevar a otro programa | Un paquete ZIP para QGIS o ArcGIS, cuando tu cuenta tenga permiso |
+
+## Tres palabras que verás mucho
+
+**DEM** significa modelo digital de elevación. Imagina una cuadrícula sobre el terreno: cada cuadro
+guarda una altura. Con esas alturas se dibuja el modelo 3D y se hacen los análisis.
+
+**KML o KMZ** es un archivo con puntos, líneas o polígonos geográficos. Google Earth y muchos
+programas de topografía pueden crearlo. GIRA360 usa el polígono de tu lindero para saber qué zona
+quieres estudiar.
+
+**CRS** es el sistema que dice cómo interpretar las coordenadas. No tienes que elegirlo al cargar
+una zona: el visor selecciona un CRS UTM apropiado y lo muestra en la ficha del proyecto.
+
+## Lo que GIRA360 no reemplaza
+
+GIRA360 ayuda a explorar y planear. **No sustituye un levantamiento topográfico, una visita de campo
+ni el criterio de un profesional.** La elevación abierta que se usa al cargar un lindero propio es
+una aproximación; obstáculos, acceso, datum, estabilidad de los puntos y precisión se verifican en
+campo.
+
+## ¿Por dónde sigo?
+
+1. Abre [Empezar en cinco minutos](/manual/primeros-pasos/) para hacer el recorrido más corto.
+2. Lee [Cómo entender el visor](/manual/entender-el-visor/) si no sabes qué significa cada zona de la pantalla.
+3. Busca una tarea concreta en el menú de la izquierda o en el buscador de arriba.

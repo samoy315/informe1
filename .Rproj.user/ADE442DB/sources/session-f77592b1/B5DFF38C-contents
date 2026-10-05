@@ -1,0 +1,9 @@
+setwd("C:/Sevilla/Diego170825/Rendimientos_maiz")
+
+library(terra)
+library(sf)
+library(dplyr)
+
+orto<- rast("Orto_10cm_apilado.tif")
+names(orto)
+plot(orto$Orto_10cm_apilado_8)
