@@ -1,0 +1,390 @@
+setwd("C:/Sevilla/Diego170825/Rendimientos_maiz/Estimacion")
+
+# ==============================================================================
+# ESTIMACIÓN DE HILERAS CON ÍNDICES MULTIESPECTRALES (NDVI / NDRE)
+# Basado en estimacion2.R con las siguientes mejoras:
+#   - Usa NDVI (NIR-Red) en lugar de ExG (solo RGB) para binarizar
+#   - Opción de usar NDRE o combinación NDVI+NDRE
+#   - Mejor separación planta/suelo: resiste sombras, suelo claro, brillo
+#   - Líneas recortadas al rango real de plantas
+#   - Búsqueda de ángulo en dos fases (gruesa + fina)
+#   - Interpolación de hileras faltantes por espaciamiento regular
+#   - Cálculo de metros lineales totales
+#   - Exportación a shapefile
+#
+# Bandas del ortomosaico (RGB + Multiespectral, 7 bandas):
+#   B1=Red(RGB), B2=Green(RGB), B3=Blue, B4=Green(Multi),
+#   B5=Red(Multi), B6=RedEdge, B7=NIR
+#   Para índices se usan las bandas multiespectrales (B4-B7)
+# ==============================================================================
+library(terra)
+library(sf)
+library(dplyr)
+
+# ==============================================================================
+# 1. CARGAR IMAGEN MULTIESPECTRAL Y BINARIZAR CON NDVI
+# ==============================================================================
+
+# --- Opción A: Cargar un bloque recortado de 5+ bandas (si ya existe) ---
+# img_terra <- rast("bloque1_multi.tif")
+
+# --- Opción B: Recortar desde el ortomosaico completo usando la extensión
+#     del bloque1.tif original (RGB) ---
+bloque_rgb <- rast("bloque1.tif")
+ext_bloque <- ext(bloque_rgb)
+crs_bloque <- crs(bloque_rgb)   # EPSG:32619 (UTM 19N)
+
+orto_path <- "C:/Sevilla/Diego170825/Rendimientos_maiz/Estimacion/Orto_10cm_apilado.tif"
+orto_full <- rast(orto_path)
+
+# Los CRS son diferentes: bloque1 está en UTM (metros) y el ortomosaico
+# en WGS84 geográfico (grados). Reproyectar la extensión antes de recortar.
+if(!same.crs(crs_bloque, crs(orto_full))) {
+  print("CRS diferentes detectados. Reproyectando extensión...")
+  # Crear un raster mínimo con la extensión del bloque en UTM y proyectarlo
+  ext_reproyectada <- project(bloque_rgb[[1]], crs(orto_full))
+  img_terra_geo <- crop(orto_full, ext(ext_reproyectada))
+  # Reproyectar el recorte a UTM para que coincida con bloque1
+  img_terra <- project(img_terra_geo, crs_bloque, res = res(bloque_rgb))
+} else {
+  img_terra <- crop(orto_full, ext_bloque)
+}
+
+# Verificar que tiene 8 bandas (la 8va no se usa)
+print(paste("Bandas cargadas:", nlyr(img_terra)))
+names(img_terra) <- c("Red_RGB", "Green_RGB", "Blue", "Green_Multi",
+                       "Red_Multi", "RedEdge", "NIR", "No_usar")
+
+# Asignar bandas del sensor MULTIESPECTRAL (B4-B7) para los índices
+# (mejor calibración radiométrica que las bandas RGB B1-B3)
+Green    <- img_terra[["Green_Multi"]]   # B4
+Red      <- img_terra[["Red_Multi"]]     # B5
+RedEdge  <- img_terra[["RedEdge"]]       # B6
+NIR      <- img_terra[["NIR"]]           # B7
+
+# ------------------------------------------------------------------------------
+# SELECCIÓN DEL ÍNDICE DE VEGETACIÓN
+# Descomentar UNA de las siguientes opciones:
+# ------------------------------------------------------------------------------
+
+# --- OPCIÓN 1: NDVI (recomendado como primera opción) ---
+#     Excelente separación vegetación/suelo. Resiste sombras.
+indice <- (NIR - Red) / (NIR + Red)
+nombre_indice <- "NDVI"
+umbral_indice <- 0.3   # Ajustar: subir si hay mucho ruido, bajar si pierde plantas
+
+# --- OPCIÓN 2: NDRE (mejor si el maíz está muy denso y el NDVI se satura) ---
+# indice <- (NIR - RedEdge) / (NIR + RedEdge)
+# nombre_indice <- "NDRE"
+# umbral_indice <- 0.15
+
+# --- OPCIÓN 3: GNDVI (sensible a clorofila, bueno para maíz joven) ---
+# indice <- (NIR - Green) / (NIR + Green)
+# nombre_indice <- "GNDVI"
+# umbral_indice <- 0.3
+
+# --- OPCIÓN 4: COMBINACIÓN NDVI + NDRE (máxima robustez) ---
+# ndvi_tmp <- (NIR - Red) / (NIR + Red)
+# ndre_tmp <- (NIR - RedEdge) / (NIR + RedEdge)
+# indice <- ndvi_tmp  # se usa para visualización
+# nombre_indice <- "NDVI+NDRE"
+# umbral_indice <- 0.25  # umbral del NDVI
+# umbral_ndre   <- 0.12  # umbral del NDRE
+
+# ------------------------------------------------------------------------------
+# BINARIZACIÓN
+# ------------------------------------------------------------------------------
+if(exists("umbral_ndre")) {
+  # Combinación: ambos índices deben superar su umbral
+  mascara_binaria <- (ndvi_tmp > umbral_indice) & (ndre_tmp > umbral_ndre)
+} else {
+  mascara_binaria <- indice > umbral_indice
+}
+mascara_binaria <- ifel(mascara_binaria, 1, NA)
+
+print(paste("Índice usado:", nombre_indice, "| Umbral:", umbral_indice))
+
+# Exportar el índice y la máscara para inspección en QGIS
+writeRaster(indice, paste0(nombre_indice, "_bloque1.tif"), overwrite = TRUE)
+writeRaster(mascara_binaria, paste0("mascara_", nombre_indice, "_bloque1.tif"),
+            datatype = "INT1U", overwrite = TRUE)
+
+# Extraer coordenadas de las plantas
+pts <- as.points(mascara_binaria, na.rm = TRUE)
+coords <- geom(pts)[, c("x", "y")]
+df <- data.frame(X = coords[, "x"], Y = coords[, "y"])
+
+print(paste("Píxeles de planta detectados:", nrow(df)))
+
+# Centrar coordenadas para rotación matemática
+cx <- mean(df$X)
+cy <- mean(df$Y)
+df$X_c <- df$X - cx
+df$Y_c <- df$Y - cy
+
+# ==============================================================================
+# 2. AUTO-DESCUBRIR EL ÁNGULO USANDO ExG (RGB)
+#    El ExG del bloque RGB tiene mejor contraste hilera/suelo que el NDVI,
+#    porque el NDVI captura vegetación entre hileras que diluye el patrón.
+#    Estrategia: detectar ángulo con ExG, aplicarlo a los puntos NDVI.
+# ==============================================================================
+
+# Binarizar con ExG desde el bloque RGB original (3 bandas)
+exg <- (2 * bloque_rgb[[2]]) - bloque_rgb[[1]] - bloque_rgb[[3]]
+mascara_exg <- exg > 125
+mascara_exg <- ifel(mascara_exg, 1, NA)
+
+pts_exg <- as.points(mascara_exg, na.rm = TRUE)
+coords_exg <- geom(pts_exg)[, c("x", "y")]
+df_exg <- data.frame(X = coords_exg[, "x"], Y = coords_exg[, "y"])
+df_exg$X_c <- df_exg$X - cx
+df_exg$Y_c <- df_exg$Y - cy
+
+print(paste("Píxeles ExG para detección de ángulo:", nrow(df_exg)))
+
+# --- Fase 1: Búsqueda gruesa (paso = 0.02 rad) usando puntos ExG ---
+angulos_grueso <- seq(1.5, 3.14, by = 0.02)
+mejor_angulo <- 0
+max_var <- 0
+
+for(ang in angulos_grueso) {
+  x_rot_test <- df_exg$X_c * cos(ang) - df_exg$Y_c * sin(ang)
+  dens_test <- density(x_rot_test, bw = 0.15)
+  if(var(dens_test$y) > max_var) {
+    max_var <- var(dens_test$y)
+    mejor_angulo <- ang
+  }
+}
+
+# --- Fase 2: Búsqueda fina alrededor del mejor ángulo (paso = 0.0005 rad) ---
+angulos_fino <- seq(mejor_angulo - 0.025, mejor_angulo + 0.025, by = 0.0005)
+max_var <- 0
+
+for(ang in angulos_fino) {
+  x_rot_test <- df_exg$X_c * cos(ang) - df_exg$Y_c * sin(ang)
+  dens_test <- density(x_rot_test, bw = 0.15)
+  if(var(dens_test$y) > max_var) {
+    max_var <- var(dens_test$y)
+    mejor_angulo <- ang
+  }
+}
+
+print(paste("Ángulo exacto detectado:", round(mejor_angulo, 4), "radianes"))
+
+# ==============================================================================
+# 3. ROTAR COORDENADAS Y EXTRAER PICOS DE DENSIDAD
+#    Los picos se detectan con los puntos ExG (mejor contraste hilera/suelo).
+#    Luego se rotan también los puntos NDVI con el mismo ángulo para el trazado.
+# ==============================================================================
+cos_a <- cos(mejor_angulo)
+sin_a <- sin(mejor_angulo)
+
+# Rotar puntos ExG para detectar posiciones de hileras
+df_exg$X_rot <- df_exg$X_c * cos_a - df_exg$Y_c * sin_a
+
+# Densidad de alta definición usando puntos ExG
+densidad <- density(df_exg$X_rot, bw = 0.15, n = 4096)
+picos_idx <- which(diff(sign(diff(densidad$y))) == -2) + 1
+picos_x <- densidad$x[picos_idx]
+
+# Umbral basado en el máximo de densidad al 5%
+altura_minima <- max(densidad$y) * 0.05
+picos_validos <- picos_x[densidad$y[picos_idx] > altura_minima]
+
+print(paste("Hileras detectadas por densidad:", length(picos_validos)))
+
+# Rotar puntos NDVI con el mismo ángulo (para el trazado de líneas)
+df$X_rot <- df$X_c * cos_a - df$Y_c * sin_a
+df$Y_rot <- df$X_c * sin_a + df$Y_c * cos_a
+
+# ==============================================================================
+# 3b. COMPLETAR HILERAS FALTANTES USANDO ESPACIAMIENTO REGULAR
+# ==============================================================================
+if(length(picos_validos) > 2) {
+  n_antes <- length(picos_validos)
+  espaciamiento_est <- median(diff(sort(picos_validos)))
+  
+  # Referencia: el pico detectado más cercano al centro de los datos
+  ref_x <- picos_validos[which.min(abs(picos_validos - median(picos_validos)))]
+  
+  # Generar grilla regular que cubra todo el rango donde hay plantas
+  rango_x <- range(df$X_rot)
+  n_izq <- ceiling((ref_x - rango_x[1]) / espaciamiento_est)
+  n_der <- ceiling((rango_x[2] - ref_x) / espaciamiento_est)
+  grid_regular <- ref_x + seq(-n_izq, n_der) * espaciamiento_est
+  
+  # Quedarnos solo con posiciones dentro del rango de datos
+  grid_regular <- grid_regular[grid_regular >= rango_x[1] &
+                                grid_regular <= rango_x[2]]
+  
+  # Fusionar: snap a pico detectado si está cerca, si no conservar posición esperada
+  hileras_completas <- numeric(0)
+  for(g in grid_regular) {
+    dists <- abs(picos_validos - g)
+    if(min(dists) < espaciamiento_est * 0.35) {
+      hileras_completas <- c(hileras_completas, picos_validos[which.min(dists)])
+    } else {
+      hileras_completas <- c(hileras_completas, g)
+    }
+  }
+  
+  picos_validos <- sort(unique(hileras_completas))
+  print(paste("Hileras interpoladas en huecos:", length(picos_validos) - n_antes))
+}
+
+print(paste("Hileras totales (detectadas + interpoladas):", length(picos_validos)))
+
+# ==============================================================================
+# 4. ASIGNAR PUNTOS A HILERAS Y TRAZAR LÍNEAS RECORTADAS
+# ==============================================================================
+
+# Asignar cada punto a su hilera más cercana
+df$hilera <- sapply(df$X_rot, function(x) which.min(abs(x - picos_validos)))
+
+if(length(picos_validos) > 1) {
+  espaciamiento <- median(diff(sort(picos_validos)))
+  print(paste("Espaciamiento medio entre hileras:", round(espaciamiento, 3), "m"))
+} else {
+  espaciamiento <- 0.75
+}
+
+# ------------------------------------------------------------------------------
+# PARÁMETROS DE SEGMENTACIÓN POR COBERTURA
+# ------------------------------------------------------------------------------
+ancho_banda     <- espaciamiento * 0.20  # semiancho de la franja sobre la hilera
+                                         # (~15 cm). Antes era espaciamiento/2,
+                                         # lo que capturaba malezas entre hileras
+bin_size        <- 0.10   # m: longitud de cada tramo evaluado a lo largo de la hilera
+ventana_suav    <- 5      # nº de tramos para suavizar (5 x 0.10 = 0.5 m)
+cobertura_min   <- 0.15   # fracción mínima de píxeles vegetales en la franja
+                          # (subir a 0.20-0.25 si aún quedan líneas sobre suelo)
+gap_umbral      <- 0.30   # m: huecos menores a esto se rellenan (falta de 1 planta)
+min_largo_segmento <- 0.50  # m: segmentos más cortos se descartan
+
+# Filtrar solo los puntos dentro de la franja angosta
+df$dist_a_pico <- abs(df$X_rot - picos_validos[df$hilera])
+df_filtrado <- df[df$dist_a_pico < ancho_banda, ]
+
+# Píxeles máximos posibles en un tramo (para calcular la cobertura)
+area_pixel <- prod(res(mascara_binaria))
+max_px_bin <- (bin_size * 2 * ancho_banda) / area_pixel
+
+# Trazar líneas SEGMENTADAS según la cobertura vegetal
+lista_lineas <- list()
+ids_hilera <- c()
+
+for(i in seq_along(picos_validos)) {
+  pts_hilera <- df_filtrado[df_filtrado$hilera == i, ]
+  if(nrow(pts_hilera) < 5) next
+  
+  x_val <- picos_validos[i]
+  
+  # 1. Dividir la hilera en tramos de bin_size y contar píxeles por tramo
+  cortes_bin <- seq(floor(min(pts_hilera$Y_rot) / bin_size) * bin_size,
+                    ceiling(max(pts_hilera$Y_rot) / bin_size) * bin_size + bin_size,
+                    by = bin_size)
+  conteo <- as.numeric(table(cut(pts_hilera$Y_rot, breaks = cortes_bin,
+                                 include.lowest = TRUE)))
+  centros <- head(cortes_bin, -1) + bin_size / 2
+  
+  # 2. Cobertura por tramo, suavizada con media móvil
+  cobertura <- pmin(conteo / max_px_bin, 1)
+  if(length(cobertura) >= ventana_suav) {
+    cob_suav <- as.numeric(stats::filter(cobertura, rep(1 / ventana_suav, ventana_suav),
+                                         sides = 2))
+    cob_suav[is.na(cob_suav)] <- cobertura[is.na(cob_suav)]
+  } else {
+    cob_suav <- cobertura
+  }
+  
+  # 3. Tramos con cultivo = cobertura suficiente
+  con_cultivo <- cob_suav >= cobertura_min
+  
+  # 4. Rellenar huecos cortos (falta de una planta aislada)
+  r <- rle(con_cultivo)
+  max_bins_gap <- round(gap_umbral / bin_size)
+  idx_fin <- cumsum(r$lengths)
+  for(k in seq_along(r$values)) {
+    es_interno <- k > 1 && k < length(r$values)
+    if(!r$values[k] && es_interno && r$lengths[k] <= max_bins_gap) {
+      con_cultivo[(idx_fin[k] - r$lengths[k] + 1):idx_fin[k]] <- TRUE
+    }
+  }
+  
+  # 5. Extraer segmentos continuos
+  r <- rle(con_cultivo)
+  idx_fin <- cumsum(r$lengths)
+  idx_ini <- idx_fin - r$lengths + 1
+  
+  for(k in which(r$values)) {
+    y_min_seg <- centros[idx_ini[k]] - bin_size / 2
+    y_max_seg <- centros[idx_fin[k]] + bin_size / 2
+    
+    if((y_max_seg - y_min_seg) < min_largo_segmento) next
+    
+    p1_x <- (x_val * cos_a + y_min_seg * sin_a) + cx
+    p1_y <- (-x_val * sin_a + y_min_seg * cos_a) + cy
+    p2_x <- (x_val * cos_a + y_max_seg * sin_a) + cx
+    p2_y <- (-x_val * sin_a + y_max_seg * cos_a) + cy
+    
+    lista_lineas[[length(lista_lineas) + 1]] <- st_linestring(
+      matrix(c(p1_x, p1_y, p2_x, p2_y), ncol = 2, byrow = TRUE)
+    )
+    ids_hilera <- c(ids_hilera, i)
+  }
+}
+
+# Crear objeto espacial final
+hileras_sf <- st_sf(
+  ID_Hilera = ids_hilera,
+  geometry = st_sfc(lista_lineas, crs = crs(img_terra))
+)
+
+# ==============================================================================
+# 4b. CALCULAR METROS LINEALES
+# ==============================================================================
+hileras_sf$Longitud_m <- as.numeric(st_length(hileras_sf))
+total_metros <- sum(hileras_sf$Longitud_m)
+
+print(paste("Segmentos de hilera trazados:", nrow(hileras_sf),
+            "(de", length(unique(ids_hilera)), "hileras)"))
+print(paste("Total metros lineales:", round(total_metros, 2), "m"))
+
+# ==============================================================================
+# 5. VISUALIZACIÓN DE DIAGNÓSTICO
+# ==============================================================================
+# Panel 1: Índice de vegetación con líneas
+par(mfrow = c(1, 2))
+
+plot(indice, main = paste(nombre_indice, "con hileras"),
+     col = colorRampPalette(c("brown", "yellow", "darkgreen"))(100))
+plot(st_geometry(hileras_sf), add = TRUE, col = "blue", lwd = 1.5)
+
+# Panel 2: Máscara binaria con líneas (como los scripts anteriores)
+plot(mascara_binaria, col = "red", legend = FALSE,
+     main = paste("Hileras:", nrow(hileras_sf),
+                  "| Metros:", round(total_metros, 1), "m"))
+plot(st_geometry(hileras_sf), add = TRUE, col = "blue", lwd = 2)
+
+par(mfrow = c(1, 1))
+
+# ==============================================================================
+# 6. EXPORTAR SHAPEFILE
+# ==============================================================================
+st_write(hileras_sf, "Hileras_Maiz_NDVI5071026_02.shp", delete_dsn = TRUE)
+print(paste("Shapefile exportado: Hileras_Maiz_NDVI071026_02.shp"))
+
+# ==============================================================================
+# RESUMEN FINAL
+# ==============================================================================
+cat("\n========================================\n")
+cat("       RESUMEN DE RESULTADOS\n")
+cat("========================================\n")
+cat(paste("Índice:              ", nombre_indice, "\n"))
+cat(paste("Umbral:              ", umbral_indice, "\n"))
+cat(paste("Píxeles de planta:   ", nrow(df), "\n"))
+cat(paste("Ángulo (rad):        ", round(mejor_angulo, 4), "\n"))
+cat(paste("Espaciamiento (m):   ", round(espaciamiento, 3), "\n"))
+cat(paste("Hileras trazadas:    ", nrow(hileras_sf), "\n"))
+cat(paste("Metros lineales:     ", round(total_metros, 2), "\n"))
+cat("========================================\n")
