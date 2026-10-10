@@ -3,7 +3,7 @@
 
 
 #===================DETERMINACION DE LA APTITU CLIMATICA DE LAS TIERRAS ========================
-#------------------------------------------ MUSACEAS-------------------------------------------------
+#------------------------------------------ GRANOS SECOS-------------------------------------------------
 #===============================================================================================
 
 setwd("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/5_Frijol")
@@ -25,47 +25,50 @@ colores_semaforo3<- (c("dodgerblue", "green", "yellow", "red"))
 colores_fijos <- c("red", "gold", "green3", "dodgerblue")
 cortes_breaks <- c(-Inf, 1, 2, 3.01, Inf)
 
+color_fijos1<- c("darkred", "red", "gold", "green3", "dodgerblue", "darkblue")
+color_fijos2<- c("darkblue", "dodgerblue", "green3", "gold", "red", "darkred")
+
 venezuela <- st_read("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Contorno_Venezuela/AOI_linea_referencia1.shp")
 
 
-# ----------------------------------------------------------------------------------------------------------------
-# ---------------------------PRECIPITACION TOTAL DEL CICLO--------------------------------------------------------
-# ----------------------------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------------------
+# ---------------------------------PRECIPITACION TOTAL DEL CICLO-----------------------------------------------
+# -------------------------------------------------------------------------------------------------------------
 # Cargamos las capas raster:
-
 # Escenario Historico:
-p_h_sep<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Precipitacion/Mensuales/wc2.1_30s_prec_09.tif")
-p_h_oct<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Precipitacion/Mensuales/wc2.1_30s_prec_10.tif")
-p_h_nov<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Precipitacion/Mensuales/wc2.1_30s_prec_11.tif")
-#p_h_dic<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Precipitacion/Mensuales/wc2.1_30s_prec_12.tif")
+p_h_sep <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Precipitacion/Mensuales/wc2.1_30s_prec_09.tif")
+p_h_oct <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Precipitacion/Mensuales/wc2.1_30s_prec_10.tif")
+p_h_nov <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Precipitacion/Mensuales/wc2.1_30s_prec_11.tif")
+
 # Escenario SSP2-4.5:
 p_45_sep<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Precipitacion/Mensuales/P_mes/HadGEM3_45_prec09.tif")
 p_45_oct<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Precipitacion/Mensuales/P_mes/HadGEM3_45_prec10.tif")
 p_45_nov<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Precipitacion/Mensuales/P_mes/HadGEM3_45_prec11.tif")
-#p_45_dic<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Precipitacion/Mensuales/P_mes/HadGEM3_45_prec12.tif")
+
 # Escenario SSP5-8.5:
 p_85_sep<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Precipitacion/Mensuaes/P_mes/HadGEM3_85_prec09.tif")
 p_85_oct<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Precipitacion/Mensuaes/P_mes/HadGEM3_85_prec10.tif")
 p_85_nov<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Precipitacion/Mensuaes/P_mes/HadGEM3_85_prec11.tif")
-#p_85_dic<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Precipitacion/Mensuaes/P_mes/HadGEM3_85_prec12.tif")
 
-par(mfrow=c(1,1))
-p_h<- (p_h_sep + p_h_oct + p_h_nov)
-plot(p_h, main="historico",col=colores_fijos)
-summary(p_h_sep); summary(p_h_oct); summary(p_h_nov)
+#Precipitacion del ciclo (mayo a agosto)
 
-p_45<- (p_45_sep + p_45_oct + p_45_nov)
-plot(p_45, main="ssp2-4.5")
-summary(p_45_sep); summary(p_45_oct); summary(p_45_nov)
+# Historico:
+p_h<- ( p_h_sep + p_h_oct + p_h_nov)
+# SSP2-4.5:
+p_45<- ( p_45_sep + p_45_oct + p_45_nov)
+# SSP5-8.5:
+p_85<- ( p_85_sep + p_85_oct + p_85_nov)
 
-p_85<- (p_85_sep + p_85_oct + p_85_nov)
-plot(p_85, main="ssp5-8.5")
-summary(p_85_sep); summary(p_85_oct); summary(p_85_nov)
+par(mfrow=c(2,2))
+plot(p_h,col=color_fijos2, main="precipitacion total del ciclo | Historico")
+plot(p_45, col=color_fijos2, main="precipitacion total del ciclo | SSP2-4.5")
+plot(p_85, col=color_fijos2, main="precipitacion total del ciclo | SSP5-8.5")
+summary(p_h); summary(p_45); summary(p_85)
 
 # Parametros:
 p_grano <- tibble(
-  p = c(0, 250, 300, 350, 475, 600, 1000),
-  g_aptitud = c(0, 1, 2, 3, 4, 3, 2)
+  p = c(0, 250, 300, 350, 475, 600, 1000, 1250),
+  g_aptitud = c(0, 1, 2, 3, 4, 3, 2, 2)
 )
 
 p_grano1 <- p_grano %>%
@@ -78,12 +81,14 @@ print(p_grano1)
 # Extraemos los límites de precipitación de su columna
 # Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
 # a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
-plim_250<- p_grano1$p[2]
-plim_300<- p_grano1$p[3]
-plim_350<- p_grano1$p[4]
-plim_475<- p_grano1$p[5]
-plim_600<- p_grano1$p[6]
-plim_1000<- p_grano1$p[7]
+plim_250  <- p_grano1$p[2]
+plim_300  <- p_grano1$p[3]
+plim_350 <- p_grano1$p[4]
+plim_475 <- p_grano1$p[5]
+plim_600 <- p_grano1$p[6]
+plim_1000 <- p_grano1$p[7]
+plim_1250 <- p_grano1$p[8]
+
 
 # Extraemos pendientes (m) e interceptos (b) de las mismas filas
 pm250  <- p_grano1$pendiente[2]
@@ -104,53 +109,59 @@ pb600 <- p_grano1$intercepto[6]
 pm1000 <- p_grano1$pendiente[7]
 pb1000 <- p_grano1$intercepto[7]
 
+pm1250 <- p_grano1$pendiente[8]
+pb1250 <- p_grano1$intercepto[8]
+
 # Calculamos el nuevo raster con todo 100% parametrizado
 
-p_h_ciclo <- ifel(p_h < plim_250,  (pm250  * p_h) + pb250,
+p_h_a <- ifel(p_h < plim_250,  (pm250  * p_h) + pb250,
                    ifel(p_h < plim_300, (pm300 * p_h) + pb300,
                         ifel(p_h < plim_350, (pm350 * p_h) + pb350,
                              ifel(p_h < plim_475, (pm475 * p_h) + pb475,
                                   ifel(p_h < plim_600, (pm600 * p_h) + pb600,
-                                       ifel(p_h < plim_1000, (pm1000 * p_h) + pb1000, NA))))))
+                                       ifel(p_h < plim_1000, (pm1000 * p_h) + pb1000,
+                                            ifel(p_h < plim_1250, (pm1250 * p_h) + pb1250, NA)))))))
 
-p_45_ciclo <- ifel(p_45 < plim_250,  (pm250  * p_45) + pb250,
+p_45_a <- ifel(p_45 < plim_250,  (pm250  * p_45) + pb250,
                     ifel(p_45 < plim_300, (pm300 * p_45) + pb300,
                          ifel(p_45 < plim_350, (pm350 * p_45) + pb350,
                               ifel(p_45 < plim_475, (pm475 * p_45) + pb475,
                                    ifel(p_45 < plim_600, (pm600 * p_45) + pb600,
-                                        ifel(p_45 < plim_1000, (pm1000 * p_45) + pb1000, NA))))))
+                                        ifel(p_45 < plim_1000, (pm1000 * p_45) + pb1000,
+                                             ifel(p_45 < plim_1250, (pm1250 * p_45) + pb1250, NA)))))))
 
-p_85_ciclo <- ifel(p_85 < plim_250,  (pm250  * p_85) + pb250,
+p_85_a <- ifel(p_85 < plim_250,  (pm250  * p_85) + pb250,
                     ifel(p_85 < plim_300, (pm300 * p_85) + pb300,
                          ifel(p_85 < plim_350, (pm350 * p_85) + pb350,
                               ifel(p_85 < plim_475, (pm475 * p_85) + pb475,
                                    ifel(p_85 < plim_600, (pm600 * p_85) + pb600,
-                                        ifel(p_85 < plim_1000, (pm1000 * p_85) + pb1000, NA))))))
-   
+                                        ifel(p_85 < plim_1000, (pm1000 * p_85) + pb1000,
+                                             ifel(p_85 < plim_1250, (pm1250 * p_85) + pb1250, NA)))))))
+
 par(mfrow = c(2, 2), mar = c(2, 2, 3, 1))
-plot(p_h_ciclo,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por precipitacion ciclo | historico", cex.main=1, legend=FALSE )
+plot(p_h_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por precipitacion del ciclo | historico", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(p_45_ciclo,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por precipitacion ciclo | SSP2-4.5", cex.main=1, legend=FALSE)
+plot(p_45_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por precipitacion del ciclo | SSP2-4.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(p_85_ciclo,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por precipitacion ciclo | SSP5-8.5", cex.main=1, legend=FALSE)
+plot(p_85_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por precipitacion del ciclo | SSP5-8.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
 legend("center", 
        legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
        fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
-       title = "Aptitud por precipitación ciclo", # Título de la leyenda
+       title = "Aptitud por precipitación del ciclo", # Título de la leyenda
        bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
        cex = 1.3)  # Aumentamos el tamaño del texto
 
-# ----------------------------------------------------------------------------------------------------------------
-# ----------------------------------------Temperatura media del ciclo---------------------------------------------
-# ----------------------------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------Temperatura media del ciclo----------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------------------------------------------
 # Cargamos las capas raster :
 
 # Escenario Historico:--------------------------
-tem_h_sep <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_09.tif")
-tem_h_oct <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_10.tif")
-tem_h_nov <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_11.tif")
+tem_h_sep<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_09.tif")
+tem_h_oct<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_10.tif")
+tem_h_nov<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_11.tif")
 # Escenario SSP2 4.5 ----------------------------
 tem_45_sep <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Tmes_mes/Tmed45_09.tif")
 tem_45_oct <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Tmes_mes/Tmed45_10.tif")
@@ -160,15 +171,15 @@ tem_85_sep <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Rast
 tem_85_oct <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_mes/Tmed85_10.tif")
 tem_85_nov <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_mes/Tmed85_11.tif")
 
-# promedio del ciclo (mayo a gosto):
 tem_h<- (tem_h_sep + tem_h_oct + tem_h_nov) / 3
 tem_45<- (tem_45_sep + tem_45_oct + tem_45_nov) / 3
 tem_85<- (tem_85_sep + tem_85_oct + tem_85_nov) / 3
 
+# promedio del ciclo (mayo a gosto):
 par(mfrow=c(2,2))
-plot(tem_h, main="Temperatura media anual | Historico")
-plot(tem_45, main="Temperatura media anual | SSP2-4.5")
-plot(tem_85, main="Temperatura media anual | SSP5-8.5")
+plot(tem_h, main="Temperatura media ciclo | Historico", col=color_fijos2)
+plot(tem_45, main="Temperatura media ciclo | SSP2-4.5", col=color_fijos2)
+plot(tem_85, main="Temperatura media ciclo | SSP5-8.5", col=color_fijos2)
 summary(tem_h); summary(tem_45); summary(tem_85)
 
 # Parametros de calculos recta para los tres escenarios:
@@ -238,7 +249,7 @@ tem_45_a <- ifel(tem_45 < temlim_08,  (temm08  * tem_45) + temb08,
                       ifel(tem_45 < temlim_12, (temm12 * tem_45) + temb12,
                            ifel(tem_45 < temlim_18, (temm18 * tem_45) + temb18,
                                 ifel(tem_45 < temlim_24, (temm24 * tem_45) + temb24,
-                                     ifel(tem_45 < temlim_27, (temm27 * tem_45) + temb27,
+                                     ifel(tem_45 < temlim_27, (temm27 * tem_45) + temb27, 
                                           ifel(tem_45 < temlim_30, (temm30 * tem_45) + temb30,
                                                ifel(tem_45 < temlim_35, (temm35 * tem_45) + temb35, NA))))))))
 
@@ -249,7 +260,7 @@ tem_85_a <- ifel(tem_85 < temlim_08,  (temm08  * tem_85) + temb08,
                                 ifel(tem_85 < temlim_24, (temm24 * tem_85) + temb24,
                                      ifel(tem_85 < temlim_27, (temm27 * tem_85) + temb27,
                                           ifel(tem_85 < temlim_30, (temm30 * tem_85) + temb30,
-                                               ifel(tem_85 < temlim_35, (temm35 * tem_85) + temb35,NA))))))))
+                                               ifel(tem_85 < temlim_35, (temm35 * tem_85) + temb35, NA))))))))
 
 par(mfrow = c(2, 2), mar = c(2, 2, 3, 1))
 plot(tem_h_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media del ciclo | Historico", cex.main=1, legend=FALSE )
@@ -262,9 +273,11 @@ plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
 legend("center", 
        legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
        fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
-       title = "Aptitud por temperatura media ciclo", # Título de la leyenda
+       title = "Aptitud por temperatura media del ciclo", # Título de la leyenda
        bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
        cex = 1.3)  # Aumentamos el tamaño del texto
+
+
 
 # ------------------------------------------------------------------------------------------------------
 # -------------------------------Temperatura minima MF -------------------------------------------------
@@ -483,7 +496,7 @@ legend("center",
 
 # ========================== SIEMBRA EN MAYO SIN RIEGO ====================================================================== 
 
-# exportamos la region de exposicion estandar del grano:
+# exportamos la region de exposicion estandar del musa:
 re_musa<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/reg_plata_estandar.tif")
 par(mfrow=c(1,1))
 plot(re_musa,col="green3", legend=FALSE)
@@ -660,8 +673,8 @@ par(mfrow=c(1,1))
 plot(E1_h_min1_r,col=paleta_semaforo(4))
 
 musa_h_apt_r <- ifel(E1_h_min2a_r <= 1,  1,
-                    ifel(E1_h_min2a_r <= 2,2,
-                         ifel(E1_h_min2a_r <= 3,3,4)))
+                     ifel(E1_h_min2a_r <= 2,2,
+                          ifel(E1_h_min2a_r <= 3,3,4)))
 
 clases_presentes_h_r <- na.omit(unique(musa_h_apt_r)[, 1])
 plot(musa_h_apt_r,type = "classes",col=colores_semaforo2[clases_presentes_h_r],main="Aptitud climatica de las tierras para musaceas noviembre con riego | Historico")
@@ -671,8 +684,8 @@ plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 E1_h_min_fig_r<- round(E1_h_min_r, digits = 3)
 
 E1_h_min_fig1_r<- ifel(E1_h_min_fig_r <= 1,  1,
-                     ifel(E1_h_min_fig_r <= 2,2,
-                          ifel(E1_h_min_fig_r <= 3,3,4)))
+                       ifel(E1_h_min_fig_r <= 2,2,
+                            ifel(E1_h_min_fig_r <= 3,3,4)))
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
 plot(E1_h_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para musaceas noviembre con riego| Historico", cex.main=1, legend=FALSE )
@@ -693,8 +706,8 @@ par(mfrow=c(1,1))
 plot(E3_45_min1_r,col=paleta_semaforo(4))
 
 musa_45_apt_r <- ifel(E3_45_min2a_r <= 1,  1,
-                     ifel(E3_45_min2a_r <= 2,2,
-                          ifel(E3_45_min2a_r <= 3,3,4)))
+                      ifel(E3_45_min2a_r <= 2,2,
+                           ifel(E3_45_min2a_r <= 3,3,4)))
 
 clases_presentes_45_r <- na.omit(unique(musa_45_apt_r)[, 1])
 plot(musa_45_apt_r,type = "classes",col=colores_semaforo2[clases_presentes_45_r],main="Aptitud climatica de las tierras para musaceas noviembre con riego | SSP2-4.5")
@@ -704,8 +717,8 @@ plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 E3_45_min_fig_r<- round(E3_45_min_r, digits = 3)
 
 E3_45_min_fig1_r<- ifel(E3_45_min_fig_r <= 1,  1,
-                      ifel(E3_45_min_fig_r <= 2,2,
-                           ifel(E3_45_min_fig_r <= 3,3,4)))
+                        ifel(E3_45_min_fig_r <= 2,2,
+                             ifel(E3_45_min_fig_r <= 3,3,4)))
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
 plot(E3_45_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para musaceas noviembre con riego | SSP2-4.5", cex.main=1, legend=FALSE)
@@ -727,8 +740,8 @@ par(mfrow=c(1,1))
 plot(E5_85_min1_r,col=paleta_semaforo(4))
 
 musa_85_apt_r <- ifel(E5_85_min2a_r <= 1,  1,
-                     ifel(E5_85_min2a_r <= 2,2,
-                          ifel(E5_85_min2a_r <= 3,3,4)))
+                      ifel(E5_85_min2a_r <= 2,2,
+                           ifel(E5_85_min2a_r <= 3,3,4)))
 
 clases_presentes_85_r <- na.omit(unique(musa_85_apt_r)[, 1])
 plot(musa_85_apt_r,type = "classes",col=colores_semaforo2[clases_presentes_85_r],main="Aptitud climatica de las tierras para musaceas noviembre con riego | SSP5-8.5")
@@ -738,8 +751,8 @@ plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 E5_85_min_fig_r<- round(E5_85_min_r, digits = 3)
 
 E5_85_min_fig1_r<- ifel(E5_85_min_fig_r <= 1,  1,
-                      ifel(E5_85_min_fig_r <= 2,2,
-                           ifel(E5_85_min_fig_r <= 3,3,4)))
+                        ifel(E5_85_min_fig_r <= 2,2,
+                             ifel(E5_85_min_fig_r <= 3,3,4)))
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
 plot(E5_85_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para musaceas noviembre con riego | SSP5-8.5", cex.main=1, legend=FALSE )
@@ -762,8 +775,8 @@ plot(musa_45_sen_r)
 musa_45_sena_r<- round(musa_45_sen_r, digits = 3)
 
 musa_45_sen1_r <- ifel(musa_45_sena_r < -1,  1,
-                      ifel(musa_45_sena_r > -1 & musa_45_sena_r < -0.5, 2,
-                           ifel(musa_45_sena_r > -0.5 & musa_45_sena_r < 0, 3, 4)))
+                       ifel(musa_45_sena_r > -1 & musa_45_sena_r < -0.5, 2,
+                            ifel(musa_45_sena_r > -0.5 & musa_45_sena_r < 0, 3, 4)))
 
 clases_presentes_sen1_45_r <- na.omit(unique(musa_45_sen1_r)[, 1])
 
@@ -784,8 +797,8 @@ plot(musa_85_sen_r)
 musa_85_sena_r<- round(musa_85_sen_r, digits = 3)
 
 musa_85_sen1_r <- ifel(musa_85_sena_r < -1,  1,
-                      ifel(musa_85_sena_r > -1 & musa_85_sena_r < -0.5, 2,
-                           ifel(musa_85_sena_r > -0.5 & musa_85_sena_r < 0, 3, 4)))
+                       ifel(musa_85_sena_r > -1 & musa_85_sena_r < -0.5, 2,
+                            ifel(musa_85_sena_r > -0.5 & musa_85_sena_r < 0, 3, 4)))
 
 clases_presentes_sen1_85_r <- na.omit(unique(musa_85_sen1_r)[, 1])
 

@@ -36,13 +36,20 @@ En Venezuela la superficie total de Region de Exposicion para la **Granos secos*
 #### 2. Temperatura media del ciclo:
 ![](./images/granos/granos_fe_tem_ciclo.png)
 
-#### 3. Temperatura minima promedio del mes mas frio:
+#### 3. Temperatura minima promedio del ciclo:
 
-##### Distribuccion espacial de los meses mas frios al año para los tres escenarios climaticos
-![](./images/granos/granos_fe_mes_frio.png)
+![](./images/granos/granos_fe_tim_ciclo.png)
 
-##### Temperatura minima promedio del mes mas frio
-![](./images/granos/granos_fe_timf_anual.png)
+#### 4. Humedad relativa en etapa de desarrollo (oct):
+
+![](./images/granos/granos_fe_hrd_historico.png)
+
+
+
+
+
+
+
 
 ## Aptitud climática de las tierras
 
