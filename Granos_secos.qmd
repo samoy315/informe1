@@ -44,9 +44,18 @@ En Venezuela la superficie total de Region de Exposicion para la **Granos secos*
 
 ![](./images/granos/granos_fe_hrd_historico.png)
 
+#### 5. Humedad relativa en etapa de maduracion (nov):
+
+![](./images/granos/granos_fe_hrm_historico.png)
+
+#### 6. Relacion de insolacion (n/N)  en etapa de desarrollo (oct):
+
+![](./images/granos/granos_fe_ind_desarrollo_historico.png)
 
 
+#### 7. Relacion de insolacion (n/N)  en etapa de maduracion (nov):
 
+![](./images/granos/granos_fe_inm_maduracion_historico.png)
 
 
 
