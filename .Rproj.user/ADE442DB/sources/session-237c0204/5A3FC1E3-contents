@@ -792,20 +792,18 @@ legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamen
 # ------------------Diferencia entre el escenario SSP2-4.5 menos Historico:
 
 E3_45_min3 <- resample(E3_45_min2, E1_h_min2, method= "bilinear")
-musa_45_sen<- E3_45_min3 - E1_h_min2
+grano_45_sen<- E3_45_min3 - E1_h_min2
 par(mfrow=c(1,1))
-plot(musa_45_sen)
-musa_45_sena<- round(musa_45_sen, digits = 3)
+plot(grano_45_sen)
+grano_45_sena<- round(grano_45_sen, digits = 3)
 
-musa_45_sen1 <- ifel(musa_45_sena < -1,  1,
-                     ifel(musa_45_sena > -1 & musa_45_sena < -0.5, 2,
-                          ifel(musa_45_sena > -0.5 & musa_45_sena < 0, 3, 4)))
-
-clases_presentes_sen1_45 <- na.omit(unique(musa_45_sen1)[, 1])
+grano_45_sen1 <- ifel(grano_45_sena < -1,  1,
+                     ifel(grano_45_sena > -1 & grano_45_sena < -0.5, 2,
+                          ifel(grano_45_sena > -0.5 & grano_45_sena < 0, 3, 4)))
 
 cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(musa_45_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Grado de impacto del cambio climatico sobre musaceas mayo sin riego | SSP2-4.5", cex.main=1, legend=FALSE )
+plot(grano_45_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Grado de impacto del cambio climatico sobre los granos | SSP2-4.5", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill = colores_fijos,title = "Grado de Impacto",bg = "white",box.col = "gray80",cex = 0.9,
        xjust = 0,                         # Alineación de la caja respecto al punto x
@@ -815,176 +813,24 @@ legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill =
 # ------------------Diferencia entre el escenario SSP5-8.5 menos Historico:
 
 E5_85_min3 <- resample(E5_85_min2, E1_h_min2, method= "bilinear")
-musa_85_sen<- E5_85_min3 - E1_h_min2
+grano_85_sen<- E5_85_min3 - E1_h_min2
 par(mfrow=c(1,1))
-plot(musa_85_sen)
-musa_85_sena<- round(musa_85_sen, digits = 3)
+plot(grano_85_sen)
+grano_85_sena<- round(grano_85_sen, digits = 3)
 
-musa_85_sen1 <- ifel(musa_85_sena < -1,  1,
-                     ifel(musa_85_sena > -1 & musa_85_sena < -0.5, 2,
-                          ifel(musa_85_sena > -0.5 & musa_85_sena < 0, 3, 4)))
-
-clases_presentes_sen1_85 <- na.omit(unique(musa_85_sen1)[, 1])
+grano_85_sen1 <- ifel(grano_85_sena < -1,  1,
+                     ifel(grano_85_sena > -1 & grano_85_sena < -0.5, 2,
+                          ifel(grano_85_sena > -0.5 & grano_85_sena < 0, 3, 4)))
 
 cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(musa_85_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Grado de impacto del cambio climatico sobre musaceas mayo sin riego | SSP5-8.5", cex.main=1, legend=FALSE )
+plot(grano_85_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Grado de impacto del cambio climatico sobre granos | SSP5-8.5", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill = colores_fijos,title = "Grado de Impacto",bg = "white",box.col = "gray80",cex = 0.9,
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
 
-# =================================== SIEMBRA EN NOVIEMBRE CON RIEGO ========================================================================
-
-# HISTORICO O BASE:------------
-
-E1_h_min_r<- min(tem_h_a, ti_mf_h1)
-E1_h_min1_r<- mask(c(tem_h_a, ti_mf_h1), re_musa)
-names(E1_h_min1_r)<- c("Temp media anual", "Temp minima mes frio")
-E1_h_min2_r<- mask(min(c(tem_h_a, ti_mf_h1)), re_musa)
-E1_h_min2a_r<- round(E1_h_min2_r, digits = 3)
-
-par(mfrow=c(1,1))
-plot(E1_h_min1_r,col=paleta_semaforo(4))
-
-musa_h_apt_r <- ifel(E1_h_min2a_r <= 1,  1,
-                     ifel(E1_h_min2a_r <= 2,2,
-                          ifel(E1_h_min2a_r <= 3,3,4)))
-
-clases_presentes_h_r <- na.omit(unique(musa_h_apt_r)[, 1])
-plot(musa_h_apt_r,type = "classes",col=colores_semaforo2[clases_presentes_h_r],main="Aptitud climatica de las tierras para musaceas noviembre con riego | Historico")
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-
-# repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
-E1_h_min_fig_r<- round(E1_h_min_r, digits = 3)
-
-E1_h_min_fig1_r<- ifel(E1_h_min_fig_r <= 1,  1,
-                       ifel(E1_h_min_fig_r <= 2,2,
-                            ifel(E1_h_min_fig_r <= 3,3,4)))
-
-par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E1_h_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para musaceas noviembre con riego| Historico", cex.main=1, legend=FALSE )
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.76,
-       xjust = 0,                         # Alineación de la caja respecto al punto x
-       yjust = 0)                         # Alineación de la caja respecto al punto y
-
-# SSP2-4.5:--------------------------------------------------------------------------------
-
-E3_45_min_r<- min(tem_45_a, ti_mf_45)
-E3_45_min1_r<- mask(c(tem_45_a, ti_mf_45), re_musa1)
-names(E3_45_min1_r)<- c("Temp media anual", "Temp minima mes frio")
-E3_45_min2_r<- mask(min(c(tem_45_a, ti_mf_45)), re_musa1)
-E3_45_min2a_r<- round(E3_45_min2_r, digits = 3)
-
-par(mfrow=c(1,1))
-plot(E3_45_min1_r,col=paleta_semaforo(4))
-
-musa_45_apt_r <- ifel(E3_45_min2a_r <= 1,  1,
-                      ifel(E3_45_min2a_r <= 2,2,
-                           ifel(E3_45_min2a_r <= 3,3,4)))
-
-clases_presentes_45_r <- na.omit(unique(musa_45_apt_r)[, 1])
-plot(musa_45_apt_r,type = "classes",col=colores_semaforo2[clases_presentes_45_r],main="Aptitud climatica de las tierras para musaceas noviembre con riego | SSP2-4.5")
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-
-# repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
-E3_45_min_fig_r<- round(E3_45_min_r, digits = 3)
-
-E3_45_min_fig1_r<- ifel(E3_45_min_fig_r <= 1,  1,
-                        ifel(E3_45_min_fig_r <= 2,2,
-                             ifel(E3_45_min_fig_r <= 3,3,4)))
-
-par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E3_45_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para musaceas noviembre con riego | SSP2-4.5", cex.main=1, legend=FALSE)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.76,
-       xjust = 0,                         # Alineación de la caja respecto al punto x
-       yjust = 0)                         # Alineación de la caja respecto al punto y
-
-
-# SSP5-8.5:--------------------------------------------------------------------------------
-
-E5_85_min_r<- min(tem_85_a, ti_mf_85)
-E5_85_min1_r<- mask(c(tem_85_a, ti_mf_85), re_musa1)
-names(E5_85_min1_r)<- c("Temp media anual", "Temp minima mes frio")
-E5_85_min2_r<- mask(min(c(tem_85_a, ti_mf_85)), re_musa1)
-E5_85_min2a_r<- round(E5_85_min2_r, digits = 3)
-
-par(mfrow=c(1,1))
-plot(E5_85_min1_r,col=paleta_semaforo(4))
-
-musa_85_apt_r <- ifel(E5_85_min2a_r <= 1,  1,
-                      ifel(E5_85_min2a_r <= 2,2,
-                           ifel(E5_85_min2a_r <= 3,3,4)))
-
-clases_presentes_85_r <- na.omit(unique(musa_85_apt_r)[, 1])
-plot(musa_85_apt_r,type = "classes",col=colores_semaforo2[clases_presentes_85_r],main="Aptitud climatica de las tierras para musaceas noviembre con riego | SSP5-8.5")
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
-
-# repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
-E5_85_min_fig_r<- round(E5_85_min_r, digits = 3)
-
-E5_85_min_fig1_r<- ifel(E5_85_min_fig_r <= 1,  1,
-                        ifel(E5_85_min_fig_r <= 2,2,
-                             ifel(E5_85_min_fig_r <= 3,3,4)))
-
-par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E5_85_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para musaceas noviembre con riego | SSP5-8.5", cex.main=1, legend=FALSE )
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.76,
-       xjust = 0,                         # Alineación de la caja respecto al punto x
-       yjust = 0)                         # Alineación de la caja respecto al punto y
-
-
-
-# Estimacion de la AMENAZA CLIMATICA de las tierras (DIFERENCIA antigua SENSIBILIDAD)---------------------------------------
-# --------------------------------------------------------------------------------------------------------------------------
-
-# ------------------Diferencia entre el escenario SSP2-4.5 menos Historico:
-
-E3_45_min3_r <- resample(E3_45_min2_r, E1_h_min2_r, method= "bilinear")
-musa_45_sen_r<- E3_45_min3_r - E1_h_min2_r
-par(mfrow=c(1,1))
-plot(musa_45_sen_r)
-musa_45_sena_r<- round(musa_45_sen_r, digits = 3)
-
-musa_45_sen1_r <- ifel(musa_45_sena_r < -1,  1,
-                       ifel(musa_45_sena_r > -1 & musa_45_sena_r < -0.5, 2,
-                            ifel(musa_45_sena_r > -0.5 & musa_45_sena_r < 0, 3, 4)))
-
-clases_presentes_sen1_45_r <- na.omit(unique(musa_45_sen1_r)[, 1])
-
-cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
-par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(musa_45_sena_r,breaks = cortes_breaks1,col = colores_fijos,main = "Grado de impacto del cambio climatico sobre musaceas noviembre con riego | SSP2-4.5", cex.main=1, legend=FALSE )
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill = colores_fijos,title = "Grado de Impacto",bg = "white",box.col = "gray80",cex = 0.9,
-       xjust = 0,                         # Alineación de la caja respecto al punto x
-       yjust = 0)                         # Alineación de la caja respecto al punto y
-
-# ------------------Diferencia entre el escenario SSP5-8.5 menos Historico:
-
-E5_85_min3_r <- resample(E5_85_min2_r, E1_h_min2_r, method= "bilinear")
-musa_85_sen_r<- E5_85_min3_r - E1_h_min2_r
-par(mfrow=c(1,1))
-plot(musa_85_sen_r)
-musa_85_sena_r<- round(musa_85_sen_r, digits = 3)
-
-musa_85_sen1_r <- ifel(musa_85_sena_r < -1,  1,
-                       ifel(musa_85_sena_r > -1 & musa_85_sena_r < -0.5, 2,
-                            ifel(musa_85_sena_r > -0.5 & musa_85_sena_r < 0, 3, 4)))
-
-clases_presentes_sen1_85_r <- na.omit(unique(musa_85_sen1_r)[, 1])
-
-cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
-par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(musa_85_sena_r,breaks = cortes_breaks1,col = colores_fijos,main = "Grado de impacto del cambio climatico sobre musaceas noviembre con riego | SSP5-8.5", cex.main=1, legend=FALSE )
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill = colores_fijos,title = "Grado de Impacto",bg = "white",box.col = "gray80",cex = 0.9,
-       xjust = 0,                         # Alineación de la caja respecto al punto x
-       yjust = 0)                         # Alineación de la caja respecto al punto y
 
 
 # # Estimacion del IMPACTO del cambio climatico en las tierras (Linea multiplicada por 2)-------------------------------------

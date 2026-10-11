@@ -3,7 +3,7 @@
     "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/5_Frijol/apt_granos_secos.R",
     "project_path": null,
     "type": "r_source",
-    "hash": "0",
+    "hash": "753388940",
     "contents": "",
     "dirty": false,
     "created": 1791585169999.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "788,0",
-        "scrollLine": "757"
+        "cursorPosition": "833,0",
+        "scrollLine": "833"
     },
     "folds": "",
-    "lastKnownWriteTime": 1791677794,
+    "lastKnownWriteTime": 1791678379,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1791677794186,
+    "last_content_update": 1791678379663,
     "read_only": false,
     "read_only_alternatives": []
 }
