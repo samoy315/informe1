@@ -658,42 +658,41 @@ legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamen
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
 
+#############################################################################################################
+################################### VARIANTES ###############################################################
+#############################################################################################################
 
-
-
-
-
-
-#############################################################################################################################
-################################### VARIANTES ###############################################################################
-#############################################################################################################################
-
-# ========================== SIEMBRA EN MAYO SIN RIEGO ====================================================================== 
+# ========================== UNICA ====================================================================== 
 
 # exportamos la region de exposicion estandar del musa:
-re_musa<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/reg_plata_estandar.tif")
+re_grano<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/reg_frijol_estandar.tif")
 par(mfrow=c(1,1))
-plot(re_musa,col="green3", legend=FALSE)
+plot(re_grano,col="green3", legend=FALSE)
 plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
 
 # HISTORICO O BASE:------------
-ti_mf_h1<- resample(ti_mf_h, p_h_anual1, method="bilinear")
+tem_h_b<- resample(tem_h_a, p_h_a, method="bilinear")
+hrd_h_b<- resample(hrd_h_a,  p_h_a, method="bilinear")
+hrm_h_b<- resample(hrm_h_a,  p_h_a, method="bilinear")
+ind_h1<- resample(ind_h,  p_h_a, method="bilinear")
+inm_h1<- resample(inm_h,  p_h_a, method="bilinear")
+re_grano1<- resample(re_grano,  p_h_a, method="bilinear")
 
-E1_h_min<- min(p_h_anual1, es_h_anual1, tem_h_a, ti_mf_h1)
-E1_h_min1<- mask(c(p_h_anual1, es_h_anual1, tem_h_a, ti_mf_h1), re_musa)
-names(E1_h_min1)<- c("Precipitacion anual", "Estacion seca", "Temp media anual", "Temp minima mes frio")
-E1_h_min2<- mask(min(c(p_h_anual1, es_h_anual1, tem_h_a, ti_mf_h1)), re_musa)
+E1_h_min<- min(p_h_a, tem_h_b, tim_h_a, hrd_h_b, hrm_h_b, ind_h1, inm_h1)
+E1_h_min1<- mask(c(p_h_a, tem_h_b, tim_h_a, hrd_h_b, hrm_h_b, ind_h1, inm_h1), re_grano1)
+names(E1_h_min1)<- c("Precipitacion del ciclo", "Temp media ciclo", "Temp minima ciclo", "HR desarrollo", "HR maduracion", "Insolacion desarrollo", "Insolacion maduracion")
+E1_h_min2<- mask(min(c(p_h_a, tem_h_b, tim_h_a, hrd_h_b, hrm_h_b, ind_h1, inm_h1)), re_grano1)
 E1_h_min2a<- round(E1_h_min2, digits = 3)
 
 par(mfrow=c(1,1))
 plot(E1_h_min1,col=paleta_semaforo(4))
 
-musa_h_apt <- ifel(E1_h_min2a <= 1,  1,
+grano_h_apt <- ifel(E1_h_min2a <= 1,  1,
                    ifel(E1_h_min2a <= 2,2,
                         ifel(E1_h_min2a <= 3,3,4)))
 
-clases_presentes_h <- na.omit(unique(musa_h_apt)[, 1])
-plot(musa_h_apt,type = "classes",col=colores_semaforo2[clases_presentes_h],main="Aptitud climatica de las tierras para musaceas mayo sin riego | Historico")
+clases_presentes_h <- na.omit(unique(grano_h_apt)[, 1])
+plot(grano_h_apt,type = "classes",col=colores_semaforo2[clases_presentes_h],main="Aptitud climatica de las tierras para granos | Historico")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
 # repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
@@ -704,33 +703,35 @@ E1_h_min_fig1<- ifel(E1_h_min_fig <= 1,  1,
                           ifel(E1_h_min_fig <= 3,3,4)))
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E1_h_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para musaceas mayo sin riego | Historico", cex.main=1, legend=FALSE )
+plot(E1_h_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para granos | Historico", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.76,
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.64,
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
 
 # SSP2-4.5:--------------------------------------------------------------------------------
 
-es_45_anual3<- resample(es_45_anual2, p_45_anual1, method="bilinear")
-re_musa1<- resample(re_musa, p_45_anual1, method="bilinear")
+hrd_45_b<- resample(hrd_45_a, p_45_a, method="bilinear")
+hrm_45_b<- resample(hrm_45_a, p_45_a, method="bilinear")
+ind_45_a<- resample(ind_45, p_45_a, method="bilinear")
+inm_45_a<-resample(inm_45, p_45_a, method="bilinear")
 
-E3_45_min<- min(p_45_anual1, es_45_anual3, tem_45_a, ti_mf_45)
-E3_45_min1<- mask(c(p_45_anual1, es_45_anual3, tem_45_a, ti_mf_45), re_musa1)
-names(E3_45_min1)<- c("Precipitacion anual", "Estacion seca", "Temp media anual", "Temp minima mes frio")
-E3_45_min2<- mask(min(c(p_45_anual1, es_45_anual3, tem_45_a, ti_mf_45)), re_musa1)
+E3_45_min<- min(p_45_a, tem_45_a, tim_45_a, hrd_45_b, hrm_45_b, ind_45_a, inm_45_a)
+E3_45_min1<- mask(c(p_45_a, tem_45_a, tim_45_a, hrd_45_b, hrm_45_b, ind_45_a, inm_45_a), re_grano1)
+names(E3_45_min1)<- c("Precipitacion del ciclo", "Temp media ciclo", "Temp minima ciclo", "HR desarrollo", "HR maduracion", "Insolacion desarrollo", "Insolacion maduracion")
+E3_45_min2<- mask(min(c(p_45_a, tem_45_a, tim_45_a, hrd_45_b, hrm_45_b, ind_45_a, inm_45_a)), re_grano1)
 E3_45_min2a<- round(E3_45_min2, digits = 3)
 
 par(mfrow=c(1,1))
 plot(E3_45_min1,col=paleta_semaforo(4))
 
-musa_45_apt <- ifel(E3_45_min2a <= 1,  1,
+grano_45_apt <- ifel(E3_45_min2a <= 1,  1,
                     ifel(E3_45_min2a <= 2,2,
                          ifel(E3_45_min2a <= 3,3,4)))
 
-clases_presentes_45 <- na.omit(unique(musa_45_apt)[, 1])
-plot(musa_45_apt,type = "classes",col=colores_semaforo2[clases_presentes_45],main="Aptitud climatica de las tierras para musaceas mayo sin riego | SSP2-4.5")
+clases_presentes_45 <- na.omit(unique(grano_45_apt)[, 1])
+plot(grano_45_apt,type = "classes",col=colores_semaforo2[clases_presentes_45],main="Aptitud climatica de las tierras para granos | SSP2-4.5")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
 # repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
@@ -741,33 +742,34 @@ E3_45_min_fig1<- ifel(E3_45_min_fig <= 1,  1,
                            ifel(E3_45_min_fig <= 3,3,4)))
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E3_45_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para musaceas mayo sin riego | SSP2-4.5", cex.main=1, legend=FALSE )
+plot(E3_45_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para grans | SSP2-4.5", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.76,
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.64,
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
 # SSP5-8.5:--------------------------------------------------------------------------------
 
-es_85_anual3<- resample(es_85_anual2, p_85_anual1, method="bilinear")
+hrd_85_b<- resample(hrd_85_a, p_85_a, method="bilinear")
+hrm_85_b<- resample(hrm_85_a, p_85_a, method="bilinear")
+ind_85_a<- resample(ind_85, p_85_a, method="bilinear")
+inm_85_a<-resample(inm_85, p_85_a, method="bilinear")
 
-E5_85_min<- min(p_85_anual1, es_85_anual3, tem_85_a, ti_mf_85)
-
-E5_85_min<- min(p_85_anual1, es_85_anual3, tem_85_a, ti_mf_85)
-E5_85_min1<- mask(c(p_85_anual1, es_85_anual3, tem_85_a, ti_mf_85), re_musa1)
-names(E5_85_min1)<- c("Precipitacion anual", "Estacion seca", "Temp media anual", "Temp minima mes frio")
-E5_85_min2<- mask(min(c(p_85_anual1, es_85_anual3, tem_85_a, ti_mf_85)), re_musa1)
+E5_85_min<- min(p_85_a, tem_85_a, tim_85_a, hrd_85_b, hrm_85_b, ind_85_a, inm_85_a)
+E5_85_min1<- mask(c(p_85_a, tem_85_a, tim_85_a, hrd_85_b, hrm_85_b, ind_85_a, inm_85_a), re_grano1)
+names(E5_85_min1)<- c("Precipitacion del ciclo", "Temp media ciclo", "Temp minima ciclo", "HR desarrollo", "HR maduracion", "Insolacion desarrollo", "Insolacion maduracion")
+E5_85_min2<- mask(min(c(p_85_a, tem_85_a, tim_85_a, hrd_85_b, hrm_85_b, ind_85_a, inm_85_a)), re_grano1)
 E5_85_min2a<- round(E5_85_min2, digits = 3)
 
 par(mfrow=c(1,1))
 plot(E5_85_min1,col=paleta_semaforo(4))
 
-musa_85_apt <- ifel(E5_85_min2a <= 1,  1,
+grano_85_apt <- ifel(E5_85_min2a <= 1,  1,
                     ifel(E5_85_min2a <= 2,2,
                          ifel(E5_85_min2a <= 3,3,4)))
 
-clases_presentes_85 <- na.omit(unique(musa_85_apt)[, 1])
-plot(musa_85_apt,type = "classes",col=colores_semaforo2[clases_presentes_85],main="Aptitud climatica de las tierras para musaceas mayo sin riego | SSP5-8.5")
+clases_presentes_85 <- na.omit(unique(grano_85_apt)[, 1])
+plot(grano_85_apt,type = "classes",col=colores_semaforo2[clases_presentes_85],main="Aptitud climatica de las tierras para granos | SSP5-8.5")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
 # repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
@@ -778,9 +780,9 @@ E5_85_min_fig1<- ifel(E5_85_min_fig <= 1,  1,
                            ifel(E5_85_min_fig <= 3,3,4)))
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E5_85_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para musaceas mayo sin riego | SSP5-8.5", cex.main=1, legend=FALSE )
+plot(E5_85_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para granos | SSP5-8.5", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.76,
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.64,
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 

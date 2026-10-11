@@ -3,24 +3,24 @@
     "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/informe1/Granos_secos.qmd",
     "project_path": "Granos_secos.qmd",
     "type": "quarto_markdown",
-    "hash": "0",
+    "hash": "2008229787",
     "contents": "",
-    "dirty": true,
+    "dirty": false,
     "created": 1791483522319.0,
     "source_on_save": false,
     "relative_order": 15,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "59,0",
-        "scrollLine": "58"
+        "cursorPosition": "74,44",
+        "scrollLine": "70"
     },
     "folds": "",
-    "lastKnownWriteTime": 1791670604,
+    "lastKnownWriteTime": 1791677849,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1791670691960,
+    "last_content_update": 1791677849949,
     "read_only": false,
     "read_only_alternatives": []
 }

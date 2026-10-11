@@ -61,24 +61,18 @@ En Venezuela la superficie total de Region de Exposicion para la **Granos secos*
 
 #### Escenario Histórico o Base:
 
-##### Siembra en mayo al inicio de lluvias sin riego
-![](./images/granos/granos_aptitud_min_historico_mayo_sin_riego.png)
-
-##### Siembra en noviembre salidas de lluvias con riego
-![](./images/granos/granos_aptitud_min_historico_nov_con_riego.png)
+##### Siembra a salidas de lluvias sin riego
+![](./images/granos/granos_aptitud_min_historico.png)
 
 #### Escenario SSP2-4.5:
 
-##### Siembra en mayo al inicio de lluvias sin riego
-![](./images/granos/granos_aptitud_min_ssp45_mayo_sin_riego.png)
-
-##### Siembra en noviembre salidas de lluvias con riego
-![](./images/granos/granos_aptitud_min_ssp45_nov_con_riego.png)
+##### Siembra a salidas de lluvias sin riego
+![](./images/granos/granos_aptitud_min_ssp45.png)
 
 #### Escenario SSP5-8.5:
 
 ##### Siembra en mayo al inicio de lluvias sin riego
-![](./images/granos/granos_aptitud_min_ssp85_mayo_sin_riego.png)
+![](./images/granos/granos_aptitud_min_ssp85.png)
 
 ##### Siembra en noviembre salidas de lluvias con riego
 ![](./images/granos/granos_aptitud_min_ssp85_nov_con_riego.png)
