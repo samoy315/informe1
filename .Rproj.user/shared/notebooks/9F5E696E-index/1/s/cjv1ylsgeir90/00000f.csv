@@ -1,0 +1,2 @@
+"0","library(sp); library(sf); library(raster); library(terra); library(leaflet); library(tidyverse); library(rmarkdown); library(sgsR); library(clhs); library(ggplot2); library(mapview)"
+"0","paleta_semaforo <- colorRampPalette(c(""red"", ""orange"", ""yellow"", ""green3""))"

@@ -1,0 +1,88 @@
+setwd("C:/Sevilla/Diego170825/Rendimientos_maiz/Metodo_diego")
+library(raster)
+library(terra)
+library(sf)
+
+indice<- rast("Orto_10cm_apilado.tif")
+names(indice)
+plot(indice)
+bloquecito<- vect("bloquecito1.shp") 
+print(bloquecito)
+plot(bloquecito,col="blue")
+crs_destino<- "EPSG: 32619"
+crs(indice, describe= TRUE)
+crs(bloquecito, describe=TRUE)
+indice_uw<- project(indice, crs_destino, method="bilinear")
+crs(indice_uw, describe=TRUE)
+plot(indice_uw$Orto_10cm_apilado_1)
+plot(bloquecito, add=TRUE)
+raster_recortado<- crop(indice_uw, bloquecito)
+indice_uw_recortado<- mask(raster_recortado, bloquecito)
+plot(indice_uw_recortado, main="indice recortado a bloquecito")
+composicion_color<- c(indice_uw_recortado$Orto_10cm_apilado_1, indice_uw_recortado$Orto_10cm_apilado_2, indice_uw_recortado$Orto_10cm_apilado_3)
+names(composicion_color)<- c("Rojo", "Verde", "Blue")
+plotRGB(composicion_color, r = 1, g = 2, b = 3, stretch= "lin", main="Colores verdaderos")
+ndvi<- (indice_uw_recortado$Orto_10cm_apilado_7 - indice_uw_recortado$Orto_10cm_apilado_5) / (indice_uw_recortado$Orto_10cm_apilado_7 + indice_uw_recortado$Orto_10cm_apilado_5)
+cgi<- (indice_uw_recortado$Orto_10cm_apilado_7 / indice_uw_recortado$Orto_10cm_apilado_4) - 1
+paleta_vegetacion <- colorRampPalette(c("darkred", "yellow", "darkgreen"))(100)
+
+par(mfrow=c(2,1))
+plot(ndvi, main="Mapa NDVI", col=paleta_vegetacion)
+plot(cgi, main="Mapa CGI", col=paleta_vegetacion)
+par(mfrow=c(1,1))
+hist(ndvi)
+
+par(mfrow=c(1,1))
+kgm_ndvi<- (( 0.7089 * ndvi ) + 0.2385 )
+plot(kgm_ndvi)
+
+kg_ndvi<- (( kgm_ndvi * 0.01 ) / 0.6 )
+plot(kg_ndvi)
+suma_total<- global(kg_ndvi, fun = "sum", na.rm = TRUE)
+valor_final<- suma_total$sum
+print(valor_final)
+crs(bloque1, describe= TRUE)
+loco<- valor_final/0.212
+print(loco)
+
+#=======================BLOQUE 1 AL EXTREMO SUR COMPLETO ==================================================
+
+bloque1<- vect("bloque1_UW.shp") 
+print(bloque1)
+plot(bloque1,col="blue")
+plot(indice_uw$Orto_10cm_apilado_1)
+plot(bloque1, add=TRUE)
+raster_recortado1<- crop(indice_uw, bloque1)
+indice_uw_recortado1<- mask(raster_recortado1, bloque1)
+plot(indice_uw_recortado1, main="indice recortado a bloque1")
+
+composicion_color1<- c(indice_uw_recortado1$Orto_10cm_apilado_1, indice_uw_recortado1$Orto_10cm_apilado_2, indice_uw_recortado1$Orto_10cm_apilado_3)
+names(composicion_color1)<- c("Rojo", "Verde", "Blue")
+plotRGB(composicion_color1, r = 1, g = 2, b = 3, stretch= "lin", main="Colores verdaderos")
+ndvi1<- (indice_uw_recortado1$Orto_10cm_apilado_7 - indice_uw_recortado1$Orto_10cm_apilado_5) / (indice_uw_recortado1$Orto_10cm_apilado_7 + indice_uw_recortado1$Orto_10cm_apilado_5)
+cgi1<- (indice_uw_recortado1$Orto_10cm_apilado_7 / indice_uw_recortado1$Orto_10cm_apilado_4) - 1
+paleta_vegetacion <- colorRampPalette(c("darkred", "yellow", "darkgreen"))(100)
+
+par(mfrow=c(2,1))
+plot(ndvi1, main="Mapa NDVI", col=paleta_vegetacion)
+plot(cgi1, main="Mapa CGI", col=paleta_vegetacion)
+par(mfrow=c(1,2))
+hist(ndvi)
+hist(ndvi1)
+
+kgm_ndvi1<- (( 0.7089 * ndvi1 ) + 0.2385 )
+par(mfrow=c(1,1))
+plot(kgm_ndvi1)
+par(mfrow=c(1,1))
+loquera<- ifel(kgm_ndvi1< 0, 0, NA)
+plot(loquera, col="red")
+writeRaster(kgm_ndvi1, "kgm_ndv1.tif", overwrite = TRUE)
+
+kg_ndvi1<- (( kgm_ndvi1 * 0.01 ) / 0.6 )
+plot(kg_ndvi1)
+suma_total1<- global(kg_ndvi1, fun = "sum", na.rm = TRUE)
+valor_final1<- suma_total1$sum
+print(valor_final1)
+
+kg_bloque1<- ( valor_final1 * 10000 ) / 250133.34
+print(kg_bloque1)

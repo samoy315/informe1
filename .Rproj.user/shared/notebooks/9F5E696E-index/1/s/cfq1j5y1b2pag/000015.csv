@@ -1,0 +1,6 @@
+"0","mascara_exg<- rast(""C:/Sevilla/Diego170825/Rendimientos_maiz/Metodo_diego/mascara_exg.tif"")"
+"0","colores_fijos <- c(""red"", ""gold"", ""green3"", ""dodgerblue"")"
+"0","# 1. DIBUJAMOS EL MAPA: Metemos el margen (mar) y los ejes (axes) directamente aquí"
+"0","plot(mascara_exg, col = ""red"", main = ""Capa de binarizacion"", "
+"0","     legend = FALSE, axes = TRUE, "
+"0","     mar = c(4, 4, 3, 10)) # El 10 garantiza un margen blanco gigante a la derecha"

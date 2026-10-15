@@ -1,0 +1,5 @@
+"0",""
+"0","# 3. PEGAR EL RASTER: Usamos add = TRUE para que se acomode sin borrar el título"
+"0","composicion_color_bloquecito <- c(orto_bloquecito1$Orto_10cm_apilado_uw1_1, orto_bloquecito1$Orto_10cm_apilado_uw1_2, orto_bloquecito1$Orto_10cm_apilado_uw1_3)"
+"0","names(composicion_color_bloquecito) <- c(""Rojo"", ""Verde"", ""Azul"")"
+"0","plotRGB(composicion_color_bloquecito, r = 1, g = 2, b = 3, stretch = ""lin"", add = TRUE)"

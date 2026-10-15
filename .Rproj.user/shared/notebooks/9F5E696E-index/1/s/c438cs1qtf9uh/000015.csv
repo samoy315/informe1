@@ -1,0 +1,7 @@
+"0","text(sitios,"
+"0","  labels = sitios$Peso_kg, # SUSTITUYE 'NAME_2' por tu columna, ej: sitios$Nombre"
+"0","  pos = 4,                      # pos = 4 indica que el texto va a la derecha"
+"0","  offset = 0.5,                 # Separación entre el punto azul y el inicio del texto"
+"0","  col = ""black"","
+"0","  cex = 0.6,                    # Tamaño de la letra"
+"0","  font = 2)                     # font = 2 coloca el texto en negrita (opcional)"

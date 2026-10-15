@@ -1,0 +1,4 @@
+"0","#plot(mascara_exg, col=""red"", main=""Capa de binarizacion"", legend=FALSE )"
+"0","#legend(x = 470390, y = 1059840,legend = c(""Muy alto"",""Alto"",""Moderado"",""Bajo""),fill = #colores_fijos,title = ""Grado de Impacto"", bg = ""white"",box.col = ""gray80"",cex = 0.9,"
+"0","#       xjust = 0,                         # Alineación de la caja respecto al punto x"
+"0","#       yjust = 0)                         # Alineación de la caja respecto al punto y"
