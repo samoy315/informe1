@@ -1,0 +1,787 @@
+
+# PROYECYO FAO SOBRE CAMBIO CLIMATICO | jUNIO 2026 | Oscar Silva y Victor Sevila
+
+
+#===================DETERMINACION DE LA APTITU CLIMATICA DE LAS TIERRAS ========================
+#------------------------------------------ YUCA------------------------------------------------
+#===============================================================================================
+
+setwd("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/10_Yuca")
+library(dplyr)
+library(terra)
+library(ggplot2)
+library(sf)
+library(tidyterra)
+paleta_semaforo <- colorRampPalette(c("red", "orange", "yellow", "green3"))
+paleta_semaforo1 <- colorRampPalette(c("red", "gold", "green3", "dodgerblue"))
+paleta_temperatura <- colorRampPalette(c("darkblue", "blue", "skyblue", "yellow","orange", "red"))
+paleta_precipitacion <- colorRampPalette(c("lightblue", "skyblue", "cornflowerblue", "royalblue", "dodgerblue", 'blue', 'darkblue'))
+paleta_dias_secos <- colorRampPalette(c("darkgreen", "green", "palegoldenrod", "yellow", "orange", "red"))
+colores_meses <- c("lightblue", "deepskyblue", "lightgreen", "green", "forestgreen", "yellow", "gold", "orange", "tomato", "red", "saddlebrown", "plum")
+colores_semaforo1<- (c("red", "orange", "yellow", "green"))
+colores_semaforo2<- (c("red", "yellow", "green", "dodgerblue"))
+colores_semaforo3<- (c("dodgerblue", "green", "yellow", "red"))
+
+colores_fijos <- c("red", "gold", "green3", "dodgerblue")
+cortes_breaks <- c(-Inf, 1, 2, 3.01, Inf)
+
+color_fijos1<- c("darkred", "red", "gold", "green3", "dodgerblue", "darkblue")
+color_fijos2<- c("darkblue", "dodgerblue", "green3", "gold", "red", "darkred")
+
+venezuela <- st_read("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Contorno_Venezuela/AOI_linea_referencia1.shp")
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# ---------------------------------PRECIPITACION ANUAL------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------
+# Cargamos las capas raster:
+
+# Escenario Historico:
+p_h_anual<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Precipitacion/Anual/P_Anual_WC.tif")
+
+# Escenario SSP2-4.5:
+p_45_anual<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Precipitacion/Anual/p_45_anual.tif")
+
+# Escenario SSP5-8.5:
+p_85_anual<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Precipitacion/Anual/p_85_anual.tif")
+
+par(mfrow=c(2,2))
+plot(p_h_anual, main="PP Historico")
+plot(p_45_anual, main="PP SSP2-4.5")
+plot(p_85_anual, main="PP SSP5-8.5")
+summary(p_h_anual); summary(p_45_anual); summary(p_85_anual)
+
+# Parametros:
+p_yuca <- tibble(
+  p = c(0, 500, 600, 1000, 1700, 2400, 3700),
+  g_aptitud = c(0, 1, 2, 3, 4, 3, 3)
+)
+
+p_yuca1 <- p_yuca %>%
+  mutate(
+    pendiente = (g_aptitud - lag(g_aptitud)) / (p - lag(p)),
+    intercepto = g_aptitud - (pendiente * p)
+  )
+print(p_yuca1)
+
+# Extraemos los límites de precipitación de su columna
+# Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
+# a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
+plim_500  <- p_yuca1$p[2]
+plim_600  <- p_yuca1$p[3]
+plim_1000 <- p_yuca1$p[4]
+plim_1700 <- p_yuca1$p[5]
+plim_2400 <- p_yuca1$p[6]
+plim_3700 <- p_yuca1$p[7]
+
+# Extraemos pendientes (m) e interceptos (b) de las mismas filas
+pm500  <- p_yuca1$pendiente[2]
+pb500  <- p_yuca1$intercepto[2]
+
+pm600  <- p_yuca1$pendiente[3]
+pb600  <- p_yuca1$intercepto[3]
+
+pm1000 <- p_yuca1$pendiente[4]
+pb1000 <- p_yuca1$intercepto[4]
+
+pm1700 <- p_yuca1$pendiente[5]
+pb1700 <- p_yuca1$intercepto[5]
+
+pm2400 <- p_yuca1$pendiente[6]
+pb2400 <- p_yuca1$intercepto[6]
+
+pm3700 <- p_yuca1$pendiente[7]
+pb3700 <- p_yuca1$intercepto[7]
+
+# Calculamos el nuevo raster con todo 100% parametrizado
+
+p_h_anual1 <- ifel(p_h_anual < plim_500,  (pm500  * p_h_anual) + pb500,
+                   ifel(p_h_anual < plim_600, (pm600 * p_h_anual) + pb600,
+                        ifel(p_h_anual < plim_1000, (pm1000 * p_h_anual) + pb1000,
+                             ifel(p_h_anual < plim_1700, (pm1700 * p_h_anual) + pb1700,
+                                  ifel(p_h_anual < plim_2400, (pm2400 * p_h_anual) + pb2400,
+                                       ifel(p_h_anual < plim_3700, (pm3700 * p_h_anual) + pb3700, NA))))))
+
+p_45_anual1 <- ifel(p_45_anual < plim_500,  (pm500  * p_45_anual) + pb500,
+                    ifel(p_45_anual < plim_600, (pm600 * p_45_anual) + pb600,
+                         ifel(p_45_anual < plim_1000, (pm1000 * p_45_anual) + pb1000,
+                              ifel(p_45_anual < plim_1700, (pm1700 * p_45_anual) + pb1700,
+                                   ifel(p_45_anual < plim_2400, (pm2400 * p_45_anual) + pb2400,
+                                        ifel(p_45_anual < plim_3700, (pm3700 * p_45_anual) + pb3700, NA))))))
+
+p_85_anual1 <- ifel(p_85_anual < plim_500,  (pm500  * p_85_anual) + pb500,
+                    ifel(p_85_anual < plim_600, (pm600 * p_85_anual) + pb600,
+                         ifel(p_85_anual < plim_1000, (pm1000 * p_85_anual) + pb1000,
+                              ifel(p_85_anual < plim_1700, (pm1700 * p_85_anual) + pb1700,
+                                   ifel(p_85_anual < plim_2400, (pm2400 * p_85_anual) + pb2400,
+                                        ifel(p_85_anual < plim_3700, (pm3700 * p_85_anual) + pb3700, NA))))))
+
+
+par(mfrow = c(2, 2), mar = c(2, 2, 3, 1))
+plot(p_h_anual1,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por precipitacion anual | historico", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(p_45_anual1,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por precipitacion anual | SSP2-4.5", cex.main=1, legend=FALSE)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(p_85_anual1,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por precipitacion anual | SSP5-8.5", cex.main=1, legend=FALSE)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
+legend("center", 
+       legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
+       fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
+       title = "Aptitud por precipitacion", # Título de la leyenda
+       bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
+       cex = 1.3)  # Aumentamos el tamaño del texto
+
+
+# ------------------------------------------------------------------------------------------------
+# ---------------------------------DIAS SECOS:----------------------------------------------------
+# ------------------------------------------------------------------------------------------------
+
+# Cargamos las capas raster:
+ps_h_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Periodos_humedad/DiasSecos_Base.tif")
+ps_45_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Periodos_humedad/DiasSecos_45.tif")
+ps_85_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Periodos_humedad/DiasSecos_48.tif")
+summary(ps_h_anual); summary(ps_45_anual); summary(ps_85_anual)
+ps_45_anual1 <- ifel(ps_45_anual > 365,  365, ps_45_anual)
+ps_85_anual1 <- ifel(ps_85_anual > 365,  365, ps_85_anual)
+summary(ps_h_anual); summary(ps_45_anual1); summary(ps_85_anual1)
+
+#Valoracion de los parametros:
+ps_yuca <- tibble(
+  ps = c(0, 30, 90, 150, 180, 210, 365),
+  g_aptitud = c(3, 3, 4, 3, 2, 1, 0)
+)
+
+ps_yuca1 <- ps_yuca %>%
+  mutate(
+    pendiente = (g_aptitud - lag(g_aptitud)) / (ps - lag(ps)),
+    intercepto = g_aptitud - (pendiente * ps)
+  )
+print(ps_yuca1)
+
+# Extraemos los límites de precipitación de su columna
+# Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
+# a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
+pslim_30  <- ps_yuca1$ps[2]
+pslim_90 <- ps_yuca1$ps[3]
+pslim_150 <- ps_yuca1$ps[4]
+pslim_180 <- ps_yuca1$ps[5]
+pslim_210 <- ps_yuca1$ps[6]
+pslim_365 <- ps_yuca1$ps[7]
+
+# Extraemos pendientes (m) e interceptos (b) de las mismas filas
+psm30  <- ps_yuca1$pendiente[2]
+psb30  <- ps_yuca1$intercepto[2]
+
+psm90 <- ps_yuca1$pendiente[3]
+psb90 <- ps_yuca1$intercepto[3]
+
+psm150 <- ps_yuca1$pendiente[4]
+psb150 <- ps_yuca1$intercepto[4]
+
+psm180 <- ps_yuca1$pendiente[5]
+psb180 <- ps_yuca1$intercepto[5]
+
+psm210 <- ps_yuca1$pendiente[6]
+psb210 <- ps_yuca1$intercepto[6]
+
+psm365 <- ps_yuca1$pendiente[7]
+psb365 <- ps_yuca1$intercepto[7]
+
+# Calculamos el nuevo raster con todo 100% parametrizado
+ps_h_anual1 <- ifel(ps_h_anual < pslim_30,  (psm30  * ps_h_anual) + psb30,
+                    ifel(ps_h_anual < pslim_90, (psm90 * ps_h_anual) + psb90,
+                         ifel(ps_h_anual < pslim_150, (psm150 * ps_h_anual) + psb150,
+                              ifel(ps_h_anual < pslim_180, (psm180 * ps_h_anual) + psb180,
+                                   ifel(ps_h_anual < pslim_210, (psm210 * ps_h_anual) + psb210,
+                                        ifel(ps_h_anual < pslim_365,(psm365 * ps_h_anual) + psb365, NA))))))
+
+ps_45_anual2 <- ifel(ps_45_anual1 < pslim_30,  (psm30  * ps_45_anual1) + psb30,
+                     ifel(ps_45_anual1 < pslim_90, (psm90 * ps_45_anual1) + psb90,
+                          ifel(ps_45_anual1 < pslim_150, (psm150 * ps_45_anual1) + psb150,
+                               ifel(ps_45_anual1 < pslim_180, (psm180 * ps_45_anual1) + psb180,
+                                    ifel(ps_45_anual1 < pslim_210, (psm210 * ps_45_anual1) + psb210,
+                                         ifel(ps_45_anual1 < pslim_365,(psm365 * ps_45_anual1) + psb365, NA))))))
+
+ps_85_anual2 <- ifel(ps_85_anual1 < pslim_30,  (psm30  * ps_85_anual1) + psb30,
+                     ifel(ps_85_anual1 < pslim_90, (psm90 * ps_85_anual1) + psb90,
+                          ifel(ps_85_anual1 < pslim_150, (psm150 * ps_85_anual1) + psb150,
+                               ifel(ps_85_anual1 < pslim_180, (psm180 * ps_85_anual1) + psb180,
+                                    ifel(ps_85_anual1 < pslim_210, (psm210 * ps_85_anual1) + psb210,
+                                         ifel(ps_85_anual1 < pslim_365,(psm365 * ps_85_anual1) + psb365, NA))))))
+
+par(mfrow=c(2,2))
+plot(ps_h_anual1,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras por periodo seco | historico", cex.main=0.9, legend=FALSE)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+plot(ps_45_anual2,breaks = cortes_breaks,col = colores_fijos,main="Aptitud climatica de las tierras por periodo seco | SSP2 4.5", cex.main=0.9, legend=FALSE)
+plot(st_geometry(venezuela),add=TRUE,border="black",lwd=1.5)
+plot(ps_85_anual2,breaks = cortes_breaks,col = colores_fijos,main="Aptitud climatica de las tierras por periodo seco | SSP5 8.5", cex.main=0.9, legend=FALSE)
+plot(st_geometry(venezuela),add=TRUE,border="black",lwd=1.5)
+plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
+legend("center", 
+       legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
+       fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
+       title = "Aptitud por periodo seco (dias al ano)", # Título de la leyenda
+       bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
+       cex = 1.1)  # Aumentamos el tamaño del texto
+
+
+# -------------------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------Temperatura media anual----------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------------------------------------------
+# Cargamos las capas raster :
+
+# Escenario Historico:--------------------------
+tem_h <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Anual/Tmed_Anual_WC.tif")
+
+# Escenario SSP2 4.5 ----------------------------
+tem_45 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Anual/Tmed_Anual_45.tif")
+
+# Escenario SSP5 5.8 ----------------------------
+tem_85 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_Anual_85.tif")
+
+# promedio del ciclo (mayo a gosto):
+par(mfrow=c(2,2))
+plot(tem_h, main="Temperatura media anual | Historico")
+plot(tem_45, main="Temperatura media anual | SSP2-4.5")
+plot(tem_85, main="Temperatura media anual | SSP5-8.5")
+summary(tem_h); summary(tem_45); summary(tem_85)
+
+# Parametros de calculos recta para los tres escenarios:
+
+tem_yuca <- tibble(
+  tem = c(0, 12, 16, 18, 24, 30, 35),
+  g_aptitud = c(0, 1, 2, 3, 4, 3, 3)
+)
+
+tem_yuca1 <- tem_yuca %>%
+  mutate(
+    pendiente = (g_aptitud - lag(g_aptitud)) / (tem - lag(tem)),
+    intercepto = g_aptitud - (pendiente * tem)
+  )
+print(tem_yuca1)
+
+# Extraemos los límites de precipitación de su columna
+# Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
+# a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
+temlim_12  <- tem_yuca1$tem[2]
+temlim_16 <- tem_yuca1$tem[3]
+temlim_18 <- tem_yuca1$tem[4]
+temlim_24 <- tem_yuca1$tem[5]
+temlim_30 <- tem_yuca1$tem[6]
+temlim_35 <- tem_yuca1$tem[7]
+
+# Extraemos pendientes (m) e interceptos (b) de las mismas filas
+temm12  <- tem_yuca1$pendiente[2]
+temb12  <- tem_yuca1$intercepto[2]
+
+temm16 <- tem_yuca1$pendiente[3]
+temb16 <- tem_yuca1$intercepto[3]
+
+temm18 <- tem_yuca1$pendiente[4]
+temb18 <- tem_yuca1$intercepto[4]
+
+temm24 <- tem_yuca1$pendiente[5]
+temb24 <- tem_yuca1$intercepto[5]
+
+temm30 <- tem_yuca1$pendiente[6]
+temb30 <- tem_yuca1$intercepto[6]
+
+temm35 <- tem_yuca1$pendiente[7]
+temb35 <- tem_yuca1$intercepto[7]
+
+# Calculamos el nuevo raster con todo 100% parametrizado | Tres escenario | Ciclo 0508----------------------------
+
+tem_h_a <- ifel(tem_h < temlim_12,  (temm12 * tem_h) + temb12,
+                ifel(tem_h < temlim_16, (temm16 * tem_h) + temb16,
+                     ifel(tem_h < temlim_18, (temm18 * tem_h) + temb18,
+                          ifel(tem_h < temlim_24, (temm24 * tem_h) + temb24,
+                               ifel(tem_h < temlim_30, (temm30 * tem_h) + temb30,
+                                    ifel(tem_h < temlim_35, (temm35 * tem_h) + temb35, NA))))))
+
+tem_45_a <- ifel(tem_45 < temlim_12,  (temm12  * tem_45) + temb12,
+                 ifel(tem_45 < temlim_16, (temm16 * tem_45) + temb16,
+                      ifel(tem_45 < temlim_18, (temm18 * tem_45) + temb18,
+                           ifel(tem_45 < temlim_24, (temm24 * tem_45) + temb24,
+                                ifel(tem_45 < temlim_30, (temm30 * tem_45) + temb30,
+                                     ifel(tem_45 < temlim_35, (temm35 * tem_45) + temb35, NA))))))
+
+tem_85_a <- ifel(tem_85 < temlim_12,  (temm12  * tem_85) + temb12,
+                 ifel(tem_85 < temlim_16, (temm16 * tem_85) + temb16,
+                      ifel(tem_85 < temlim_18, (temm18 * tem_85) + temb18,
+                           ifel(tem_85 < temlim_24, (temm24 * tem_85) + temb24,
+                                ifel(tem_85 < temlim_30, (temm30 * tem_85) + temb30,
+                                     ifel(tem_85 < temlim_35, (temm35 * tem_85) + temb35, NA))))))
+
+par(mfrow = c(2, 2), mar = c(2, 2, 3, 1))
+plot(tem_h_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media del ciclo | Historico", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(tem_45_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media del ciclo | SSP2-4.5", cex.main=1, legend=FALSE)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(tem_85_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media del ciclo | SSP5 8.5", cex.main=1, legend=FALSE)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
+legend("center", 
+       legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
+       fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
+       title = "Aptitud por temperatura media anual", # Título de la leyenda
+       bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
+       cex = 1.3)  # Aumentamos el tamaño del texto
+
+# -------------------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------Temperatura minima anual----------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------------------------------------------
+# Cargamos las capas raster :
+
+# Escenario Historico:--------------------------
+tim_h<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmin/Anual/Tmin_Anual_WC.tif")
+# Escenario SSP2 4.5 ----------------------------
+tim_45 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmin/Anual/Tmin_anual_Had3 245_2050.tif")
+# Escenario SSP5 5.8 ----------------------------
+tim_85 <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Anual/Tmin_Had3_585_2050.tif")
+
+summary(tim_h); summary(tim_45); summary(tim_85)
+tim_h1<- ifel(tim_h < 0, 0, tim_h)
+summary(tim_h1); summary(tim_45); summary(tim_85)
+
+# promedio del ciclo (mayo a gosto):
+par(mfrow=c(2,2))
+plot(tim_h1, main="temperatura minima ciclo | Historico", col=color_fijos2)
+plot(tim_45, main="temperatura minima ciclo | SSP2-4.5", col=color_fijos2)
+plot(tim_85, main="temperatura minima ciclo | SSP5-8.5", col=color_fijos2)
+
+# Parametros de calculos recta para los tres escenarios:
+
+tim_yuca <- tibble(
+  tim = c(0, 7, 9, 12, 18, 24, 30),
+  g_aptitud = c(0, 1, 2, 3, 4, 3, 3)
+)
+
+tim_yuca1 <- tim_yuca %>%
+  mutate(
+    pendiente = (g_aptitud - lag(g_aptitud)) / (tim - lag(tim)),
+    intercepto = g_aptitud - (pendiente * tim)
+  )
+print(tim_yuca1)
+
+# Extraemos los límites de precipitación de su columna
+# Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
+# a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
+timlim_07  <- tim_yuca1$tim[2]
+timlim_09 <- tim_yuca1$tim[3]
+timlim_12 <- tim_yuca1$tim[4]
+timlim_18 <- tim_yuca1$tim[5]
+timlim_24 <- tim_yuca1$tim[6]
+timlim_30 <- tim_yuca1$tim[7]
+
+# Extraemos pendientes (m) e interceptos (b) de las mismas filas
+timm07  <- tim_yuca1$pendiente[2]
+timb07  <- tim_yuca1$intercepto[2]
+
+timm09 <- tim_yuca1$pendiente[3]
+timb09 <- tim_yuca1$intercepto[3]
+
+timm12 <- tim_yuca1$pendiente[4]
+timb12 <- tim_yuca1$intercepto[4]
+
+timm18 <- tim_yuca1$pendiente[5]
+timb18 <- tim_yuca1$intercepto[5]
+
+timm24 <- tim_yuca1$pendiente[6]
+timb24 <- tim_yuca1$intercepto[6]
+
+timm30 <- tim_yuca1$pendiente[7]
+timb30 <- tim_yuca1$intercepto[7]
+
+# Calculamos el nuevo raster con todo 100% parametrizado | Tres escenario | Ciclo 0508----------------------------
+
+tim_h_a <- ifel(tim_h1 < timlim_07,  (timm07 * tim_h1) + timb07,
+                ifel(tim_h1 < timlim_09, (timm09 * tim_h1) + timb09,
+                     ifel(tim_h1 < timlim_12, (timm12 * tim_h1) + timb12,
+                          ifel(tim_h1 < timlim_18, (timm18 * tim_h1) + timb18,
+                               ifel(tim_h1 < timlim_24, (timm24 * tim_h1) + timb24,
+                                    ifel(tim_h1 < timlim_30, (timm30 * tim_h1) + timb30, NA))))))
+
+tim_45_a <- ifel(tim_45 < timlim_07,  (timm07  * tim_45) + timb07,
+                 ifel(tim_45 < timlim_09, (timm09 * tim_45) + timb09,
+                      ifel(tim_45 < timlim_12, (timm12 * tim_45) + timb12,
+                           ifel(tim_45 < timlim_18, (timm18 * tim_45) + timb18,
+                                ifel(tim_45 < timlim_24, (timm24 * tim_45) + timb24,
+                                     ifel(tim_45 < timlim_30, (timm30 * tim_45) + timb30, NA))))))
+
+tim_85_a <- ifel(tim_85 < timlim_07,  (timm07  * tim_85) + timb07,
+                 ifel(tim_85 < timlim_09, (timm09 * tim_85) + timb09,
+                      ifel(tim_85 < timlim_12, (timm12 * tim_85) + timb12,
+                           ifel(tim_85 < timlim_18, (timm18 * tim_85) + timb18,
+                                ifel(tim_85 < timlim_24, (timm24 * tim_85) + timb24,
+                                     ifel(tim_85 < timlim_30, (timm30 * tim_85) + timb30, NA))))))
+
+par(mfrow = c(2, 2), mar = c(2, 2, 3, 1))
+plot(tim_h_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por temperatura minima del ciclo | Historico", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(tim_45_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por timperatura minima del ciclo | SSP2-4.5", cex.main=1, legend=FALSE)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(tim_85_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura minima del ciclo | SSP5 8.5", cex.main=1, legend=FALSE)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
+legend("center", 
+       legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
+       fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
+       title = "Aptitud por temperatura minima promedio del ciclo", # Título de la leyenda
+       bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
+       cex = 1.3)  # Aumentamos el tamaño del texto
+
+
+# ------------------------------------------------------------------------------------------------------
+# ---------------------------n/N de los cinco meses mas secos (dic, ene, feb, mar, abr)-----------------
+# ------------------------------------------------------------------------------------------------------
+
+#buscamos el mes mas frio del año para el escenario historico:
+#cargamos las capas de tempetura minima:
+ins_dic<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_12.tif")
+ins_ene<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_01.tif")
+ins_feb<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_02.tif")
+ins_mar<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_03.tif")
+ins_abr<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Insolacion_mes_New_LocClim/Ins_04.tif")
+ins_ene1<- resample(ins_ene, ins_dic, method= "bilinear")
+ins_h<- (ins_dic + ins_ene1 + ins_feb + ins_mar + ins_abr) / 5
+summary(ins_h)
+
+par(mfrow=c(1,1))
+plot(ins_h ,col = color_fijos1,main= "Insolacion (n/N) promedio de los 5 meses mas secos")
+
+#Valoracion de parametros:
+ins <- tibble(
+  inss = c(0, 55, 70, 100),
+  g_aptitud = c(2, 3, 4, 4)
+)
+
+ins1 <- ins %>%
+  mutate(
+    pendiente = (g_aptitud - lag(g_aptitud)) / (inss - lag(inss)),
+    intercepto = g_aptitud - (pendiente * inss)
+  )
+print(ins1)
+
+# Extraemos los límites de precipitación de su columna
+# Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
+# a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
+inslim_55  <- ins1$inss[2]
+inslim_70 <- ins1$inss[3]
+inslim_100 <- ins1$inss[4]
+
+# Extraemos pendientes (m) e interceptos (b) de las mismas filas
+insm55  <- ins1$pendiente[2]
+insb55  <- ins1$intercepto[2]
+
+insm70 <- ins1$pendiente[3]
+insb70 <- ins1$intercepto[3]
+
+insm100 <- ins1$pendiente[4]
+insb100 <- ins1$intercepto[4]
+
+# Calculamos el nuevo raster con todo 100% parametrizado
+ins_h1 <- ifel(ins_h < inslim_55,  (insm55  * ins_h) + insb55,
+                ifel(ins_h < inslim_70, (insm70 * ins_h) + insb70,
+                     ifel(ins_h < inslim_100, (insm100 * ins_h) + insb100, NA)))
+
+ins_45a<- ins_h1
+ins_85a<- ins_h1
+
+par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
+plot(ins_h1,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica por Insolacion media de los meses mas secos | historico", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.67,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
+
+
+#############################################################################################################
+################################### VARIANTES ###############################################################
+#############################################################################################################
+
+# ========================== UNICA ====================================================================== 
+
+# exportamos la region de exposicion estandar del musa:
+re_yuca<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/reg_yuca_estandar.tif")
+par(mfrow=c(1,1))
+plot(re_yuca,col="green3", legend=FALSE)
+plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
+
+# HISTORICO O BASE:------------
+tim_h_b<- resample(tim_h_a, p_h_anual1, method="bilinear")
+ins_h2<- resample(ins_h1, p_h_anual1, method="bilinear")
+
+E1_h_min<- min(p_h_anual1, ps_h_anual1, tem_h_a, tim_h_b, ins_h2)
+E1_h_min1<- mask(c(p_h_anual1, ps_h_anual1, tem_h_a, tim_h_b, ins_h2), re_yuca)
+names(E1_h_min1)<- c("Precipitacion anual", "Estacion seca anual", "Temp media", "Temp minima", "Insolacion mes mas seco")
+E1_h_min2<- mask(min(c(p_h_anual1, ps_h_anual1, tem_h_a, tim_h_b, ins_h2)), re_yuca)
+E1_h_min2a<- round(E1_h_min2, digits = 3)
+
+par(mfrow=c(1,1))
+plot(E1_h_min1,col=paleta_semaforo(4))
+
+yuca_h_apt <- ifel(E1_h_min2a <= 1,  1,
+                   ifel(E1_h_min2a <= 2,2,
+                        ifel(E1_h_min2a <= 3,3,4)))
+
+clases_presentes_h <- na.omit(unique(yuca_h_apt)[, 1])
+plot(yuca_h_apt,type = "classes",col=colores_semaforo2[clases_presentes_h],main="Aptitud climatica de las tierras para granos | Historico")
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+# repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
+E1_h_min_fig<- round(E1_h_min, digits = 3)
+
+E1_h_min_fig1<- ifel(E1_h_min_fig <= 1,  1,
+                     ifel(E1_h_min_fig <= 2,2,
+                          ifel(E1_h_min_fig <= 3,3,4)))
+
+par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
+plot(E1_h_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para yuca | Historico", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.64,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
+
+#writeRaster(E1_h_min_fig, "Granos_aptitud_min_historico.tif", overwrite = TRUE)
+
+# SSP2-4.5:--------------------------------------------------------------------------------
+
+ps_45_anual3<- resample(ps_45_anual2, p_45_anual1, method="bilinear")
+ins_45b<- resample(ins_45a, p_45_anual1, method="bilinear")
+re_yuca1<- resample(re_yuca, p_45_anual1, method="bilinear")
+
+E3_45_min<- min(p_45_anual1, ps_45_anual3, tem_45_a, tim_45_a, ins_45b)
+E3_45_min1<- mask(c(p_45_anual1, ps_45_anual3, tem_45_a, tim_45_a, ins_45b), re_yuca1)
+names(E3_45_min1)<- c("Precipitacion anual", "Estacion seca anual", "Temp media", "Temp minima", "Insolacion mes mas seco")
+E3_45_min2<- mask(min(c(p_45_anual1, ps_45_anual3, tem_45_a, tim_45_a, ins_45b)), re_yuca1)
+E3_45_min2a<- round(E3_45_min2, digits = 3)
+
+par(mfrow=c(1,1))
+plot(E3_45_min1,col=paleta_semaforo(4))
+
+yuca_45_apt <- ifel(E3_45_min2a <= 1,  1,
+                    ifel(E3_45_min2a <= 2,2,
+                         ifel(E3_45_min2a <= 3,3,4)))
+
+clases_presentes_45 <- na.omit(unique(yuca_45_apt)[, 1])
+plot(yuca_45_apt,type = "classes",col=colores_semaforo2[clases_presentes_45],main="Aptitud climatica de las tierras para yuca | SSP2-4.5")
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+# repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
+E3_45_min_fig<- round(E3_45_min, digits = 3)
+
+E3_45_min_fig1<- ifel(E3_45_min_fig <= 1,  1,
+                      ifel(E3_45_min_fig <= 2,2,
+                           ifel(E3_45_min_fig <= 3,3,4)))
+
+par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
+plot(E3_45_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para yuca | SSP2-4.5", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.64,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
+
+#writeRaster(E3_45_min_fig, "Granos_aptitud_min_ssp45.tif", overwrite = TRUE)
+
+# SSP5-8.5:--------------------------------------------------------------------------------
+
+ps_85_anual3<- resample(ps_85_anual2, p_85_anual1, method="bilinear")
+ins_85b<- resample(ins_85a, p_85_anual1, method="bilinear")
+
+E5_85_min<- min(p_85_anual1, ps_85_anual3, tem_85_a, tim_85_a, ins_85b)
+E5_85_min1<- mask(c(p_85_anual1, ps_85_anual3, tem_85_a, tim_85_a, ins_85b), re_yuca1)
+names(E5_85_min1)<- c("Precipitacion anual", "Estacion seca anual", "Temp media", "Temp minima", "Insolacion mes mas seco")
+E5_85_min2<- mask(min(c(p_85_anual1, ps_85_anual3, tem_85_a, tim_85_a, ins_85b)), re_yuca1)
+E5_85_min2a<- round(E5_85_min2, digits = 3)
+
+par(mfrow=c(1,1))
+plot(E5_85_min1,col=paleta_semaforo(4))
+
+yuca_85_apt <- ifel(E5_85_min2a <= 1,  1,
+                    ifel(E5_85_min2a <= 2,2,
+                         ifel(E5_85_min2a <= 3,3,4)))
+
+clases_presentes_85 <- na.omit(unique(yuca_85_apt)[, 1])
+plot(yuca_85_apt,type = "classes",col=colores_semaforo2[clases_presentes_85],main="Aptitud climatica de las tierras para yuca | SSP5-8.5")
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+# repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
+E5_85_min_fig<- round(E5_85_min, digits = 3)
+
+E5_85_min_fig1<- ifel(E5_85_min_fig <= 1,  1,
+                      ifel(E5_85_min_fig <= 2,2,
+                           ifel(E5_85_min_fig <= 3,3,4)))
+
+par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
+plot(E5_85_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para yuca | SSP5-8.5", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.64,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
+
+
+#writeRaster(E5_85_min_fig, "Granos_aptitud_min_ssp85.tif", overwrite = TRUE)
+
+# Estimacion de la AMENAZA CLIMATICA de las tierras (DIFERENCIA antigua SENSIBILIDAD)---------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+# ------------------Diferencia entre el escenario SSP2-4.5 menos Historico:
+
+E3_45_min3 <- resample(E3_45_min2, E1_h_min2, method= "bilinear")
+yuca_45_sen<- E3_45_min3 - E1_h_min2
+par(mfrow=c(1,1))
+plot(yuca_45_sen)
+yuca_45_sena<- round(yuca_45_sen, digits = 3)
+
+yuca_45_sen1 <- ifel(yuca_45_sena < -1,  1,
+                     ifel(yuca_45_sena > -1 & yuca_45_sena < -0.5, 2,
+                          ifel(yuca_45_sena > -0.5 & yuca_45_sena < 0, 3, 4)))
+
+cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
+par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
+plot(yuca_45_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Grado de impacto del cambio climatico sobre los yuca | SSP2-4.5", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill = colores_fijos,title = "Grado de Impacto",bg = "white",box.col = "gray80",cex = 0.9,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
+
+#writeRaster(grano_45_sena, "Granos_diferencia_min_ssp45.tif", overwrite = TRUE)
+
+# ------------------Diferencia entre el escenario SSP5-8.5 menos Historico:
+
+E5_85_min3 <- resample(E5_85_min2, E1_h_min2, method= "bilinear")
+yuca_85_sen<- E5_85_min3 - E1_h_min2
+par(mfrow=c(1,1))
+plot(yuca_85_sen)
+yuca_85_sena<- round(yuca_85_sen, digits = 3)
+
+yuca_85_sen1 <- ifel(yuca_85_sena < -1,  1,
+                     ifel(yuca_85_sena > -1 & yuca_85_sena < -0.5, 2,
+                          ifel(yuca_85_sena > -0.5 & yuca_85_sena < 0, 3, 4)))
+
+cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
+par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
+plot(yuca_85_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Grado de impacto del cambio climatico sobre yuca | SSP5-8.5", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill = colores_fijos,title = "Grado de Impacto",bg = "white",box.col = "gray80",cex = 0.9,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
+
+#writeRaster(grano_85_sena, "Granos_diferencia_min_ssp85.tif", overwrite = TRUE)
+
+# # Estimacion del IMPACTO del cambio climatico en las tierras (Linea multiplicada por 2)-------------------------------------
+# # --------------------------------------------------------------------------------------------------------------------------
+# 
+# # ------------------Con respecto al escenario SSP2-4.5:
+# 
+# maiz_45_A_Apt <- ((-2 * maiz_45_sen) + 2)
+# maiz_45_A_Apta<- round(maiz_45_A_Apt, digits = 3)
+# 
+# maiz_45_A_Apt1 <- ifel(maiz_45_A_Apta <= 2,  4,
+#                        ifel(maiz_45_A_Apta > 2 & maiz_45_A_Apta <= 3, 3,
+#                             ifel(maiz_45_A_Apta > 3 & maiz_45_A_Apta <= 4, 2, 1)))
+# 
+# 
+# clases_presentes_A_Apt_45 <- na.omit(unique(maiz_45_A_Apt1)[, 1])
+# 
+# par(mfrow=c(1,1))
+# plot(maiz_45_A_Apt1, type="classes",col=colores_semaforo1[clases_presentes_A_Apt_45], main="Impacto del cambio climatico sobre el maiz | SSP2-4.5")
+# plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
+# 
+# 
+# 
+# # ------------------Con respecto al escenario SSP5-8.5:
+# 
+# maiz_85_A_Apt <- ((-2 * maiz_85_sen) + 2)
+# maiz_85_A_Apta<- round(maiz_85_A_Apt, digits = 3)
+# 
+# maiz_85_A_Apt1 <- ifel(maiz_85_A_Apta <= 2,  4,
+#                        ifel(maiz_85_A_Apta > 2 & maiz_85_A_Apta <= 3, 3,
+#                             ifel(maiz_85_A_Apta > 3 & maiz_85_A_Apta <= 4, 2, 1)))
+# 
+# 
+# clases_presentes_A_Apt_85 <- na.omit(unique(maiz_85_A_Apt1)[, 1])
+# 
+# par(mfrow=c(1,1))
+# plot(maiz_85_A_Apt1, type="classes",col=colores_semaforo1[clases_presentes_A_Apt_85], main="Impacto del cambio climatico sobre el maiz | SSP5-8.5")
+# plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
+
+
+
+
+# ----------------------------------------------------------------------------------------------------------
+# --------------------------Crear y ver las paletas de colores ---------------------------------------------
+# ----------------------------------------------------------------------------------------------------------
+
+# ------------------------------Colores verdes -------------------------------------------------------------
+
+# 1. Creamos un vector con la selección de verdes más usados
+mis_verdes <- c(
+  "yellowgreen", "chartreuse3", "chartreuse4", 
+  "lightgreen", "palegreen2", "palegreen3", 
+  "forestgreen", "darkgreen", "green3", "green4",
+  "darkseagreen3", "seagreen4", "mediumseagreen"
+)
+
+# 2. Configurar márgenes para que se lean bien los nombres
+par(mar = c(2, 8, 3, 2))
+
+# 3. Dibujar el gráfico horizontal
+barplot(
+  rep(1, length(mis_verdes)), 
+  col = mis_verdes, 
+  names.arg = mis_verdes, 
+  horiz = TRUE, 
+  las = 1, 
+  border = "white",
+  main = "Selección de Verdes en R"
+)
+
+# ------------------------------Colores azules -------------------------------------------------------------
+
+par(mfrow=c(1,1))
+# 1. Creamos un vector con la selección de azules más usados
+mis_azules <- c(
+  "aliceblue", "lightblue", "lightskyblue", "powderblue", 
+  "skyblue", "dodgerblue", "cornflowerblue", "royalblue", 
+  "steelblue", "cadetblue", "slateblue",
+  "blue", "darkblue", "navy", "midnightblue"
+)
+
+# 2. Configurar márgenes para que los nombres se lean bien
+par(mar = c(2, 8, 3, 2))
+
+# 3. Dibujar el gráfico horizontal
+barplot(
+  rep(1, length(mis_azules)), 
+  col = mis_azules, 
+  names.arg = mis_azules, 
+  horiz = TRUE, 
+  las = 1, 
+  border = "white",
+  main = "Selección de Azules en R"
+)
+
+# ------------------------------Colores amarillos -------------------------------------------------------------
+
+# 1. Creamos un vector con la selección de amarillos y dorados
+mis_amarillos <- c(
+  "lightyellow", "lemonchiffon", "palegoldenrod", 
+  "yellow", "yellow2", "gold", "gold2",
+  "goldenrod", "goldenrod2", "darkgoldenrod"
+)
+
+# 2. Configurar márgenes para que se lean los nombres
+par(mar = c(2, 8, 3, 2))
+
+# 3. Dibujar el gráfico horizontal con bordes grises/negros
+barplot(
+  rep(1, length(mis_amarillos)), 
+  col = mis_amarillos, 
+  names.arg = mis_amarillos, 
+  horiz = TRUE, 
+  las = 1, 
+  border = "gray30",
+  main = "Selección de Amarillos en R"
+)

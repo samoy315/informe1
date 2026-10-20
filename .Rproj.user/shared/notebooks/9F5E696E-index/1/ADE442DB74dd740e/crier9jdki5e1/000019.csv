@@ -1,0 +1,7 @@
+"0",""
+"0",""
+"0","plot(mascara_exg, col = ""red"", legend = FALSE,"
+"0","     main = paste(""Hileras:"", nrow(hileras_sf),"
+"0","                  ""| Metros:"", round(total_metros, 1), ""m""))"
+"2","Error: objeto 'total_metros' no encontrado
+"
