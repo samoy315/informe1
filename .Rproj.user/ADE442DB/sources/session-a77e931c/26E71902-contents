@@ -44,7 +44,8 @@ Se seleccionaron 10 cultivos según su importancia en superficie sembrada, valor
 | 8   | Granos secos   | No    | Salidas de lluvias (Septiembre) |
 | 9   | Maiz           | No    | Ciclo de lluvias (Mayo)         |
 | 10  | Naranja        | No    | Inicio de lluvias (Mayo)        |
-| 11  | Papa           | No    | \-                              |
-| 12  | Musaceas       | No    | Inicio de lluvias (Mayo)        |
-| 13  | Musaceas       | Si    | Salidas de lluvias (Noviembre)  |
-| 14  | Yuca           | No    | Inicio de lluvias (Mayo)        |
+| 11  | Papa           | No    | Inicio de lluvias (Mayo)        |
+| 12  | Papa           | Si    | Marzo                           |
+| 13  | Musaceas       | No    | Inicio de lluvias (Mayo)        |
+| 14  | Musaceas       | Si    | Salidas de lluvias (Noviembre)  |
+| 15  | Yuca           | No    | Inicio de lluvias (Mayo)        |
