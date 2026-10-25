@@ -41,7 +41,7 @@ Se seleccionaron 10 cultivos según su importancia en superficie sembrada, valor
 | 5   | Cafe           | No    | \-                              |
 | 6   | Caña de azucar | Si    | Inicio de lluvias (Abril)       |
 | 7   | Caña de azucar | Si    | Salidas de lluvias (Noviembre)  |
-| 8   | Granos secos   | No    | Salidas de lluvias (Septiembre) |
+| 8   | Granos         | No    | Salidas de lluvias (Septiembre) |
 | 9   | Maiz           | No    | Ciclo de lluvias (Mayo)         |
 | 10  | Naranja        | No    | Inicio de lluvias (Mayo)        |
 | 11  | Papa           | No    | Inicio de lluvias (Mayo)        |

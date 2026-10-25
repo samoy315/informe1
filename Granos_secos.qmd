@@ -1,4 +1,4 @@
-# Granos secos
+# Granos
 
 ## Region de exposicion:
 
@@ -25,7 +25,7 @@ area_total_frijol<- expanse(re_frijol_estandar, unit = "ha")
 a_frijol<- format(round(area_total_frijol / 100, digits = 1), scientific = FALSE, big.mark = ".", decimal.mark = ",")
 ```
 
-En Venezuela la superficie total de Region de Exposicion para la **Granos secos** es de" **`r a_frijol$area`** Km^2^.
+En Venezuela la superficie total de Region de Exposicion para la **Granos** es de" **`r a_frijol$area`** Km^2^.
 
 ## Factores de Exposición
 
