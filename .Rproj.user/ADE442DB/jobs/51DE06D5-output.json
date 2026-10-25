@@ -7,3 +7,4 @@
 [1,"Output created: docs\\Citricos.html\n\nTerminating existing preview server....DONE\n\nPreparing to preview\n"]
 [1,"\n"]
 [1,"Watching files for changes\nBrowse at http://localhost:5880/Citricos.html\n"]
+[1,"GET: /Citricos.html\n  /images/citri/citri_fe_tim_anual.png (404: Not Found)\n  /images/citri/citri_fe_ins_meses_secos.png (404: Not Found)\n  /images/citri/citri_aptitud_min_historico.png (404: Not Found)\n  /images/citri/citri_aptitud_min_ssp45.png (404: Not Found)\n  /images/citri/citri_aptitud_min_ssp85.png (404: Not Found)\n  /images/citri/citri_amenaza_min_ssp45.png (404: Not Found)\n  /images/citri/citri_amenaza_min_ssp85.png (404: Not Found)\n"]
