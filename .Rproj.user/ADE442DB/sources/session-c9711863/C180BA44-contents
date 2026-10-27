@@ -41,10 +41,10 @@ En Venezuela la superficie total de Region de Exposicion para la **Citricos** es
 ![](./images/citrico/citri_fe_tem_anual.png)
 
 #### 4. Numero de meses con temperatura media mayor a 38 (°C):
-![](./images/citri/citri_fe_tim_anual.png)
+![](./images/citrico/citri_fe_nmeses_tem_mas_38_anual.png)
 
 #### 5. Numero de meses con temperatura media menor a 13 (°C):
-![](./images/citri/citri_fe_ins_meses_secos.png)
+![](./images/citrico/citri_fe_nmeses_tem_menor_13_anual.png)
 
 #### 6. Temperatura media en los dos meses luego de la cosecha (°C):
 ![](./images/citri/citri_fe_ins_meses_secos.png)

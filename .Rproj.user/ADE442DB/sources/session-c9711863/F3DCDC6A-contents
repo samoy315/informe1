@@ -330,26 +330,346 @@ legend("center",
        cex = 1.3)  # Aumentamos el tamaño del texto
 
 
+# ------------------------------------------------------------------------------------------------------------
+# ----------Numero de meses al año con temepraturas medias mayores a 38 °C------------------------------------
+# ------------------------------------------------------------------------------------------------------------
 
-# ------------------------------------------------------------------------------------------------------------
-# ----------------Temperatura media del ciclo | mayo a agosto-------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------
 # Cargamos las capas raster :
 # Escenario Historico:--------------------------
+tem_h_ene <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_01.tif")
+tem_h_feb <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_02.tif")
+tem_h_mar <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_03.tif")
+tem_h_abr <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_04.tif")
 tem_h_may <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_05.tif")
 tem_h_jun <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_06.tif")
 tem_h_jul <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_07.tif")
 tem_h_ago <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_08.tif")
+tem_h_sep <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_09.tif")
+tem_h_oct <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_10.tif")
+tem_h_nov <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_11.tif")
+tem_h_dic <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_12.tif")
 # Escenario SSP2 4.5 ----------------------------
+tem_45_ene <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Tmes_mes/Tmed45_01.tif")
+tem_45_feb <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Tmes_mes/Tmed45_02.tif")
+tem_45_mar <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Tmes_mes/Tmed45_03.tif")
+tem_45_abr <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Tmes_mes/Tmed45_04.tif")
 tem_45_may <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Tmes_mes/Tmed45_05.tif")
 tem_45_jun <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Tmes_mes/Tmed45_06.tif")
 tem_45_jul <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Tmes_mes/Tmed45_07.tif")
 tem_45_ago <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Tmes_mes/Tmed45_08.tif")
+tem_45_sep <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Tmes_mes/Tmed45_09.tif")
+tem_45_oct <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Tmes_mes/Tmed45_10.tif")
+tem_45_nov <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Tmes_mes/Tmed45_11.tif")
+tem_45_dic <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Tmes_mes/Tmed45_12.tif")
 # Escenario SSP5 5.8 ----------------------------
+tem_85_ene <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_mes/Tmed85_01.tif")
+tem_85_feb <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_mes/Tmed85_02.tif")
+tem_85_mar <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_mes/Tmed85_03.tif")
+tem_85_abr <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_mes/Tmed85_04.tif")
 tem_85_may <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_mes/Tmed85_05.tif")
 tem_85_jun <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_mes/Tmed85_06.tif")
 tem_85_jul <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_mes/Tmed85_07.tif")
 tem_85_ago <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_mes/Tmed85_08.tif")
+tem_85_sep <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_mes/Tmed85_09.tif")
+tem_85_oct <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_mes/Tmed85_10.tif")
+tem_85_nov <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_mes/Tmed85_11.tif")
+tem_85_dic <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_mes/Tmed85_12.tif")
+
+#Escenarios Historico:
+tem_h<- c(tem_h_ene, tem_h_feb, tem_h_mar, tem_h_abr, tem_h_may, tem_h_jun, tem_h_jul, tem_h_ago, tem_h_sep, tem_h_oct, tem_h_nov, tem_h_dic)
+names(tem_h) <- c("Ene", "Feb", "Mar", "Abr", "May", "Jun","Jul", "Ago", "Sep", "Oct", "Nov", "Dic")
+plot(tem_h)
+tem_h_conteo<- sum(tem_h > 38, na.rm=TRUE)
+tem_h_conteo_limpio <- app(tem_h, fun = function(x) {
+  if (all(is.na(x))) {
+    return(NA)
+  } else {
+    return(sum(x > 38, na.rm = TRUE))
+  }
+})
+par(mfrow=c(1,1))
+plot(tem_h_conteo_limpio, 
+     main = "Número de meses con Temperatura media > 38°C | Historico",
+     col = color_fijos2)
+
+#Escenario SSP2-4.5:
+tem_45<- c(tem_45_ene, tem_45_feb, tem_45_mar, tem_45_abr, tem_45_may, tem_45_jun, tem_45_jul, tem_45_ago, tem_45_sep, tem_45_oct, tem_45_nov, tem_45_dic)
+names(tem_45) <- c("Ene", "Feb", "Mar", "Abr", "May", "Jun","Jul", "Ago", "Sep", "Oct", "Nov", "Dic")
+plot(tem_45)
+tem_45_conteo<- sum(tem_45 > 38, na.rm=TRUE)
+tem_45_conteo_limpio <- app(tem_45, fun = function(x) {
+  if (all(is.na(x))) {
+    return(NA)
+  } else {
+    return(sum(x > 38, na.rm = TRUE))
+  }
+})
+par(mfrow=c(1,1))
+plot(tem_45_conteo_limpio, 
+     main = "Número de meses con Temperatura media > 38°C | SSP2-4.5",
+     col = color_fijos2)
+
+#Escenario SSP5-8.5:
+tem_85<- c(tem_85_ene, tem_85_feb, tem_85_mar, tem_85_abr, tem_85_may, tem_85_jun, tem_85_jul, tem_85_ago, tem_85_sep, tem_85_oct, tem_85_nov, tem_85_dic)
+names(tem_85) <- c("Ene", "Feb", "Mar", "Abr", "May", "Jun","Jul", "Ago", "Sep", "Oct", "Nov", "Dic")
+plot(tem_85)
+tem_85_conteo<- sum(tem_85 > 38, na.rm=TRUE)
+tem_85_conteo_limpio <- app(tem_85, fun = function(x) {
+  if (all(is.na(x))) {
+    return(NA)
+  } else {
+    return(sum(x > 38, na.rm = TRUE))
+  }
+})
+par(mfrow=c(1,1))
+plot(tem_85_conteo_limpio, 
+     main = "Número de meses con Temperatura media > 38°C | SSP5-8.5",
+     col = color_fijos2)
+
+
+# Parametros de calculos recta para los tres escenarios:
+tem38_citri <- tibble(
+  tem38 = c(0, 1, 2, 4, 6, 12),
+  g_aptitud = c(4, 4, 3, 2, 1, 0)
+)
+
+tem38_citri1 <- tem38_citri %>%
+  mutate(
+    pendiente = (g_aptitud - lag(g_aptitud)) / (tem38 - lag(tem38)),
+    intercepto = g_aptitud - (pendiente * tem38)
+  )
+print(tem38_citri1)
+
+# Extraemos los límites de precipitación de su columna
+# Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
+# a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
+tem38lim_01  <- tem38_citri1$tem38[2]
+tem38lim_02 <- tem38_citri1$tem38[3]
+tem38lim_04 <- tem38_citri1$tem38[4]
+tem38lim_06 <- tem38_citri1$tem38[5]
+tem38lim_12 <- tem38_citri1$tem38[6]
+
+# Extraemos pendientes (m) e interceptos (b) de las mismas filas
+tem38m01  <- tem38_citri1$pendiente[2]
+tem38b01  <- tem38_citri1$intercepto[2]
+
+tem38m02 <- tem38_citri1$pendiente[3]
+tem38b02 <- tem38_citri1$intercepto[3]
+
+tem38m04 <- tem38_citri1$pendiente[4]
+tem38b04 <- tem38_citri1$intercepto[4]
+
+tem38m06 <- tem38_citri1$pendiente[5]
+tem38b06 <- tem38_citri1$intercepto[5]
+
+tem38m12 <- tem38_citri1$pendiente[6]
+tem38b12 <- tem38_citri1$intercepto[6]
+
+# Calculamos el nuevo raster con todo 100% parametrizado | Tres escenario | Ciclo 0508----------------------------
+
+tem38_h <- ifel(tem_h_conteo_limpio < tem38lim_01,  (tem38m01 * tem_h_conteo_limpio) + tem38b01,
+                ifel(tem_h_conteo_limpio < tem38lim_02, (tem38m02 * tem_h_conteo_limpio) + tem38b02,
+                     ifel(tem_h_conteo_limpio < tem38lim_04, (tem38m04 * tem_h_conteo_limpio) + tem38b04,
+                          ifel(tem_h_conteo_limpio < tem38lim_06, (tem38m06 * tem_h_conteo_limpio) + tem38b06,
+                               ifel(tem_h_conteo_limpio <= tem38lim_12, (tem38m12 * tem_h_conteo_limpio) + tem38b12, NA)))))
+
+tem38_45 <- ifel(tem_45_conteo_limpio < tem38lim_01,  (tem38m01  * tem_45_conteo_limpio) + tem38b01,
+                 ifel(tem_45_conteo_limpio < tem38lim_02, (tem38m02 * tem_45_conteo_limpio) + tem38b02,
+                      ifel(tem_45_conteo_limpio < tem38lim_04, (tem38m04 * tem_45_conteo_limpio) + tem38b04,
+                           ifel(tem_45_conteo_limpio < tem38lim_06, (tem38m06 * tem_45_conteo_limpio) + tem38b06,
+                                ifel(tem_45_conteo_limpio <= tem38lim_12, (tem38m12 * tem_45_conteo_limpio) + tem38b12, NA)))))
+
+tem38_85 <- ifel(tem_85_conteo_limpio < tem38lim_01,  (tem38m01  * tem_85_conteo_limpio) + tem38b01,
+                 ifel(tem_85_conteo_limpio < tem38lim_02, (tem38m02 * tem_85_conteo_limpio) + tem38b02,
+                      ifel(tem_85_conteo_limpio < tem38lim_04, (tem38m04 * tem_85_conteo_limpio) + tem38b04,
+                           ifel(tem_85_conteo_limpio < tem38lim_06, (tem38m06 * tem_85_conteo_limpio) + tem38b06,
+                                ifel(tem_85_conteo_limpio <= tem38lim_12, (tem38m12 * tem_85_conteo_limpio) + tem38b12, NA)))))
+
+par(mfrow = c(2, 2), mar = c(2, 2, 3, 1))
+plot(tem38_h,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por numero de meses com temperatura mayor a 38 °C | Historico", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(tem38_45,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por numero de meses com temperatura mayor a 38 °C | SSP2-4.5", cex.main=1, legend=FALSE)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(tem38_85,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por numero de meses com temperatura mayor a 38 °C | SSP5-8.5", cex.main=1, legend=FALSE)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
+legend("center", 
+       legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
+       fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
+       title = "Aptitud por Numero de meses con Temp media > 38 °C", # Título de la leyenda
+       bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
+       cex = 1)  # Aumentamos el tamaño del texto
+
+
+
+# ------------------------------------------------------------------------------------------------------------
+# ----------Numero de meses al año con temepraturas medias menores a 13 °C------------------------------------
+# ------------------------------------------------------------------------------------------------------------
+
+#Escenarios Historico:
+tem13_h_conteo<- sum(tem_h < 13, na.rm=TRUE)
+tem13_h_conteo_limpio <- app(tem_h, fun = function(x) {
+  if (all(is.na(x))) {
+    return(NA)
+  } else {
+    return(sum(x < 13, na.rm = TRUE))
+  }
+})
+par(mfrow=c(1,1))
+plot(tem13_h_conteo_limpio, 
+     main = "Número de meses con Temperatura media < 13°C | Historico",
+     col = color_fijos2)
+
+#Escenario SSP2-4.5:
+tem13_45_conteo<- sum(tem_45 < 13, na.rm=TRUE)
+tem13_45_conteo_limpio <- app(tem_45, fun = function(x) {
+  if (all(is.na(x))) {
+    return(NA)
+  } else {
+    return(sum(x < 13, na.rm = TRUE))
+  }
+})
+par(mfrow=c(1,1))
+plot(tem13_45_conteo_limpio, 
+     main = "Número de meses con Temperatura media < 13°C | SSP2-4.5",
+     col = color_fijos2)
+
+#Escenario SSP5-8.5:
+tem13_85_conteo<- sum(tem_85 < 13, na.rm=TRUE)
+tem13_85_conteo_limpio <- app(tem_85, fun = function(x) {
+  if (all(is.na(x))) {
+    return(NA)
+  } else {
+    return(sum(x < 13, na.rm = TRUE))
+  }
+})
+par(mfrow=c(1,1))
+plot(tem13_85_conteo_limpio, 
+     main = "Número de meses con Temperatura media < 13°C | SSP5-8.5",
+     col = color_fijos2)
+
+# Parametros de calculos recta para los tres escenarios:
+tem13_citri <- tibble(
+  tem13 = c(0, 1, 2, 4, 6, 12),
+  g_aptitud = c(4, 4, 3, 2, 1, 0)
+)
+
+tem13_citri1 <- tem13_citri %>%
+  mutate(
+    pendiente = (g_aptitud - lag(g_aptitud)) / (tem13 - lag(tem13)),
+    intercepto = g_aptitud - (pendiente * tem13)
+  )
+print(tem13_citri1)
+
+# Extraemos los límites de precipitación de su columna
+# Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
+# a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
+tem13lim_01  <- tem13_citri1$tem13[2]
+tem13lim_02 <- tem13_citri1$tem13[3]
+tem13lim_04 <- tem13_citri1$tem13[4]
+tem13lim_06 <- tem13_citri1$tem13[5]
+tem13lim_12 <- tem13_citri1$tem13[6]
+
+# Extraemos pendientes (m) e interceptos (b) de las mismas filas
+tem13m01  <- tem13_citri1$pendiente[2]
+tem13b01  <- tem13_citri1$intercepto[2]
+
+tem13m02 <- tem13_citri1$pendiente[3]
+tem13b02 <- tem13_citri1$intercepto[3]
+
+tem13m04 <- tem13_citri1$pendiente[4]
+tem13b04 <- tem13_citri1$intercepto[4]
+
+tem13m06 <- tem13_citri1$pendiente[5]
+tem13b06 <- tem13_citri1$intercepto[5]
+
+tem13m12 <- tem13_citri1$pendiente[6]
+tem13b12 <- tem13_citri1$intercepto[6]
+
+# Calculamos el nuevo raster con todo 100% parametrizado | Tres escenario | Ciclo 0508----------------------------
+
+tem13_h <- ifel(tem13_h_conteo_limpio < tem13lim_01,  (tem13m01 * tem13_h_conteo_limpio) + tem13b01,
+                ifel(tem13_h_conteo_limpio < tem13lim_02, (tem13m02 * tem13_h_conteo_limpio) + tem13b02,
+                     ifel(tem13_h_conteo_limpio < tem13lim_04, (tem13m04 * tem13_h_conteo_limpio) + tem13b04,
+                          ifel(tem13_h_conteo_limpio < tem13lim_06, (tem13m06 * tem13_h_conteo_limpio) + tem13b06,
+                               ifel(tem13_h_conteo_limpio <= tem13lim_12, (tem13m12 * tem13_h_conteo_limpio) + tem13b12, NA )))))
+
+tem13_45 <- ifel(tem13_45_conteo_limpio < tem13lim_01,  (tem13m01  * tem13_45_conteo_limpio) + tem13b01,
+                 ifel(tem13_45_conteo_limpio < tem13lim_02, (tem13m02 * tem13_45_conteo_limpio) + tem13b02,
+                      ifel(tem13_45_conteo_limpio < tem13lim_04, (tem13m04 * tem13_45_conteo_limpio) + tem13b04,
+                           ifel(tem13_45_conteo_limpio < tem13lim_06, (tem13m06 * tem13_45_conteo_limpio) + tem13b06,
+                                ifel(tem13_45_conteo_limpio <= tem13lim_12, (tem13m12 * tem13_45_conteo_limpio) + tem13b12, NA)))))
+
+tem13_85 <- ifel(tem13_85_conteo_limpio < tem13lim_01,  (tem13m01  * tem13_85_conteo_limpio) + tem13b01,
+                 ifel(tem13_85_conteo_limpio < tem13lim_02, (tem13m02 * tem13_85_conteo_limpio) + tem13b02,
+                      ifel(tem13_85_conteo_limpio < tem13lim_04, (tem13m04 * tem13_85_conteo_limpio) + tem13b04,
+                           ifel(tem13_85_conteo_limpio < tem13lim_06, (tem13m06 * tem13_85_conteo_limpio) + tem13b06,
+                                ifel(tem13_85_conteo_limpio <= tem13lim_12, (tem13m12 * tem13_85_conteo_limpio) + tem13b12, NA)))))
+
+par(mfrow = c(2, 2), mar = c(2, 2, 3, 1))
+plot(tem13_h,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por numero de meses com temperatura menores a 13 °C | Historico", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(tem13_45,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por numero de meses com temperatura menores a 13 °C | SSP2-4.5", cex.main=1, legend=FALSE)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(tem13_85,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por numero de meses com temperatura menores a 13 °C | SSP5-8.5", cex.main=1, legend=FALSE)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
+legend("center", 
+       legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
+       fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
+       title = "Aptitud por Numero de meses con Temp media < 13 °C", # Título de la leyenda
+       bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
+       cex = 1)  # Aumentamos el tamaño del texto
+
+
+
+
+
+
+
+
+# -------------------------------------------------------------------------
+# 1. BLOQUE DE REPRODUCIBILIDAD (Simulación de 12 rasters mensuales)
+# -------------------------------------------------------------------------
+# Si estuvieras usando tus archivos reales, harías algo como:
+# mis_archivos <- list.files(path = "ruta/a/tus/tifs", pattern = "\\.tif$", full.names = TRUE)
+# r_mensual <- rast(mis_archivos)
+
+set.seed(42) # Semilla para garantizar reproducibilidad exacta
+r_mensual <- rast(nrows = 100, ncols = 100, nlyr = 12)
+# Simulamos valores de temperatura entre 25°C y 43°C para las 12 capas
+values(r_mensual) <- runif(ncell(r_mensual) * 12, min = 25, max = 43)
+
+# Nombrarmos las capas de enero a diciembre
+names(r_mensual) <- c("Ene", "Feb", "Mar", "Abr", "May", "Jun", 
+                      "Jul", "Ago", "Sep", "Oct", "Nov", "Dic")
+
+# -------------------------------------------------------------------------
+# 2. PROCESAMIENTO: Conteo de meses con temperatura media > 38°C
+# -------------------------------------------------------------------------
+# Operación vectorizada: Evaluamos la condición (> 38) en todo el Stack 
+# y sumamos a lo largo de la dimensión de capas (z-dimension)
+raster_conteo <- sum(r_mensual > 38, na.rm = TRUE)
+
+# Opcional: Si deseas asignar NA en aquellas celdas donde TODOS los datos 
+# originales eran NA, puedes usar app() para un control más fino.
+raster_conteo_limpio <- app(r_mensual, fun = function(x) {
+  if (all(is.na(x))) {
+    return(NA)
+  } else {
+    return(sum(x > 38, na.rm = TRUE))
+  }
+})
+
+# -------------------------------------------------------------------------
+# 3. VISUALIZACIÓN RÁPIDA DE COMPROBACIÓN
+# -------------------------------------------------------------------------
+plot(raster_conteo_limpio, 
+     main = "Número de meses con T° media > 38°C",
+     col = hcl.colors(12, "YlOrRd", rev = FALSE))
+
+
+
 
 # promedio del ciclo (mayo a gosto):
 tem_h<- (( tem_h_may + tem_h_jun + tem_h_jul + tem_h_ago) / 4 )

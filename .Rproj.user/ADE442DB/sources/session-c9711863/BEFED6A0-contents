@@ -1,0 +1,180 @@
+# PROYECYO FAO SOBRE CAMBIO CLIMATICO | jUNIO 2026 | Oscar Silva y Victor Sevila
+setwd("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo")
+getwd()
+library("terra")
+library("ggplot2")
+library("sf")
+library("dplyr")
+#library(tidyverse
+
+# Cargar las variables raster climao fisiograficas necesarias: (ETo p, pc, ps, ph, pend y altura)
+eto_h_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/ETo_Hargreaves_Samani/EToHS_Ven_Anual.tif")
+p_h_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Precipitacion/Anual/P_Anual_WC.tif")
+pc_h_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Periodos de Humedad/DiasPC_Base.tif")
+ps_h_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Periodos de Humedad/DiasSecos_Base.tif")
+ph_h_anual <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Periodos de Humedad/DiasHumedos_Base.tif") 
+pend <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/MDE/Venezuela/Pend%.tif")
+altura <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/MDE/Venezuela/Venezuela_Esequibo_30_seg.tif")   
+
+# Cambiamos nombres de variables:
+names(eto_h_anual) <- "ETO"; names(p_h_anual) <- "prec"; names(pc_h_anual) <- "Pc"; names(ps_h_anual) <- "Ps"
+names(ph_h_anual) <- "Ph"
+
+# Caculo del indice ETO/p:
+eto_p_h_anual <- eto_h_anual/p_h_anual
+names(eto_p_h_anual) <- "ETo/Prec"
+
+# Igualamos extension y resolucion espacial de todas las variables climofisiografica:
+pend1 <- resample(pend, eto_h_anual, method = "bilinear") 
+altura1 <- resample(altura, eto_h_anual, method = "bilinear")
+names(pend1) <- "Pend1"; names(altura1) <- "Altura1"
+
+# Apilamos todas las variables climofisiograficas en un objeto R
+variables <- c(eto_p_h_anual, pc_h_anual, ps_h_anual, ph_h_anual, pend1, altura1)
+plot(variables)
+
+# Cargamos capas vectoraielas de perimetro pais y puntos de cultivo del censo:
+venezuela <- st_read("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Contorno_Venezuela/AOI_linea_referencia1.shp")
+pts_arroz <- st_read("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Censo2008/arroz/Arroz_Censo_2008.shp")
+saveRDS(pts_arroz, file= "pts_arroz.rds")
+saveRDS(venezuela, file="venezuela.rds")
+
+# Graficamos la capa de clases de suelos y los puntos de chequeos:
+plot(eto_p_h_anual,  
+     main = "ETO/Prec historico",
+     col = topo.colors(10)) # El 11 indica el número de categorías
+
+points(pts_arroz, 
+       #add = TRUE, 
+       pch = 20, 
+       col = "black", 
+       cex = 1.2, 
+       lwd = 0.5) # Grosor de las líneas de la cruz
+
+# Extraer los valores y forzamos a que sea un vector numérico puro con [, 2]:
+# valores_extraidos
+pts_arroz1 <- terra::extract(eto_p_h_anual, pts_arroz)[, 2]
+
+# Adicionar los valores directamente como una nueva columna en el Shapefile de puntos de cultivos:
+pts_arroz$etop <- as.numeric(pts_arroz1)
+
+# Verificamos que la nueva columna sea numérica y vemos los primeros datos:
+class(pts_arroz$etop)
+head(pts_arroz$etop)
+summary(pts_arroz$etop)
+
+# Hacemos el mismo procedimiento para las variables climofisiograficas restantes:
+
+pts_arroz1 <- terra::extract(pc_h_anual, pts_arroz)[,2]
+pts_arroz$pc <- as.numeric(pts_arroz1)
+
+pts_arroz1 <- terra::extract(ps_h_anual, pts_arroz)[,2]
+pts_arroz$ps <- as.numeric(pts_arroz1)
+
+pts_arroz1 <- terra::extract(ph_h_anual, pts_arroz)[,2]
+pts_arroz$ph <- as.numeric(pts_arroz1)
+
+pts_arroz1 <- terra::extract(pend1, pts_arroz)[,2]
+pts_arroz$pend <- as.numeric(pts_arroz1)
+
+pts_arroz1 <- terra::extract(altura1, pts_arroz)[,2]
+pts_arroz$altura <- as.numeric(pts_arroz1)
+
+# Observamos los primero registrso de cada variable Climofisiografica:
+names(pts_arroz)
+head(pts_arroz[,c(20,21,22,23,24,25)])
+
+# Observamos si existen valores "NA" en las columnas de variabes Climofisiograficas:
+summary(pts_arroz[,c(20,21,22,23,24,25)])
+pts_arroz <- pts_arroz[!is.na(pts_arroz$pc), ]
+summary(pts_arroz[,c(20,21,22,23,24,25)])
+
+# Calculamos los percentiles:
+df_tablar <- st_drop_geometry(pts_arroz)
+df_numerico <- df_tablar[sapply(df_tablar, is.numeric)]
+columnas_raster <- c("etop", "pc", "ps", "ph", "pend", "altura")
+percentiles <- sapply(df_numerico[, columnas_raster, drop = FALSE], 
+       quantile, 
+       probs = c(0.05, 0.95), 
+       na.rm = TRUE)
+
+percentiles
+saveRDS(percentiles, file="arroz_percentil.rds")
+
+# Aplicamos los criterios de rangos entre percentiles (0.05 y 0.95) y seleccionamos las celdas que
+# lo cumplan (Criterio Estandar):
+
+eto_p_h_fil <- ifel(eto_p_h_anual >= percentiles[1,1] & eto_p_h_anual <= percentiles[2,1], eto_p_h_anual, NA)
+pc_h_anual_fil <- ifel(pc_h_anual >= percentiles[1,2] & pc_h_anual <= percentiles[2,2], pc_h_anual, NA)
+ps_h_anual_fil <- ifel(ps_h_anual >= percentiles[1,3] & ps_h_anual <= percentiles[2,3], ps_h_anual, NA)
+ph_h_anual_fil <- ifel(ph_h_anual >= percentiles[1,4] & ph_h_anual <= percentiles[2,4], ph_h_anual, NA)
+pend1_fil <- ifel(pend1 >= percentiles[1,5] & pend1 <= percentiles[2,5], pend1, NA)
+altura1_fil <- ifel(altura1 >= percentiles[1,6] & altura1 <= percentiles[2,6], altura1, NA)   
+
+variables1 <- c(eto_p_h_fil, pc_h_anual_fil, ps_h_anual_fil, ph_h_anual_fil, pend1_fil, altura1_fil) 
+plot(variables1)
+
+# Adaptamos la seleccion anterior a binario (1 o 0):
+
+eto_p_h_fil1 <- ifel(eto_p_h_anual >= percentiles[1,1] & eto_p_h_anual <= percentiles[2,1], 1, 0)
+pc_h_anual_fil1 <- ifel(pc_h_anual >= percentiles[1,2] & pc_h_anual <= percentiles[2,2], 1, 0)
+ps_h_anual_fil1 <- ifel(ps_h_anual >= percentiles[1,3] & ps_h_anual <= percentiles[2,3], 1, 0)
+ph_h_anual_fil1 <- ifel(ph_h_anual >= percentiles[1,4] & ph_h_anual <= percentiles[2,4], 1, 0)
+pend1_fil1 <- ifel(pend1 >= percentiles[1,5] & pend1 <= percentiles[2,5], 1, 0)
+altura1_fil1 <- ifel(altura1 >= percentiles[1,6] & altura1 <= percentiles[2,6], 1, 0)
+
+variables1a <- c(eto_p_h_fil1, pc_h_anual_fil1, ps_h_anual_fil1, ph_h_anual_fil1, pend1_fil1, altura1_fil1) 
+
+# Sumammos el resultado de cada variable por celdas:
+variables1b <- (eto_p_h_fil1 + pc_h_anual_fil1 + ps_h_anual_fil1 + ph_h_anual_fil1 + pend1_fil1 + altura1_fil1) 
+plot(variables1b, main= "Region de exposicion segun numero de cumplimientos")
+
+# Filtramos el resulatado para dejar solo las ceeldas que cumplan el total de  los criterios estandar:
+variables1c <- ifel(variables1b >= 0 & variables1b <=5, NA, variables1b)
+plot(variables1c,main = "Region de exposicion para arroz segun criterios estandar",col = "darkgreen")
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
+
+saveRDS(variables1c, file="arroz_region_estandar.rds")
+
+# Extrae la fila donde el valor es 6, y de ahí saca la columna 'count'
+
+freq(variables1c)[freq(variables1c)$value == 6, "count"]
+save.image("Reg_arroz.RData")
+
+writeRaster(variables1c, "reg_arroz_estandar.tif", 
+            gdal = c("COMPRESS=LZW", "TFW=YES"), 
+            overwrite = TRUE)
+
+# --------- Aqui podemos modificar los criterios de seleccion de celdas por algunas-------------
+# ---------------------------variantes propias--------------------------------------------------
+
+# eto_p_h_fil2 <- ifel(eto_p_h_anual >= percentiles[1,1] & eto_p_h_anual <= percentiles[2,1], 1, 0)
+# pc_h_anual_fil2 <- ifel(pc_h_anual >= percentiles[1,2] & pc_h_anual <= percentiles[2,2], 1, 0)
+# ps_h_anual_fil2 <- ifel(ps_h_anual >= percentiles[1,3] & ps_h_anual <= 180, 1, 0)
+# ph_h_anual_fil2 <- ifel(ph_h_anual >= percentiles[1,4] & ph_h_anual <= percentiles[2,4], 1, 0)
+# pend1_fil2 <- ifel(pend1 >= 0 & pend1 <= 40, 1, 0)
+# altura1_fil2 <- ifel(altura1 >= percentiles[1,6] & altura1 <= 2478, 1, 0)
+# 
+# variables2 <- c(eto_p_h_fil2, pc_h_anual_fil2, ps_h_anual_fil2, ph_h_anual_fil2, pend1_fil2, altura1_fil2) 
+# plot(variables2)
+# 
+# variables2a <- (eto_p_h_fil2 + pc_h_anual_fil2 + ps_h_anual_fil2 + ph_h_anual_fil2 + pend1_fil2 + altura1_fil2) 
+# plot(variables2a, main="Region de exposicion segun numero de cumplimientos | Modificados")
+# 
+# variables2b <- ifel(variables2a >= 0 & variables2a <=5, NA, variables2a)
+# plot(variables2b,
+#      main = "Region de exposicion para arroz segun criterios modificados",
+#      col = "darkgreen")
+# 
+# plot(st_geometry(venezuela), 
+#      add = TRUE, 
+#      border = "black",   # Color de la línea del límite
+#      lwd = 1.5)          # Grosor de la línea
+# 
+# writeRaster(variables2b, "reg_arroz_modificado.tif", 
+#             gdal = c("COMPRESS=LZW", "TFW=YES"), 
+#             overwrite = TRUE)
+# 
+# # Grabamos el espacio de trabajo:
+# save.image("Reg_arroz.RData")
+# load("Reg_arroz.RData")
