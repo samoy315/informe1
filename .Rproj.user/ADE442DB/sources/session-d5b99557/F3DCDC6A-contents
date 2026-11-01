@@ -331,7 +331,7 @@ legend("center",
 
 
 # ------------------------------------------------------------------------------------------------------------
-# ----------Numero de meses al año con temepraturas medias mayores a 38 °C------------------------------------
+# ----------Numero de meses al año con temperaturas medias mayores a 38 °C------------------------------------
 # ------------------------------------------------------------------------------------------------------------
 
 # Cargamos las capas raster :
@@ -503,7 +503,7 @@ legend("center",
 
 
 # ------------------------------------------------------------------------------------------------------------
-# ----------Numero de meses al año con temepraturas medias menores a 13 °C------------------------------------
+# ----------Numero de meses al año con temperaturas medias menores a 13 °C------------------------------------
 # ------------------------------------------------------------------------------------------------------------
 
 #Escenarios Historico:
@@ -622,291 +622,216 @@ legend("center",
        cex = 1)  # Aumentamos el tamaño del texto
 
 
-
-
-
-
-
-
-# -------------------------------------------------------------------------
-# 1. BLOQUE DE REPRODUCIBILIDAD (Simulación de 12 rasters mensuales)
-# -------------------------------------------------------------------------
-# Si estuvieras usando tus archivos reales, harías algo como:
-# mis_archivos <- list.files(path = "ruta/a/tus/tifs", pattern = "\\.tif$", full.names = TRUE)
-# r_mensual <- rast(mis_archivos)
-
-set.seed(42) # Semilla para garantizar reproducibilidad exacta
-r_mensual <- rast(nrows = 100, ncols = 100, nlyr = 12)
-# Simulamos valores de temperatura entre 25°C y 43°C para las 12 capas
-values(r_mensual) <- runif(ncell(r_mensual) * 12, min = 25, max = 43)
-
-# Nombrarmos las capas de enero a diciembre
-names(r_mensual) <- c("Ene", "Feb", "Mar", "Abr", "May", "Jun", 
-                      "Jul", "Ago", "Sep", "Oct", "Nov", "Dic")
-
-# -------------------------------------------------------------------------
-# 2. PROCESAMIENTO: Conteo de meses con temperatura media > 38°C
-# -------------------------------------------------------------------------
-# Operación vectorizada: Evaluamos la condición (> 38) en todo el Stack 
-# y sumamos a lo largo de la dimensión de capas (z-dimension)
-raster_conteo <- sum(r_mensual > 38, na.rm = TRUE)
-
-# Opcional: Si deseas asignar NA en aquellas celdas donde TODOS los datos 
-# originales eran NA, puedes usar app() para un control más fino.
-raster_conteo_limpio <- app(r_mensual, fun = function(x) {
-  if (all(is.na(x))) {
-    return(NA)
-  } else {
-    return(sum(x > 38, na.rm = TRUE))
-  }
-})
-
-# -------------------------------------------------------------------------
-# 3. VISUALIZACIÓN RÁPIDA DE COMPROBACIÓN
-# -------------------------------------------------------------------------
-plot(raster_conteo_limpio, 
-     main = "Número de meses con T° media > 38°C",
-     col = hcl.colors(12, "YlOrRd", rev = FALSE))
-
-
-
-
-# promedio del ciclo (mayo a gosto):
-tem_h<- (( tem_h_may + tem_h_jun + tem_h_jul + tem_h_ago) / 4 )
-tem_45<- (( tem_45_may + tem_45_jun + tem_45_jul + tem_45_ago) / 4 )
-tem_85<- (( tem_85_may + tem_85_jun + tem_85_jul + tem_85_ago) / 4 )
-
-par(mfrow=c(2,2))
-plot(tem_h, main="Temperatura media anual | Historico")
-plot(tem_45, main="Temperatura media anual | SSP2-4.5")
-plot(tem_85, main="Temperatura media anual | SSP5-8.5")
-summary(tem_h); summary(tem_45); summary(tem_85)
-
-# Parametros de calculos recta para los tres escenarios:
-
-tem_papa <- tibble(
-  tem = c(0, 8, 10, 13, 18.5, 24, 27, 30, 34),
-  g_aptitud = c(0, 1, 2, 3, 4, 3, 2, 1, 0)
-)
-
-tem_papa1 <- tem_papa %>%
-  mutate(
-    pendiente = (g_aptitud - lag(g_aptitud)) / (tem - lag(tem)),
-    intercepto = g_aptitud - (pendiente * tem)
-  )
-print(tem_papa1)
-
-# Extraemos los límites de precipitación de su columna
-# Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
-# a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
-temlim_08  <- tem_papa1$tem[2]
-temlim_10 <- tem_papa1$tem[3]
-temlim_13 <- tem_papa1$tem[4]
-temlim_185 <- tem_papa1$tem[5]
-temlim_24 <- tem_papa1$tem[6]
-temlim_27 <- tem_papa1$tem[7]
-temlim_30 <- tem_papa1$tem[8]
-temlim_34 <- tem_papa1$tem[9]
-
-# Extraemos pendientes (m) e interceptos (b) de las mismas filas
-temm08  <- tem_papa1$pendiente[2]
-temb08  <- tem_papa1$intercepto[2]
-
-temm10 <- tem_papa1$pendiente[3]
-temb10 <- tem_papa1$intercepto[3]
-
-temm13 <- tem_papa1$pendiente[4]
-temb13 <- tem_papa1$intercepto[4]
-
-temm185 <- tem_papa1$pendiente[5]
-temb185 <- tem_papa1$intercepto[5]
-
-temm24 <- tem_papa1$pendiente[6]
-temb24 <- tem_papa1$intercepto[6]
-
-temm27 <- tem_papa1$pendiente[7]
-temb27 <- tem_papa1$intercepto[7]
-
-temm30 <- tem_papa1$pendiente[8]
-temb30 <- tem_papa1$intercepto[8]
-
-temm34 <- tem_papa1$pendiente[9]
-temb34 <- tem_papa1$intercepto[9]
-
-# Calculamos el nuevo raster con todo 100% parametrizado | Tres escenario | Ciclo 0508----------------------------
-
-tem_h_a <- ifel(tem_h < temlim_08,  (temm08 * tem_h) + temb08,
-                ifel(tem_h < temlim_10, (temm10 * tem_h) + temb10,
-                     ifel(tem_h < temlim_13, (temm13 * tem_h) + temb13,
-                          ifel(tem_h < temlim_185, (temm185 * tem_h) + temb185,
-                               ifel(tem_h < temlim_24, (temm24 * tem_h) + temb24,
-                                    ifel(tem_h < temlim_27, (temm27 * tem_h) + temb27,
-                                         ifel(tem_h < temlim_30, (temm30 * tem_h) + temb30,
-                                              ifel(tem_h < temlim_34, (temm34 * tem_h) + temb34, NA))))))))
-
-tem_45_a <- ifel(tem_45 < temlim_08,  (temm08  * tem_45) + temb08,
-                 ifel(tem_45 < temlim_10, (temm10 * tem_45) + temb10,
-                      ifel(tem_45 < temlim_13, (temm13 * tem_45) + temb13,
-                           ifel(tem_45 < temlim_185, (temm185 * tem_45) + temb185,
-                                ifel(tem_45 < temlim_24, (temm24 * tem_45) + temb24,
-                                     ifel(tem_45 < temlim_27, (temm27 * tem_45) + temb27,
-                                          ifel(tem_45 < temlim_30, (temm30 * tem_45) + temb30,
-                                               ifel(tem_45 < temlim_34, (temm34 * tem_45) + temb34, NA))))))))
-
-tem_85_a <- ifel(tem_85 < temlim_08,  (temm08  * tem_85) + temb08,
-                 ifel(tem_85 < temlim_10, (temm10 * tem_85) + temb10,
-                      ifel(tem_85 < temlim_13, (temm13 * tem_85) + temb13,
-                           ifel(tem_85 < temlim_185, (temm185 * tem_85) + temb185,
-                                ifel(tem_85 < temlim_24, (temm24 * tem_85) + temb24,
-                                     ifel(tem_85 < temlim_27, (temm27 * tem_85) + temb27,
-                                          ifel(tem_85 < temlim_30, (temm30 * tem_85) + temb30,
-                                               ifel(tem_85 < temlim_34, (temm34 * tem_85) + temb34, NA))))))))
-
-par(mfrow = c(2, 2), mar = c(2, 2, 3, 1))
-plot(tem_h_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media del ciclo | Historico", cex.main=1, legend=FALSE )
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(tem_45_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media del ciclo | SSP2-4.5", cex.main=1, legend=FALSE)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(tem_85_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Temperatura media del ciclo | SSP5 8.5", cex.main=1, legend=FALSE)
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
-legend("center", 
-       legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
-       fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
-       title = "Aptitud por temperatura media del ciclo", # Título de la leyenda
-       bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
-       cex = 1)  # Aumentamos el tamaño del texto
-
-
 # ---------------------------------------------------------------------------------------------------------------
-# ------Promedio de la diferencia entre las Temperatura maxima y minima de los meses del cilco------------------
+# ------Tempertura media de los dos meses luego de la cosecha (febrero mas marzo)--------------------------------
 # ---------------------------------------------------------------------------------------------------------------
 # Cargamos las capas raster :
 # Escenario Historico:--------------------------
-tam_h_may<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmax/Mensuales/wc2.1_30s_tmax_05.tif")
-tam_h_jun<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmax/Mensuales/wc2.1_30s_tmax_06.tif")
-tam_h_jul<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmax/Mensuales/wc2.1_30s_tmax_07.tif")
-tam_h_ago<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmax/Mensuales/wc2.1_30s_tmax_08.tif")
+tem_h_ene<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_01.tif")
+tem_h_feb<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_02.tif")
+tem_h_mar<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_03.tif")
+tem_h_may<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmed/Mensuales/Tmed_Ven_05.tif")
+# Escenario SSP2-4.5:
+tem_45_ene<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Tmes_mes/Tmed45_01.tif")
+tem_45_feb<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Tmes_mes/Tmed45_02.tif")
+tem_45_mar<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Tmes_mes/Tmed45_03.tif")
+tem_45_may<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmed/Tmes_mes/Tmed45_05.tif")
 
-tim_h_may<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmin/Mensuales/wc21_30s_tmin_05.tif")
-tim_h_jun<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmin/Mensuales/wc21_30s_tmin_06.tif")
-tim_h_jul<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmin/Mensuales/wc21_30s_tmin_07.tif")
-tim_h_ago<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Tmin/Mensuales/wc21_30s_tmin_08.tif")
+# Escenario SSP5-8.5:
+tem_85_ene<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_mes/Tmed85_01.tif")
+tem_85_feb<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_mes/Tmed85_02.tif")
+tem_85_mar<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_mes/Tmed85_03.tif")
+tem_85_may<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmed/Tmed_mes/Tmed85_05.tif")
 
-ter_h_may<- tam_h_may - tim_h_may
-ter_h_jun<- tam_h_jun - tim_h_jun
-ter_h_jul<- tam_h_jul - tim_h_jul
-ter_h_ago<- tam_h_ago - tim_h_ago
-summary(ter_h_may); summary(ter_h_jun); summary(ter_h_jul); summary(ter_h_ago)
-
-ter_h<- ( ( ter_h_may + ter_h_jun + ter_h_jul + ter_h_ago) / 4 )
-summary(ter_h)
-
-# Escenario SSP2 4.5 ----------------------------
-tam_45_may<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmax/Mensuales/Tmax_mes/tmax_05.tif")
-tam_45_jun<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmax/Mensuales/Tmax_mes/tmax_06.tif")
-tam_45_jul<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmax/Mensuales/Tmax_mes/tmax_07.tif")
-tam_45_ago<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmax/Mensuales/Tmax_mes/tmax_08.tif")
-
-tim_45_may<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmin/Mensuales/Tmin_mes/tmin05.tif")
-tim_45_jun<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmin/Mensuales/Tmin_mes/tmin06.tif")
-tim_45_jul<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmin/Mensuales/Tmin_mes/tmin07.tif")
-tim_45_ago<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Tmin/Mensuales/Tmin_mes/tmin08.tif")
-
-ter_45_may<- tam_45_may - tim_45_may
-ter_45_jun<- tam_45_jun - tim_45_jun
-ter_45_jul<- tam_45_jul - tim_45_jul
-ter_45_ago<- tam_45_ago - tim_45_ago
-summary(ter_45_may); summary(ter_45_jun); summary(ter_45_jul); summary(ter_45_ago)
-
-ter_45<- ( ( ter_45_may + ter_45_jun + ter_45_jul + ter_45_ago) / 4 )
-summary(ter_45)
-
-# Escenario SSP5 5.8 ----------------------------
-tam_85_may<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmax/Mensuales/Tmax_mes/tmax_05.tif")
-tam_85_jun<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmax/Mensuales/Tmax_mes/tmax_06.tif")
-tam_85_jul<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmax/Mensuales/Tmax_mes/tmax_07.tif")
-tam_85_ago<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmax/Mensuales/Tmax_mes/tmax_08.tif")
-
-tim_85_may <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_05.tif")
-tim_85_jun <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_06.tif")
-tim_85_jul <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_07.tif")
-tim_85_ago <- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Tmin/Mensuales/Tmin_mes/tmin_85_08.tif")
-
-ter_85_may<- tam_85_may - tim_85_may
-ter_85_jun<- tam_85_jun - tim_85_jun
-ter_85_jul<- tam_85_jul - tim_85_jul
-ter_85_ago<- tam_85_ago - tim_85_ago
-summary(ter_85_may); summary(ter_85_jun); summary(ter_85_jul); summary(ter_85_ago)
-
-ter_85<- ( ( ter_85_may + ter_85_jun + ter_85_jul + ter_85_ago) / 4 )
-summary(ter_85)
-
-
-# promedio de la diferencia entre tax-tmin en el ciclo (mayo a agosto):
-par(mfrow=c(2,2))
-plot(ter_h, main="diferencia promedio entre tmax y tmin del ciclo | Historico", col=color_fijos2)
-plot(ter_45, main="diferencia promedio entre tmax y tmin del ciclo | SSP2-4.5", col=color_fijos2)
-plot(ter_85, main="diferencia promedio entre tmax y tmin del ciclo | SSP5-8.5", col=color_fijos2)
+#Calculo de los promedios:
+tem_h_cos<- ((tem_h_feb + tem_h_ene) / 2)
+tem_45_cos<- ((tem_45_feb + tem_45_ene) / 2)
+tem_85_cos<- ((tem_85_feb + tem_85_ene) / 2)
+summary(tem_h_cos); summary(tem_45_cos); summary(tem_85_cos)
+plot(tem_h_cos)
 
 # Parametros de calculos recta para los tres escenarios:
-ter_papa <- tibble(
-  ter = c(0, 5, 10, 13),
-  g_aptitud = c(2, 3, 4, 4)
+tem_cos <- tibble(
+  temc = c(0, 4, 6, 8, 13, 18, 20, 25, 34),
+  g_aptitud = c(0, 1, 2, 3, 4, 3, 2, 1, 0)
 )
 
-ter_papa1 <- ter_papa %>%
+tem_cos1 <- tem_cos %>%
   mutate(
-    pendiente = (g_aptitud - lag(g_aptitud)) / (ter - lag(ter)),
-    intercepto = g_aptitud - (pendiente * ter)
+    pendiente = (g_aptitud - lag(g_aptitud)) / (temc - lag(temc)),
+    intemccepto = g_aptitud - (pendiente * temc)
   )
-print(ter_papa1)
+print(tem_cos1)
 
 # Extraemos los límites de precipitación de su columna
-# Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales 
+# Nota: Saltamos la fila 3 (1000) porque la pendiente e intemccepto son iguales 
 # a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
-terlim_05  <- ter_papa1$ter[2]
-terlim_10 <- ter_papa1$ter[3]
-terlim_13 <- ter_papa1$ter[4]
+temclim_04  <- tem_cos1$temc[2]
+temclim_06 <- tem_cos1$temc[3]
+temclim_08 <- tem_cos1$temc[4]
+temclim_13 <- tem_cos1$temc[5]
+temclim_18 <- tem_cos1$temc[6]
+temclim_20 <- tem_cos1$temc[7]
+temclim_25 <- tem_cos1$temc[8]
+temclim_34 <- tem_cos1$temc[9]
 
-# Extraemos pendientes (m) e interceptos (b) de las mismas filas
-term05  <- ter_papa1$pendiente[2]
-terb05  <- ter_papa1$intercepto[2]
+# Extraemos pendientes (m) e intemcceptos (b) de las mismas filas
+temcm04  <- tem_cos1$pendiente[2]
+temcb04  <- tem_cos1$intemccepto[2]
 
-term10 <- ter_papa1$pendiente[3]
-terb10 <- ter_papa1$intercepto[3]
+temcm06 <- tem_cos1$pendiente[3]
+temcb06 <- tem_cos1$intemccepto[3]
 
-term13 <- ter_papa1$pendiente[4]
-terb13 <- ter_papa1$intercepto[4]
+temcm08 <- tem_cos1$pendiente[4]
+temcb08 <- tem_cos1$intemccepto[4]
 
-# Calculamos el nuevo raster con todo 100% parametrizado | Tres escenario | Ciclo 0508----------------------------
+temcm13 <- tem_cos1$pendiente[5]
+temcb13 <- tem_cos1$intemccepto[5]
 
-ter_h_a <- ifel(ter_h < terlim_05,  (term05 * ter_h) + terb05,
-                ifel(ter_h < terlim_10, (term10 * ter_h) + terb10,
-                     ifel(ter_h < terlim_13, (term13 * ter_h) + terb13, NA)))
+temcm18 <- tem_cos1$pendiente[6]
+temcb18 <- tem_cos1$intemccepto[6]
 
-ter_45_a <- ifel(ter_45 < terlim_05,  (term05  * ter_45) + terb05,
-                 ifel(ter_45 < terlim_10, (term10 * ter_45) + terb10,
-                      ifel(ter_45 < terlim_13, (term13 * ter_45) + terb13, NA)))
+temcm20 <- tem_cos1$pendiente[7]
+temcb20 <- tem_cos1$intemccepto[7]
 
-ter_85_a <- ifel(ter_85 < terlim_05,  (term05  * ter_85) + terb05,
-                 ifel(ter_85 < terlim_10, (term10 * ter_85) + terb10,
-                      ifel(ter_85 < terlim_13, (term13 * ter_85) + terb13, NA)))
+temcm25 <- tem_cos1$pendiente[8]
+temcb25 <- tem_cos1$intemccepto[8]
+
+temcm34 <- tem_cos1$pendiente[9]
+temcb34 <- tem_cos1$intemccepto[9]
+
+
+# Calculamos el nuevo rastemc con todo 100% parametrizado | Tres escenario | Ciclo 0508----------------------------
+
+temc_h_a <- ifel(tem_h_cos < temclim_04,  (temcm04 * tem_h_cos) + temcb04,
+                ifel(tem_h_cos < temclim_06, (temcm06 * tem_h_cos) + temcb06,
+                     ifel(tem_h_cos < temclim_08, (temcm08 * tem_h_cos) + temcb08,
+                          ifel(tem_h_cos < temclim_13, (temcm13 * tem_h_cos) + temcb13,
+                               ifel(tem_h_cos < temclim_18, (temcm18 * tem_h_cos) + temcb18,
+                                    ifel(tem_h_cos < temclim_20, (temcm20 * tem_h_cos) + temcb20,
+                                         ifel(tem_h_cos < temclim_25, (temcm25 * tem_h_cos) + temcb25,
+                                              ifel(tem_h_cos < temclim_34, (temcm34 * tem_h_cos) + temcb34, NA))))))))
+
+temc_45_a <- ifel(tem_45_cos < temclim_04,  (temcm04  * tem_45_cos) + temcb04,
+                 ifel(tem_45_cos < temclim_06, (temcm06 * tem_45_cos) + temcb06,
+                      ifel(tem_45_cos < temclim_08, (temcm08 * tem_45_cos) + temcb08,
+                           ifel(tem_45_cos < temclim_13, (temcm13 * tem_45_cos) + temcb13,
+                                ifel(tem_45_cos < temclim_18, (temcm18 * tem_45_cos) + temcb18,
+                                     ifel(tem_45_cos < temclim_25, (temcm25 * tem_45_cos) + temcb25,
+                                          ifel(tem_45_cos < temclim_34, (temcm34 * tem_45_cos) + temcb34, NA)))))))
+
+temc_85_a <- ifel(tem_85_cos < temclim_04,  (temcm04  * tem_85_cos) + temcb04,
+                 ifel(tem_85_cos < temclim_06, (temcm06 * tem_85_cos) + temcb06,
+                      ifel(tem_85_cos < temclim_08, (temcm08 * tem_85_cos) + temcb08,
+                           ifel(tem_85_cos < temclim_13, (temcm13 * tem_85_cos) + temcb13,
+                                ifel(tem_85_cos < temclim_18, (temcm18 * tem_85_cos) + temcb18,
+                                     ifel(tem_85_cos < temclim_20, (temcm20 * tem_85_cos) + temcb20,
+                                          ifel(tem_85_cos < temclim_25, (temcm25 * tem_85_cos) + temcb25,
+                                               ifel(tem_85_cos < temclim_34, (temcm34 * tem_85_cos) + temcb34, NA))))))))
 
 par(mfrow = c(2, 2), mar = c(2, 2, 3, 1))
-plot(ter_h_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por termoperiodo del ciclo | Historico", cex.main=1, legend=FALSE )
+plot(temc_h_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por tempertura media meses luego de cosecha | Historico", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(ter_45_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por termoperiodo del ciclo | SSP2-4.5", cex.main=1, legend=FALSE)
+plot(temc_45_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por tempertura media meses luego de cosecha | SSP2-4.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-plot(ter_85_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por termoperiodo del ciclo | SSP5 8.5", cex.main=1, legend=FALSE)
+plot(temc_85_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por tempertura media meses luego de cosecha | SSP5 8.5", cex.main=1, legend=FALSE)
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
 legend("center", 
        legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
        fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
-       title = "Aptitud por termoperiodo medio del ciclo", # Título de la leyenda
+       title = "Aptitud por tempertura media meses luego de cosecha", # Título de la leyenda
        bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
        cex = 1)  # Aumentamos el tamaño del texto
+
+
+# ---------------------------------------------------------------------------------------------------------------
+# ------Tempertura media del mes de floracion (Mayo)-------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------
+summary(tem_h_may); summary(tem_45_may); summary(tem_85_may)
+par(mfrow=c(2,2))
+plot(tem_h_cos, main="mes de mayo | Historico"); plot(tem_45_may, main="mes de mayo | SSP2-4.5"); plot(tem_85_may, main="mes de mayo | SSP5-8.5")
+
+# Parametros de calculos recta para los tres escenarios:
+tem_flo <- tibble(
+  temf = c(-10, -5, 5, 10, 15, 34),
+  g_aptitud = c(0, 1, 2, 3, 4, 4)
+)
+
+tem_flo1 <- tem_flo %>%
+  mutate(
+    pendiente = (g_aptitud - lag(g_aptitud)) / (temf - lag(temf)),
+    intemfcepto = g_aptitud - (pendiente * temf)
+  )
+print(tem_flo1)
+
+# Extraemos los límites de precipitación de su columna
+# Nota: Saltamos la fila 3 (1000) porque la pendiente e intemfcepto son iguales 
+# a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
+temflim_m10  <- tem_flo1$temf[2]
+temflim_m5 <- tem_flo1$temf[3]
+temflim_05 <- tem_flo1$temf[4]
+temflim_10 <- tem_flo1$temf[5]
+temflim_15 <- tem_flo1$temf[6]
+temflim_34 <- tem_flo1$temf[7]
+
+# Extraemos pendientes (m) e intemfceptos (b) de las mismas filas
+temfmm10  <- tem_flo1$pendiente[2]
+temfbm10  <- tem_flo1$intemfcepto[2]
+
+temfmm5 <- tem_flo1$pendiente[3]
+temfbm5 <- tem_flo1$intemfcepto[3]
+
+temfm05 <- tem_flo1$pendiente[4]
+temfb05 <- tem_flo1$intemfcepto[4]
+
+temfm10 <- tem_flo1$pendiente[5]
+temfb10 <- tem_flo1$intemfcepto[5]
+
+temfm15 <- tem_flo1$pendiente[6]
+temfb15 <- tem_flo1$intemfcepto[6]
+
+temfm34 <- tem_flo1$pendiente[7]
+temfb34 <- tem_flo1$intemfcepto[7]
+
+# Calculamos el nuevo rastemf con todo 100% parametrizado | Tres escenario | Ciclo 0508----------------------------
+
+temf_h_a <- ifel(tem_h_may < temflim_m10,  (temfmm10 * tem_h_may) + temfbm10,
+                 ifel(tem_h_may < temflim_m5, (temfmm5 * tem_h_may) + temfbm5,
+                      ifel(tem_h_may < temflim_05, (temfm05 * tem_h_may) + temfb05,
+                           ifel(tem_h_may < temflim_10, (temfm10 * tem_h_may) + temfb10,
+                                ifel(tem_h_may < temflim_15, (temfm15 * tem_h_may) + temfb15,
+                                     ifel(tem_h_may < temflim_34, (temfm34 * tem_h_may) + temfb34, NA))))))
+
+temf_45_a <- ifel(tem_45_may < temflim_m10,  (temfmm10  * tem_45_may) + temfbm10,
+                  ifel(tem_45_may < temflim_m5, (temfmm5 * tem_45_may) + temfbm5,
+                       ifel(tem_45_may < temflim_05, (temfm05 * tem_45_may) + temfb05,
+                            ifel(tem_45_may < temflim_10, (temfm10 * tem_45_may) + temfb10,
+                                 ifel(tem_45_may < temflim_15, (temfm15 * tem_45_may) + temfb15,
+                                      ifel(tem_45_may < temflim_34, (temfm34 * tem_45_may) + temfb34, NA))))))
+
+temf_85_a <- ifel(tem_85_may < temflim_m10,  (temfmm10  * tem_85_may) + temfbm10,
+                  ifel(tem_85_may < temflim_m5, (temfmm5 * tem_85_may) + temfbm5,
+                       ifel(tem_85_may < temflim_05, (temfm05 * tem_85_may) + temfb05,
+                            ifel(tem_85_may < temflim_10, (temfm10 * tem_85_may) + temfb10,
+                                 ifel(tem_85_may < temflim_15, (temfm15 * tem_85_may) + temfb15,
+                                      ifel(tem_85_may < temflim_34, (temfm34 * tem_85_may) + temfb34, NA))))))
+
+par(mfrow = c(2, 2), mar = c(2, 2, 3, 1))
+plot(temf_h_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por tempertura media mes floracion | Historico", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(temf_45_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por tempertura media mes floracion | SSP2-4.5", cex.main=1, legend=FALSE)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(temf_85_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por tempertura media mes floracion | SSP5 8.5", cex.main=1, legend=FALSE)
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+plot(0:1, 0:1, type = "n", axes = FALSE, xlab = "", ylab = "")
+legend("center", 
+       legend = c("No apta", "Marginalmente apta", "Moderadamente apta", "Sumamente apta"), # Tus textos
+       fill = c("red", "gold", "forestgreen", "dodgerblue"), # Tus colores
+       title = "Aptitud por tempertura media mes floracion", # Título de la leyenda
+       bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
+       cex = 1)  # Aumentamos el tamaño del texto
+
 
 
 #-------------------------------------------------------------------------------------------------------

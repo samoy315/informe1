@@ -1,26 +1,26 @@
 {
-    "id": "BEFED6A0",
-    "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/Reg_exposicion_arroz.R",
+    "id": "F3DCDC6A",
+    "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/7_Citricos/apt_citri.R",
     "project_path": null,
     "type": "r_source",
     "hash": "0",
     "contents": "",
-    "dirty": false,
-    "created": 1793130787097.0,
+    "dirty": true,
+    "created": 1792779610718.0,
     "source_on_save": false,
-    "relative_order": 23,
+    "relative_order": 22,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "3,16",
-        "scrollLine": "0"
+        "cursorPosition": "745,0",
+        "scrollLine": "720"
     },
     "folds": "",
-    "lastKnownWriteTime": 1786661675,
+    "lastKnownWriteTime": 1793556456,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1786661675,
+    "last_content_update": 1793556669106,
     "read_only": false,
     "read_only_alternatives": []
 }

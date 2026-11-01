@@ -3,24 +3,24 @@
     "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/informe1/Citricos.qmd",
     "project_path": "Citricos.qmd",
     "type": "quarto_markdown",
-    "hash": "180753580",
+    "hash": "0",
     "contents": "",
-    "dirty": false,
+    "dirty": true,
     "created": 1792787039978.0,
     "source_on_save": false,
     "relative_order": 21,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "46,55",
-        "scrollLine": "41"
+        "cursorPosition": "49,38",
+        "scrollLine": "44"
     },
     "folds": "",
-    "lastKnownWriteTime": 1793144068,
+    "lastKnownWriteTime": 1793555669,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1793144068871,
+    "last_content_update": 1793555819939,
     "read_only": false,
     "read_only_alternatives": []
 }
