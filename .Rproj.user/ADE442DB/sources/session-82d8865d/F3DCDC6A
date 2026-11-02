@@ -3,7 +3,7 @@
     "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/7_Citricos/apt_citri.R",
     "project_path": null,
     "type": "r_source",
-    "hash": "2603334070",
+    "hash": "1518751023",
     "contents": "",
     "dirty": false,
     "created": 1792779610718.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "901,0",
-        "scrollLine": "879"
+        "cursorPosition": "1110,0",
+        "scrollLine": "1080"
     },
     "folds": "",
-    "lastKnownWriteTime": 1793638566,
+    "lastKnownWriteTime": 1793655356,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1793638567004,
+    "last_content_update": 1793655356612,
     "read_only": false,
     "read_only_alternatives": []
 }

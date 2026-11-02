@@ -28,7 +28,6 @@ color_fijos2<- c("darkblue", "dodgerblue", "green3", "gold", "red", "darkred")
 
 venezuela <- st_read("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Contorno_Venezuela/AOI_linea_referencia1.shp")
 
-
 # ------------------------------------------------------------------------------------------------------------
 # -------------------------PRECIPITACION MEDIA ANUAL----------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------
@@ -843,7 +842,7 @@ hr_h_nov<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/
 
 hrm_h<- ( ( hr_h_oct + hr_h_nov ) / 2)
 par(mfrow=c(1,1))
-plot(hr_hm, main="HR etapa de maduracion", col=color_fijos2)
+plot(hrm_h, main="HR etapa de maduracion", col=color_fijos2)
 summary(hrm_h)
 # Parametros de calculos recta para los tres escenarios:
 hrm_citri <- tibble(
@@ -962,43 +961,33 @@ legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamen
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
 
-
-
 #############################################################################################################
-################################### VARIANTES ###############################################################
 #############################################################################################################
-
-#============================================================================================================
-# ================= PAPA SIN RIEGO SEMBRADA EN ENTRADAS DE LLUVIAS ========================================== 
-#============================================================================================================
+#############################################################################################################
 
 # exportamos la region de exposicion estandar del musa:
-re_papa<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/reg_papa_estandar.tif")
+re_citri<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/reg_nara_estandar.tif")
 par(mfrow=c(1,1))
-plot(re_papa,col="green3", legend=FALSE)
+plot(re_citri,col="green3", legend=FALSE)
 plot(st_geometry(venezuela), add=TRUE, border="black", lwd=1.5)
 
 # HISTORICO O BASE:------------------------------------------------------------------------------------------
 
-tem_h_b<- resample(tem_h_a, p_h_may1, method="bilinear")
-dh_h_b<- resample(dh_h_a, p_h_may1, method="bilinear")
-re_papa1<- resample(re_papa, p_h_may1, method="bilinear")
-
-E1_h_min<- min(p_h_may1, p_h_jun1, p_h_jul1, p_h_ago1, tem_h_b, ter_h_a, dh_h_b)
-E1_h_min1<- mask(c(p_h_may1, p_h_jun1, p_h_jul1, p_h_ago1, tem_h_b, ter_h_a, dh_h_b), re_papa1)
-names(E1_h_min1)<- c("Pp_mayo", "Pp_junio", "Pp_julio", "Pp_agosto", "Temp media", "Termoperiodo", "Duracion dia")
-E1_h_min2<- mask(min(c(p_h_may1, p_h_jun1, p_h_jul1, p_h_ago1, tem_h_b, ter_h_a, dh_h_b)), re_papa1)
+E1_h_min<- min(p_h_a, ps_h_anual1, tem_h_a, tem38_h, tem13_h, temc_h_a, temf_h_a, hrm_h_a, hrf_h_a)
+E1_h_min1<- mask(c(p_h_a, ps_h_anual1, tem_h_a, tem38_h, tem13_h, temc_h_a, temf_h_a, hrm_h_a, hrf_h_a), re_citri)
+names(E1_h_min1)<- c("Pp_anual", "estacion seca", "Temp anual", "Meses temp > 38", "Meses temp < 13", "Temp media 2 meses luego cosecha", "Temp media floracion", "HR en maduracion", "HR en floracion")
+E1_h_min2<- mask(min(c(p_h_a, ps_h_anual1, tem_h_a, tem38_h, tem13_h, temc_h_a, temf_h_a, hrm_h_a, hrf_h_a)), re_citri)
 E1_h_min2a<- round(E1_h_min2, digits = 3)
 
 par(mfrow=c(1,1))
 plot(E1_h_min1,col=paleta_semaforo(4))
 
-papa_h_apt <- ifel(E1_h_min2a <= 1,  1,
+citri_h_apt <- ifel(E1_h_min2a <= 1,  1,
                    ifel(E1_h_min2a <= 2,2,
                         ifel(E1_h_min2a <= 3,3,4)))
 
-clases_presentes_h <- na.omit(unique(papa_h_apt)[, 1])
-plot(papa_h_apt,type = "classes",col=colores_semaforo2[clases_presentes_h],main="Aptitud climatica de las tierras para papa | Historico")
+clases_presentes_h <- na.omit(unique(citri_h_apt)[, 1])
+plot(citri_h_apt,type = "classes",col=colores_semaforo2[clases_presentes_h],main="Aptitud climatica de las tierras para citricos | Historico")
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1.5)
 
 # repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
@@ -1009,9 +998,9 @@ E1_h_min_fig1<- ifel(E1_h_min_fig <= 1,  1,
                           ifel(E1_h_min_fig <= 3,3,4)))
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E1_h_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para papa sin riego sembrado en mayo | Historico", cex.main=0.9, legend=FALSE )
+plot(E1_h_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para citricos | Historico", cex.main=0.9, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.64,
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.56,
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
@@ -1020,12 +1009,15 @@ legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamen
 
 # SSP2-4.5:-------------------------------------------------------------------------------------------------
 
-dh_45_b<- resample(dh_45_a, p_45_may1, method="bilinear")
+ps_45_anual3<- resample(ps_45_anual2, p_45_a, method="bilinear")
+hrm_45_b<- resample(hrm_45_a, p_45_a, method="bilinear")
+hrf_45_b<- resample(hrf_45_a, p_45_a, method="bilinear")
+re_citri1<- resample(re_citri, p_45_a, method="bilinear")
 
-E3_45_min<- min(p_45_may1, p_45_jun1, p_45_jul1, p_45_ago1, tem_45_a, ter_45_a, dh_45_b)
-E3_45_min1<- mask(c(p_45_may1, p_45_jun1, p_45_jul1, p_45_ago1, tem_45_a, ter_45_a, dh_45_b), re_papa1)
-names(E3_45_min1)<- c("Pp_mayo", "Pp_junio", "Pp_julio", "Pp_agosto", "Temp media", "Termoperiodo", "Duracion dia")
-E3_45_min2<- mask(min(c(p_45_may1, p_45_jun1, p_45_jul1, p_45_ago1, tem_45_a, ter_45_a, dh_45_b)), re_papa1)
+E3_45_min<- min(p_45_a, ps_45_anual3, tem_45_a, tem38_45, tem13_45, temc_45_a, temf_45_a, hrm_45_b, hrf_45_b)
+E3_45_min1<- mask(c(p_45_a, ps_45_anual3, tem_45_a, tem38_45, tem13_45, temc_45_a, temf_45_a, hrm_45_b, hrf_45_b), re_citri1)
+names(E3_45_min1)<- c("Pp_anual", "estacion seca", "Temp anual", "Meses temp > 38", "Meses temp < 13", "Temp media 2 meses luego cosecha", "Temp media floracion", "HR en maduracion", "HR en floracion")
+E3_45_min2<- mask(min(c(p_45_a, ps_45_anual3, tem_45_a, tem38_45, tem13_45, temc_45_a, temf_45_a, hrm_45_b, hrf_45_b)), re_citri1)
 E3_45_min2a<- round(E3_45_min2, digits = 3)
 
 par(mfrow=c(1,1))
@@ -1035,9 +1027,9 @@ plot(E3_45_min1,col=paleta_semaforo(4))
 E3_45_min_fig<- round(E3_45_min, digits = 3)
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E3_45_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para papa sin riego sembrado en mayo | SSP2-4.5", cex.main=0.9, legend=FALSE )
+plot(E3_45_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para citricos | SSP2-4.5", cex.main=0.9, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.64,
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.56,
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
@@ -1046,12 +1038,14 @@ legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamen
 
 # SSP5-8.5:-------------------------------------------------------------------------------------------------
 
-dh_85_b<- resample(dh_85_a, p_85_may1, method="bilinear")
+ps_85_anual3<- resample(ps_85_anual2, p_85_a, method="bilinear")
+hrm_85_b<- resample(hrm_85_a, p_85_a, method="bilinear")
+hrf_85_b<- resample(hrf_85_a, p_85_a, method="bilinear")
 
-E5_85_min<- min(p_85_may1, p_85_jun1, p_85_jul1, p_85_ago1, tem_85_a, ter_85_a, dh_85_b)
-E5_85_min1<- mask(c(p_85_may1, p_85_jun1, p_85_jul1, p_85_ago1, tem_85_a, ter_85_a, dh_85_b), re_papa1)
-names(E5_85_min1)<- c("Pp_mayo", "Pp_junio", "Pp_julio", "Pp_agosto", "Temp media", "Termoperiodo", "Duracion dia")
-E5_85_min2<- mask(min(c(p_85_may1, p_85_jun1, p_85_jul1, p_85_ago1, tem_85_a, ter_85_a, dh_85_b)), re_papa1)
+E5_85_min<- min(p_85_a, ps_85_anual3, tem_85_a, tem38_85, tem13_85, temc_85_a, temf_85_a, hrm_85_b, hrf_85_b)
+E5_85_min1<- mask(c(p_85_a, ps_85_anual3, tem_85_a, tem38_85, tem13_85, temc_85_a, temf_85_a, hrm_85_b, hrf_85_b), re_citri1)
+names(E5_85_min1)<- c("Pp_anual", "estacion seca", "Temp anual", "Meses temp > 38", "Meses temp < 13", "Temp media 2 meses luego cosecha", "Temp media floracion", "HR en maduracion", "HR en floracion")
+E5_85_min2<- mask(min(c(p_85_a, ps_85_anual3, tem_85_a, tem38_85, tem13_85, temc_85_a, temf_85_a, hrm_85_b, hrf_85_b)), re_citri1)
 E5_85_min2a<- round(E5_85_min2, digits = 3)
 
 par(mfrow=c(1,1))
@@ -1061,9 +1055,9 @@ plot(E5_85_min1,col=paleta_semaforo(4))
 E5_85_min_fig<- round(E5_85_min, digits = 3)
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E5_85_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para papa sin riego sembrado en mayo | SSP5-8.5", cex.main=0.9, legend=FALSE )
+plot(E5_85_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para citricos | SSP5-8.5", cex.main=0.9, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.64,
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.56,
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
@@ -1076,20 +1070,20 @@ legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamen
 # ------------------Diferencia entre el escenario SSP2-4.5 menos Historico:---------------------------------
 
 E3_45_min3 <- resample(E3_45_min2, E1_h_min2, method= "bilinear")
-papa_45_sen<- E3_45_min3 - E1_h_min2
+citri_45_sen<- E3_45_min3 - E1_h_min2
 par(mfrow=c(1,1))
-plot(papa_45_sen)
-papa_45_sena<- round(papa_45_sen, digits = 3)
+plot(citri_45_sen)
+citri_45_sena<- round(citri_45_sen, digits = 3)
 
-papa_45_sen1 <- ifel(papa_45_sena < -1,  1,
-                     ifel(papa_45_sena > -1 & papa_45_sena < -0.5, 2,
-                          ifel(papa_45_sena > -0.5 & papa_45_sena < 0, 3, 4)))
+citri_45_sen1 <- ifel(citri_45_sena < -1,  1,
+                     ifel(citri_45_sena > -1 & citri_45_sena < -0.5, 2,
+                          ifel(citri_45_sena > -0.5 & citri_45_sena < 0, 3, 4)))
 
 cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(papa_45_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Grado de impacto del cambio climatico sobre los papa sin riego sembrado en mayo| SSP2-4.5", cex.main=0.8, legend=FALSE )
+plot(citri_45_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Grado de impacto del cambio climatico sobre los citricos | SSP2-4.5", cex.main=0.8, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill = colores_fijos,title = "Grado de Impacto",bg = "white",box.col = "gray80",cex = 0.9,
+legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill = colores_fijos,title = "Grado de Impacto",bg = "white",box.col = "gray80",cex = 0.8,
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
@@ -1098,100 +1092,24 @@ legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill =
 # ------------------Diferencia entre el escenario SSP5-8.5 menos Historico:---------------------------------
 
 E5_85_min3 <- resample(E5_85_min2, E1_h_min2, method= "bilinear")
-papa_85_sen<- E5_85_min3 - E1_h_min2
+citri_85_sen<- E5_85_min3 - E1_h_min2
 par(mfrow=c(1,1))
-plot(papa_85_sen)
-papa_85_sena<- round(papa_85_sen, digits = 3)
+plot(citri_85_sen)
+citri_85_sena<- round(citri_85_sen, digits = 3)
 
-papa_85_sen1 <- ifel(papa_85_sena < -1,  1,
-                     ifel(papa_85_sena > -1 & papa_85_sena < -0.5, 2,
-                          ifel(papa_85_sena > -0.5 & papa_85_sena < 0, 3, 4)))
+citri_85_sen1 <- ifel(citri_85_sena < -1,  1,
+                     ifel(citri_85_sena > -1 & citri_85_sena < -0.5, 2,
+                          ifel(citri_85_sena > -0.5 & citri_85_sena < 0, 3, 4)))
 
 cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(papa_85_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Grado de impacto del cambio climatico sobre papa sin riego sembrado en mayo | SSP5-8.5", cex.main=0.8, legend=FALSE )
+plot(citri_85_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Grado de impacto del cambio climatico sobre citricos | SSP5-8.5", cex.main=0.8, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill = colores_fijos,title = "Grado de Impacto",bg = "white",box.col = "gray80",cex = 0.9,
+legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill = colores_fijos,title = "Grado de Impacto",bg = "white",box.col = "gray80",cex = 0.8,
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
 #writeRaster(grano_85_sena, "Granos_diferencia_min_ssp85.tif", overwrite = TRUE)
-
-
-#===========================================================================================================
-#=========================PAPA CON RIEGO SEMBRADA EN MARZO--------------------------------------------------
-#===========================================================================================================
-
-# HISTORICO O BASE:-----------------------------------------------------------------------------------------
-
-E1_h_min_r<- min(tem_h_b, ter_h_a, dh_h_b)
-E1_h_min1_r<- mask(c(tem_h_b, ter_h_a, dh_h_b), re_papa1)
-names(E1_h_min1_r)<- c("Temp media", "Termoperiodo", "Duracion dia")
-E1_h_min2_r<- mask(min(c(tem_h_b, ter_h_a, dh_h_b)), re_papa1)
-E1_h_min2a_r<- round(E1_h_min2_r, digits = 3)
-
-par(mfrow=c(1,1))
-plot(E1_h_min1_r,col=paleta_semaforo(4))
-
-# repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
-E1_h_min_fig_r<- round(E1_h_min_r, digits = 3)
-
-par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E1_h_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para la papa con riego sembrado en marzo | Historico", cex.main=0.8, legend=FALSE )
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.64,
-       xjust = 0,                         # Alineación de la caja respecto al punto x
-       yjust = 0)                         # Alineación de la caja respecto al punto y
-
-#writeRaster(E1_h_min_fig, "Granos_aptitud_min_historico.tif", overwrite = TRUE) 
-
-
-# SSP2-4.5:-------------------------------------------------------------------------------------------------
-
-E3_45_min_r<- min(tem_45_a, ter_45_a, dh_45_b)
-E3_45_min1_r<- mask(c(tem_45_a, ter_45_a, dh_45_b), re_papa1)
-names(E3_45_min1_r)<- c("Temp media", "Termoperiodo", "Duracion dia")
-E3_45_min2_r<- mask(min(c(tem_45_a, ter_45_a, dh_45_b)), re_papa1)
-E3_45_min2a_r<- round(E3_45_min2_r, digits = 3)
-
-par(mfrow=c(1,1))
-plot(E3_45_min1_r,col=paleta_semaforo(4))
-
-# repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
-E3_45_min_fig_r<- round(E3_45_min_r, digits = 3)
-
-par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E3_45_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para la papa con riego sembrado en marzo | SSP2-4.5", cex.main=0.8, legend=FALSE )
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.64,
-       xjust = 0,                         # Alineación de la caja respecto al punto x
-       yjust = 0)                         # Alineación de la caja respecto al punto y
-
-#writeRaster(E3_45_min_fig, "Granos_aptitud_min_ssp45.tif", overwrite = TRUE)
-
-
-# SSP5-8.5:-------------------------------------------------------------------------------------------------
-
-E5_85_min_r<- min(tem_85_a, ter_85_a, dh_85_b)
-E5_85_min1_r<- mask(c(tem_85_a, ter_85_a, dh_85_b), re_papa1)
-names(E5_85_min1_r)<- c("Temp media", "Termoperiodo", "Duracion dia")
-E5_85_min2_r<- mask(min(c(tem_85_a, ter_85_a, dh_85_b)), re_papa1)
-E5_85_min2a_r<- round(E5_85_min2_r, digits = 3)
-
-par(mfrow=c(1,1))
-plot(E5_85_min1_r,col=paleta_semaforo(4))
-
-# repito el anterior procediiento para que la figura de aptitud sea de todo el pais:
-E5_85_min_fig_r<- round(E5_85_min_r, digits = 3)
-
-par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(E5_85_min_fig_r,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para la papa con riego sembrado en marzo | SSP5-8.5", cex.main=0.8, legend=FALSE )
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.64,
-       xjust = 0,                         # Alineación de la caja respecto al punto x
-       yjust = 0)                         # Alineación de la caja respecto al punto y
-
-#writeRaster(E5_85_min_fig, "Granos_aptitud_min_ssp85.tif", overwrite = TRUE)
 
 
 # Estimacion de la AMENAZA CLIMATICA de las tierras (DIFERENCIA antigua SENSIBILIDAD)-----------------------
