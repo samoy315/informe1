@@ -1,26 +1,26 @@
 {
-    "id": "B2DCBB2E",
-    "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/8_Papa/apt_papa.R",
+    "id": "0537F161",
+    "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/5_Frijol/apt_granos_secos.R",
     "project_path": null,
     "type": "r_source",
     "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1792854573752.0,
+    "created": 1792423839752.0,
     "source_on_save": false,
-    "relative_order": 20,
+    "relative_order": 16,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "9,16",
+        "cursorPosition": "468,0",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1792856480,
+    "lastKnownWriteTime": 1791820520,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1792856480921,
+    "last_content_update": 1791820520,
     "read_only": false,
     "read_only_alternatives": []
 }

@@ -623,7 +623,7 @@ legend("center",
 
 
 # ---------------------------------------------------------------------------------------------------------------
-# ------Tempertura media de los dos meses luego de la cosecha (febrero mas marzo)--------------------------------
+# ------Tempertura media de los dos meses luego de la cosecha (Enero mas febrero)--------------------------------
 # ---------------------------------------------------------------------------------------------------------------
 # Cargamos las capas raster :
 # Escenario Historico:--------------------------
@@ -744,7 +744,6 @@ legend("center",
        bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
        cex = 1)  # Aumentamos el tamaño del texto
 
-
 # ---------------------------------------------------------------------------------------------------------------
 # ------Tempertura media del mes de floracion (Mayo)-------------------------------------------------------------
 # ---------------------------------------------------------------------------------------------------------------
@@ -832,73 +831,137 @@ legend("center",
        bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
        cex = 1)  # Aumentamos el tamaño del texto
 
+# ----------------------------------------------------------------------------------------------------
+# ---------------Humedad relativa (%) de la etapa Maduracion (Octubre mas noviembre)------------------
+# ----------------------------------------------------------------------------------------------------
 
+# Cargamos las capas raster:
+hr_h_oct<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_10.tif")
+hr_h_nov<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_11.tif")
 
-#-------------------------------------------------------------------------------------------------------
-#-----------------------Duracion media del dia durante el ciclo de cultivo------------------------------
-#-------------------------------------------------------------------------------------------------------
+#Calculamos el promedio de la etapa de maduracion:
 
-dh_h_may<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Duracion_dia_horas/DurDia_h_15 05.tif")
-dh_h_jun<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Duracion_dia_horas/DurDia_h_15 06.tif")
-dh_h_jul<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Duracion_dia_horas/DurDia_h_15 07.tif")
-dh_h_ago<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Duracion_dia_horas/DurDia_h_15 08.tif")
-summary(dh_h_may); summary(dh_h_jun); summary(dh_h_jul); summary(dh_h_ago)
-
-dh_h<- ( ( dh_h_may + dh_h_jun + dh_h_jul + dh_h_ago) / 4 )
+hrm_h<- ( ( hr_h_oct + hr_h_nov ) / 2)
 par(mfrow=c(1,1))
-plot(dh_h, col=color_fijos2, main="Duracion media del dia durante el ciclo de cultivo papa")
-summary(dh_h)
-
+plot(hr_hm, main="HR etapa de maduracion", col=color_fijos2)
+summary(hrm_h)
 # Parametros de calculos recta para los tres escenarios:
-dh_papa <- tibble(
-  dh = c(0, 13, 15, 16, 24),
-  g_aptitud = c(0, 3.5, 4, 3.5, 3)
+hrm_citri <- tibble(
+  hrm = c(0, 30, 50, 70, 90, 100),
+  g_aptitud = c(3, 3, 4, 3, 2, 1)
 )
 
-dh_papa1 <- dh_papa %>%
+hrm_citri1 <- hrm_citri %>%
   mutate(
-    pendiente = (g_aptitud - lag(g_aptitud)) / (dh - lag(dh)),
-    indhcepto = g_aptitud - (pendiente * dh)
+    pendiente = (g_aptitud - lag(g_aptitud)) / (hrm - lag(hrm)),
+    intercepto = g_aptitud - (pendiente * hrm)
   )
-print(dh_papa1)
+print(hrm_citri1)
 
 # Extraemos los límites de precipitación de su columna
-# Nota: Saltamos la fila 3 (1000) porque la pendiente e indhcepto son iguales 
+# Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales
 # a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
-dhlim_13  <- dh_papa1$dh[2]
-dhlim_15 <- dh_papa1$dh[3]
-dhlim_16 <- dh_papa1$dh[4]
-dhlim_24 <- dh_papa1$dh[5]
+hrmlim_30 <- hrm_citri1$hrm[2]
+hrmlim_50 <- hrm_citri1$hrm[3]
+hrmlim_70 <- hrm_citri1$hrm[4]
+hrmlim_90 <- hrm_citri1$hrm[5]
+hrmlim_100 <- hrm_citri1$hrm[6]
 
-# Extraemos pendientes (m) e indhceptos (b) de las mismas filas
-dhm13  <- dh_papa1$pendiente[2]
-dhb13  <- dh_papa1$indhcepto[2]
+# Extraemos pendientes (m) e interceptos (b) de las mismas filas
+hrmm30  <- hrm_citri1$pendiente[2]
+hrmb30  <- hrm_citri1$intercepto[2]
 
-dhm15 <- dh_papa1$pendiente[3]
-dhb15 <- dh_papa1$indhcepto[3]
+hrmm50 <- hrm_citri1$pendiente[3]
+hrmb50 <- hrm_citri1$intercepto[3]
 
-dhm16 <- dh_papa1$pendiente[4]
-dhb16 <- dh_papa1$indhcepto[4]
+hrmm70 <- hrm_citri1$pendiente[4]
+hrmb70 <- hrm_citri1$intercepto[4]
 
-dhm24 <- dh_papa1$pendiente[5]
-dhb24 <- dh_papa1$indhcepto[5]
+hrmm90 <- hrm_citri1$pendiente[5]
+hrmb90 <- hrm_citri1$intercepto[5]
 
-# Calculamos el nuevo rasdh con todo 100% parametrizado | Tres escenario | Ciclo 0508----------------------------
+hrmm100 <- hrm_citri1$pendiente[6]
+hrmb100 <- hrm_citri1$intercepto[6]
 
-dh_h_a <- ifel(dh_h < dhlim_13,  (dhm13 * dh_h) + dhb13,
-                ifel(dh_h < dhlim_15, (dhm15 * dh_h) + dhb15,
-                     ifel(dh_h < dhlim_16, (dhm16 * dh_h) + dhb16,
-                          ifel(dh_h < dhlim_24, (dhm24 * dh_h) + dhb24, NA))))
+# Calculamos el nuevo raster con todo 100% parametrizado  ------ Ciclo 0508 ------------------------------------------
+hrm_h_a <- ifel(hrm_h < hrmlim_30,  (hrmm30  * hrm_h) + hrmb30,
+                ifel(hrm_h < hrmlim_50, (hrmm50 * hrm_h) + hrmb50,
+                     ifel(hrm_h < hrmlim_70, (hrmm70 * hrm_h) + hrmb70,
+                          ifel(hrm_h < hrmlim_90, (hrmm90 * hrm_h) + hrmb90,
+                               ifel(hrm_h < hrmlim_100, (hrmm100 * hrm_h) + hrmb100, NA)))))
 
-dh_45_a<- dh_h_a
-dh_85_a<- dh_h_a
+hrm_45_a<- hrm_h_a
+hrm_85_a<- hrm_h_a
 
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(dh_h_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por duracion media en el ciclo | Historico", cex.main=1, legend=FALSE )
+plot(hrm_h_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Humedad Relativa en etapa de maduracion | Historico", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.67,
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.56,
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
+
+
+# ----------------------------------------------------------------------------------------------------
+# ---------------Humedad relativa (%) de la etapa floracion (Mayo)------------------------------------
+# ----------------------------------------------------------------------------------------------------
+
+# Cargamos las capas raster:
+hr_h_may<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/HR/HR_Ven_05.tif")
+
+par(mfrow=c(1,1))
+plot(hr_h_may, main="HR etapa de maduracion", col=color_fijos2)
+summary(hr_h_may)
+# Parametros de calculos recta para los tres escenarios:
+hrf_citri <- tibble(
+  hrf = c(0, 50, 70, 90, 100),
+  g_aptitud = c(2, 3, 4, 3, 2)
+)
+
+hrf_citri1 <- hrf_citri %>%
+  mutate(
+    pendiente = (g_aptitud - lag(g_aptitud)) / (hrf - lag(hrf)),
+    intercepto = g_aptitud - (pendiente * hrf)
+  )
+print(hrf_citri1)
+
+# Extraemos los límites de precipitación de su columna
+# Nota: Saltamos la fila 3 (1000) porque la pendiente e intercepto son iguales
+# a los de la fila 4 (1200), así que el umbral < 1200 cubre ambos tramos.
+hrflim_50 <- hrf_citri1$hrf[2]
+hrflim_70 <- hrf_citri1$hrf[3]
+hrflim_90 <- hrf_citri1$hrf[4]
+hrflim_100 <- hrf_citri1$hrf[5]
+
+# Extraemos pendientes (m) e interceptos (b) de las mismas filas
+hrfm50  <- hrf_citri1$pendiente[2]
+hrfb50  <- hrf_citri1$intercepto[2]
+
+hrfm70 <- hrf_citri1$pendiente[3]
+hrfb70 <- hrf_citri1$intercepto[3]
+
+hrfm90 <- hrf_citri1$pendiente[4]
+hrfb90 <- hrf_citri1$intercepto[4]
+
+hrfm100 <- hrf_citri1$pendiente[5]
+hrfb100 <- hrf_citri1$intercepto[5]
+
+# Calculamos el nuevo raster con todo 100% parametrizado  ------ Ciclo 0508 ------------------------------------------
+hrf_h_a <- ifel(hr_h_may < hrflim_50,  (hrfm50  * hr_h_may) + hrfb50,
+                ifel(hr_h_may < hrflim_70, (hrfm70 * hr_h_may) + hrfb70,
+                     ifel(hr_h_may < hrflim_90, (hrfm90 * hr_h_may) + hrfb90,
+                          ifel(hr_h_may < hrflim_100, (hrfm100 * hr_h_may) + hrfb100, NA))))
+
+hrf_45_a<- hrf_h_a
+hrf_85_a<- hrf_h_a
+
+par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
+plot(hrf_h_a,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud por Humedad Relativa en etapa de floracion | Historico", cex.main=1, legend=FALSE )
+plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.56,
+       xjust = 0,                         # Alineación de la caja respecto al punto x
+       yjust = 0)                         # Alineación de la caja respecto al punto y
+
+
 
 
 #############################################################################################################

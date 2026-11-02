@@ -1,26 +1,26 @@
 {
-    "id": "0537F161",
-    "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/5_Frijol/apt_granos_secos.R",
+    "id": "F3DCDC6A",
+    "path": "C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/area_trabajo/7_Citricos/apt_citri.R",
     "project_path": null,
     "type": "r_source",
-    "hash": "0",
+    "hash": "2603334070",
     "contents": "",
     "dirty": false,
-    "created": 1792423839752.0,
+    "created": 1792779610718.0,
     "source_on_save": false,
-    "relative_order": 16,
+    "relative_order": 22,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "639,34",
-        "scrollLine": "0"
+        "cursorPosition": "901,0",
+        "scrollLine": "879"
     },
     "folds": "",
-    "lastKnownWriteTime": 1791820520,
+    "lastKnownWriteTime": 1793638566,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1791820520,
+    "last_content_update": 1793638567004,
     "read_only": false,
     "read_only_alternatives": []
 }
