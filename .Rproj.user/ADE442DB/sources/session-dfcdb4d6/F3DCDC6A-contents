@@ -651,7 +651,7 @@ plot(tem_h_cos)
 
 # Parametros de calculos recta para los tres escenarios:
 tem_cos <- tibble(
-  temc = c(0, 4, 6, 8, 13, 18, 20, 25, 34),
+  temc = c(0, 4, 6, 8, 13, 20, 22.93, 25.5, 34),
   g_aptitud = c(0, 1, 2, 3, 4, 3, 2, 1, 0)
 )
 
@@ -742,6 +742,18 @@ legend("center",
        title = "Aptitud por tempertura media meses luego de cosecha", # Título de la leyenda
        bty = "n",  # Quitamos la caja alrededor de la leyenda para que se vea limpia
        cex = 1)  # Aumentamos el tamaño del texto
+
+pts_nara <- st_read("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Censo2008/naranja/Naranja_Censo_2008_Valles_altos_gw.shp")
+pts_nara1 <- extract(tem_h_cos, pts_nara)[, 2]
+# Adicionar los valores directamente como una nueva columna en el Shapefile de puntos de cultivos:
+pts_nara$tem_e <- as.numeric(pts_nara1)
+
+# Verificamos que la nueva columna sea numérica y vemos los primeros datos:
+class(pts_nara$tem_e)
+head(pts_nara$tem_e)
+summary(pts_nara$tem_e)
+par(mfrow=c(1,1))
+hist(pts_nara$tem_e)
 
 # ---------------------------------------------------------------------------------------------------------------
 # ------Tempertura media del mes de floracion (Mayo)-------------------------------------------------------------
@@ -1110,63 +1122,6 @@ legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill =
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
 #writeRaster(grano_85_sena, "Granos_diferencia_min_ssp85.tif", overwrite = TRUE)
-
-
-# Estimacion de la AMENAZA CLIMATICA de las tierras (DIFERENCIA antigua SENSIBILIDAD)-----------------------
-# ----------------------------------------------------------------------------------------------------------
-
-# ------------------Diferencia entre el escenario SSP2-4.5 menos Historico:
-
-E3_45_min3_r <- resample(E3_45_min2_r, E1_h_min2_r, method= "bilinear")
-papa_45_sen_r<- E3_45_min3_r - E1_h_min2_r
-par(mfrow=c(1,1))
-plot(papa_45_sen_r)
-papa_45_sena_r<- round(papa_45_sen_r, digits = 3)
-
-cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
-par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(papa_45_sena_r,breaks = cortes_breaks1,col = colores_fijos,main = "Grado de impacto del cambio climatico sobre la papa con riego sembrado en marzo | SSP2-4.5", cex.main=0.8, legend=FALSE )
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill = colores_fijos,title = "Grado de Impacto",bg = "white",box.col = "gray80",cex = 0.9,
-       xjust = 0,                         # Alineación de la caja respecto al punto x
-       yjust = 0)                         # Alineación de la caja respecto al punto y
-
-#writeRaster(grano_45_sena, "Granos_diferencia_min_ssp45.tif", overwrite = TRUE)
-
-# ------------------Diferencia entre el escenario SSP5-8.5 menos Historico:---------------------------------
-
-E5_85_min3_r <- resample(E5_85_min2_r, E1_h_min2_r, method= "bilinear")
-papa_85_sen_r<- E5_85_min3_r - E1_h_min2_r
-par(mfrow=c(1,1))
-plot(papa_85_sen_r)
-papa_85_sena_r<- round(papa_85_sen_r, digits = 3)
-
-papa_85_sen1_r <- ifel(papa_85_sena_r < -1,  1,
-                     ifel(papa_85_sena_r > -1 & papa_85_sena_r < -0.5, 2,
-                          ifel(papa_85_sena_r > -0.5 & papa_85_sena_r < 0, 3, 4)))
-
-cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
-par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(papa_85_sena_r,breaks = cortes_breaks1,col = colores_fijos,main = "Grado de impacto del cambio climatico sobre la papa con riego sembrado en marzo | SSP5-8.5", cex.main=0.8, legend=FALSE )
-plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill = colores_fijos,title = "Grado de Impacto",bg = "white",box.col = "gray80",cex = 0.9,
-       xjust = 0,                         # Alineación de la caja respecto al punto x
-       yjust = 0)                         # Alineación de la caja respecto al punto y
-
-#writeRaster(grano_85_sena, "Granos_diferencia_min_ssp85.tif", overwrite = TRUE)
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # # Estimacion del IMPACTO del cambio climatico en las tierras (Linea multiplicada por 2)-------------------------------------
