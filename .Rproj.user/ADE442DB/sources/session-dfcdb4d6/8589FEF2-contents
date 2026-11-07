@@ -137,12 +137,9 @@ legend("center",
 #Cargamos las capas requeridas:
 
 # Escenario Historico:
-
 es_h_anual<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/Periodo_Base/Periodos_humedad/DiasSecos_Base.tif")
-
 # Escenario SSP2-4.5:
 es_45_anual<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_245/2050/Periodos_humedad/DiasSecos_45.tif")
-
 # Escenario SSP5-8.5:
 es_85_anual<- rast("C:/Sevilla/UCV/Oscar/FAO_Cambiocliamtico2026/Coberturas/Raster/Capas_Raster_Clima/Base_Climatica/HadGem3_585/2050/Periodos_humedad/DiasSecos_48.tif")
 
@@ -162,8 +159,8 @@ plot(es_85_anual1)
 
 #Parametros:
 es_musa <- tibble(
-  es = c(0, 30, 90, 150, 180, 210, 365),
-  g_aptitud = c(3, 3, 4, 3, 2, 1, 0)
+  es = c(0, 90, 120, 180, 365),
+  g_aptitud = c(4, 3, 2, 1, 0)
 )
 
 es_musa1 <- es_musa %>%
@@ -577,10 +574,11 @@ E1_h_min_fig1<- ifel(E1_h_min_fig <= 1,  1,
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
 plot(E1_h_min_fig,breaks = cortes_breaks,col = colores_fijos,main = "Aptitud climatica de las tierras para musaceas mayo sin riego | Historico", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.76,
+legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.5,
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
+#writeRaster(E1_h_min_fig, "1_Musaceas_aptitud_min_mayo_sin_riego_historico.tif")
 
 # SSP2-4.5:--------------------------------------------------------------------------------
 
@@ -617,6 +615,8 @@ plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
 legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamente apto","Sumamente apto"),fill = colores_fijos,title = "Aptitud",bg = "white",box.col = "gray80",cex = 0.76,
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
+
+#writeRaster(E3_45_min_fig, "2_Musaceas_aptitud_min_mayo_sin_riego_ssp45.tif")
 
 # SSP5-8.5:--------------------------------------------------------------------------------
 
@@ -655,6 +655,8 @@ legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamen
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
+#writeRaster(E5_85_min_fig, "3_Musaceas_aptitud_min_mayo_sin_riego_ssp85.tif")
+
 # Estimacion de la AMENAZA CLIMATICA de las tierras (DIFERENCIA antigua SENSIBILIDAD)---------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
 
@@ -680,6 +682,7 @@ legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill =
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
+#writeRaster(musa_45_sena, "4_Musaceas_diferencia_min_mayo_sin_riego_ssp45.tif")
 
 # ------------------Diferencia entre el escenario SSP5-8.5 menos Historico:
 
@@ -703,6 +706,7 @@ legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill =
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
+#writeRaster(musa_85_sena, "5_Musaceas_diferencia_min_mayo_sin_riego_ssp85.tif")
 
 # =================================== SIEMBRA EN NOVIEMBRE CON RIEGO ========================================================================
 
@@ -739,6 +743,8 @@ legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamen
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
+#writeRaster(E1_h_min_fig_r, "6_Musaceas_aptitud_min_noviembre_con_riego_historico.tif")
+
 # SSP2-4.5:--------------------------------------------------------------------------------
 
 E3_45_min_r<- min(tem_45_a, ti_mf_45)
@@ -772,6 +778,7 @@ legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamen
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
+#writeRaster(E3_45_min_fig_r, "7_Musaceas_aptitud_min_noviembre_con_riego_ssp45.tif", overwrite=TRUE)
 
 # SSP5-8.5:--------------------------------------------------------------------------------
 
@@ -806,7 +813,7 @@ legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamen
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
-
+#writeRaster(E5_85_min_fig_r, "8_Musaceas_aptitud_min_noviembre_con_riego_ssp85.tif")
 
 # Estimacion de la AMENAZA CLIMATICA de las tierras (DIFERENCIA antigua SENSIBILIDAD)---------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
@@ -833,6 +840,8 @@ legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill =
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
+#writeRaster(musa_45_sena_r, "9_Musaceas_diferencia_min_noviembre_con_riego_ssp45.tif")
+
 # ------------------Diferencia entre el escenario SSP5-8.5 menos Historico:
 
 E5_85_min3_r <- resample(E5_85_min2_r, E1_h_min2_r, method= "bilinear")
@@ -855,6 +864,7 @@ legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill =
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
+#writeRaster(musa_85_sena_r, "10_Musaceas_diferencia_min_noviembre_con_riego_ssp85.tif")
 
 # # Estimacion del IMPACTO del cambio climatico en las tierras (Linea multiplicada por 2)-------------------------------------
 # # --------------------------------------------------------------------------------------------------------------------------

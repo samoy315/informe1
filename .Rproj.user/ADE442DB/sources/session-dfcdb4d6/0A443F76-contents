@@ -543,7 +543,7 @@ legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamen
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
-#writeRaster(E1_h_min_fig, "Granos_aptitud_min_historico.tif", overwrite = TRUE)
+#writeRaster(E1_h_min_fig, "1_Yuca_aptitud_min_historico.tif", overwrite = TRUE)
 
 # SSP2-4.5:--------------------------------------------------------------------------------
 
@@ -582,7 +582,7 @@ legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamen
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
-#writeRaster(E3_45_min_fig, "Granos_aptitud_min_ssp45.tif", overwrite = TRUE)
+#writeRaster(E3_45_min_fig, "2_Yuca_aptitud_min_ssp45.tif", overwrite = TRUE)
 
 # SSP5-8.5:--------------------------------------------------------------------------------
 
@@ -621,7 +621,7 @@ legend(x = -73.3, y = 0.8,legend = c("No apta","Marginalmente apta","Moderadamen
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
 
-#writeRaster(E5_85_min_fig, "Granos_aptitud_min_ssp85.tif", overwrite = TRUE)
+writeRaster(E5_85_min_fig, "3_Yuca_aptitud_min_ssp85.tif", overwrite = TRUE)
 
 # Estimacion de la AMENAZA CLIMATICA de las tierras (DIFERENCIA antigua SENSIBILIDAD)---------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
@@ -640,13 +640,13 @@ yuca_45_sen1 <- ifel(yuca_45_sena < -1,  1,
 
 cortes_breaks1 <- c(-Inf, -1, -0.5, 0, Inf)
 par(mfrow = c(1, 1), mar = c(2, 2, 3, 1))
-plot(yuca_45_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Grado de impacto del cambio climatico sobre los yuca | SSP2-4.5", cex.main=1, legend=FALSE )
+plot(yuca_45_sena,breaks = cortes_breaks1,col = colores_fijos,main = "Grado de impacto del cambio climatico sobre la yuca | SSP2-4.5", cex.main=1, legend=FALSE )
 plot(st_geometry(venezuela),add = TRUE,border = "black",lwd = 1)
-legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill = colores_fijos,title = "Grado de Impacto",bg = "white",box.col = "gray80",cex = 0.9,
+legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill = colores_fijos,title = "Grado de Impacto",bg = "white",box.col = "gray80",cex = 0.64,
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
-#writeRaster(grano_45_sena, "Granos_diferencia_min_ssp45.tif", overwrite = TRUE)
+#writeRaster(yuca_45_sena, "4_Yuca_diferencia_min_ssp45.tif", overwrite = TRUE)
 
 # ------------------Diferencia entre el escenario SSP5-8.5 menos Historico:
 
@@ -668,7 +668,7 @@ legend(x = -73.3, y = 0.8,legend = c("Muy alto","Alto","Moderado","Bajo"),fill =
        xjust = 0,                         # Alineación de la caja respecto al punto x
        yjust = 0)                         # Alineación de la caja respecto al punto y
 
-#writeRaster(grano_85_sena, "Granos_diferencia_min_ssp85.tif", overwrite = TRUE)
+writeRaster(yuca_85_sena, "5_Yuca_diferencia_min_ssp85.tif", overwrite = TRUE)
 
 # # Estimacion del IMPACTO del cambio climatico en las tierras (Linea multiplicada por 2)-------------------------------------
 # # --------------------------------------------------------------------------------------------------------------------------
